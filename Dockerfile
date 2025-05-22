@@ -13,7 +13,7 @@ RUN corepack enable && \
 FROM node:20.11-alpine as builder
 WORKDIR /app
 
-# Устанавливаем pnpm в билдере
+# Устанавливаем pnpm в билдере 
 RUN corepack enable
 
 # Копируем весь проект и зависимости из предыдущего этапа
