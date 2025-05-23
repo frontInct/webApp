@@ -1,30 +1,26 @@
-COPY package.json pnpm-lock.yaml ./
-RUN corepack enable && \
-    pnpm install --frozen-lockfile
+FROM node:20.11-alpine as dependencies
+RUN npm install -g pnpm
+WORKDIR /app
+COPY package*.json ./
+RUN pnpm install
 
-# Билдим приложение
+#Билдим приложение
+#Кэширование зависимостей — если файлы в проекте изменились,
+#но package.json остался неизменным, то стейдж с установкой зависимостей повторно не выполняется, что экономит время. 
 FROM node:20.11-alpine as builder
+# Install pnpm globally in the builder stage as well
+RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-RUN corepack enable && \
-    pnpm run build:production
+RUN pnpm run build:production
 
-# Финальный образ для запуска
+#Стейдж запуска
 FROM node:20.11-alpine as runner
+# Install pnpm globally in the runner stage as well
+RUN npm install -g pnpm
 WORKDIR /app
 ENV NODE_ENV production
-
-# Устанавливаем pnpm в финальном образе
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
-# Копируем только необходимое
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.js ./next.config.js  # Если есть конфиг
-
+COPY --from=builder /app/ ./
 EXPOSE 3000
-# Используем прямое указание на next start
-CMD ["node_modules/.bin/next", "start"]
+CMD ["pnpm", "start"]
