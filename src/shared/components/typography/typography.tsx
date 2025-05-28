@@ -1,4 +1,4 @@
-import styles from './style.module.css'
+import styles from './style.module.scss'
 
 export type TypographyVariant =
   | 'large'

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Typography } from '@/components/ui/typography/typography'
 
 export const metadata: Metadata = {
   title: 'Title | webApp',
