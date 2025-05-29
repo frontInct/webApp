@@ -29,6 +29,20 @@ body {
   }
 }
 
+/* Наследование шрифтов для форм */
+input,
+button,
+textarea,
+select,
+optgroup,
+option {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
 /* Ссылки */
 a {
   color: inherit;
