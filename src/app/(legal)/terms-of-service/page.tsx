@@ -10,5 +10,5 @@ export default function TermsOfServicePage() {
       <h1>Условия использования</h1>
       <p>Здесь размещаются условия предоставления сервиса</p>
     </main>
-  );
+  )
 }
