@@ -1,3 +1,4 @@
+import { HTMLAttributes, ReactNode } from 'react'
 import styles from './style.module.scss'
 
 export type TypographyVariant =
@@ -17,9 +18,9 @@ export type TypographyVariant =
 
 type ComponentVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
 
-type TypographyProps = React.HTMLAttributes<HTMLElement> & {
+type TypographyProps = HTMLAttributes<HTMLElement> & {
   component?: ComponentVariants
-  children: React.ReactNode | string
+  children: ReactNode | string
   variant?: TypographyVariant
   className?: string
 }
