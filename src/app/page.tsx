@@ -8,12 +8,6 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div>
-      <Button variant="primary">Primary</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="textButton">Text</Button>
-      <Button variant="variant21">Variant21</Button>
-
       <h2>Стартовая страница</h2>
       <p>
         Здесь автоматически проверяется, зарегистрирован пользователь или нет, и происходит переход
