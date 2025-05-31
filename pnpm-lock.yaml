@@ -29,6 +29,9 @@ importers:
       react-router:
         specifier: 7.6.0
         version: 7.6.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      sass:
+        specifier: ^1.89.0
+        version: 1.89.0
       zod:
         specifier: 3.24.4
         version: 3.24.4
@@ -9388,6 +9391,9 @@ snapshots:
     dependencies:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
+
+  detect-libc@1.0.3:
+    optional: true
 
   detect-libc@1.0.3:
     optional: true
