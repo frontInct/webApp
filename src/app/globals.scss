@@ -15,9 +15,9 @@ body {
 }
 
 body {
-  color: var(--color-primary-light-100); /* Генерация CSS-переменных */
-  background: map-get(map-get($colors, dark), 500); /* Миксин */
-  font-family: var(--font-inter), Helvetica, sans-serif;
+  color: color(light, 100);
+  background: color(dark, 500);
+  font-family: var(--font-inter), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   max-width: 1280px;
@@ -53,4 +53,13 @@ a {
 /* Кнопки */
 button {
   cursor: pointer;
+}
+
+/* Генерация CSS-переменных */
+:root {
+  @each $color-type, $shades in $colors {
+    @each $shade, $value in $shades {
+      --color-primary-#{$color-type}-#{$shade}: #{$value};
+    }
+  }
 }
