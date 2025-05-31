@@ -1,4 +1,3 @@
-import { Button } from '@/shared/components/button'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

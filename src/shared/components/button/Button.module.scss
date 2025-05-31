@@ -1,3 +1,6 @@
+@use '../../styles/colors' as *;
+
+
 .button {
   font-family: Inter;
   font-weight: 600;
@@ -10,7 +13,7 @@
   border-radius: 2px;
   padding: 6px 24px;
   outline: none;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   box-sizing: border-box;
 
   &:hover:not(.disabled):not(.active) {
@@ -20,78 +23,78 @@
 
 /* Primary */
 .primary {
-  background-color: #397df6;
-  color: #ffffff;
+  background-color: color(accent, 500);
+  color: color(light, 100);
 
   &.active {
-    background-color: #2f68cc;
-    color: #edf3fa;
+    background-color: color(accent, 700);
+    color: color(light, 500);
   }
 
   &:hover:not(.disabled):not(.active) {
-    background-color: #73a5ff;
+    background-color: color(accent, 100);
   }
 
   &:focus:not(.disabled):not(.active) {
-    background-color: #397df6;
-    border-color: #2f68cc;
+    background-color: color(accent, 500);
+    border-color: color(accent, 700);
   }
 
   &.disabled {
-    background-color: #234e99;
-    color: #8d9094;
+    background-color: color(accent, 900);
+    color: color(light, 900);
   }
 }
 
 /* Secondary */
 .secondary {
-  background-color: #333333;
-  color: #ffffff;
+  background-color: color(dark, 300);
+  color: color(light, 100);
 
   &.active {
-    background-color: #212121;
-    color: #ffffff;
+    background-color: color(dark, 500);
+    color: color(light, 100);
   }
 
   &:hover:not(.disabled):not(.active) {
-    background-color: #4c4c4c;
+    background-color: color(dark, 100);
   }
 
   &:focus:not(.disabled):not(.active) {
-    background-color: #333333;
-    border: 1px solid #4c8dff;
+    background-color: color(dark, 300);
+    border: 1px solid color(accent, 300);
   }
 
   &.disabled {
-    background-color: #171717;
-    color: #8d9094;
+    background-color: color(dark, 500);
+    color: color(light, 900);
   }
 }
 
 /* Outline */
 .outline {
   background-color: transparent;
-  border: 1px solid #397df6;
-  color: #397df6;
+  border: 1px solid color(accent, 500);
+  color: color(accent, 500);
 
   &.active {
-    border: 1px solid #2f68cc;
-    color: #2f68cc;
+    border: 1px solid color(accent, 700);
+    color: color(accent, 700);
   }
 
   &:hover:not(.disabled):not(.active) {
-    border: 1px solid #73a5ff;
-    color: #73a5ff;
+    border: 1px solid color(accent, 100);
+    color: color(accent, 100);
   }
 
   &:focus:not(.disabled):not(.active) {
-    border: 1px solid #2f68cc;
-    color: #2f68cc;
+    border: 1px solid color(accent, 700);
+    color: color(accent, 700);
   }
 
   &.disabled {
-    border: 1px solid #234e99;
-    color: #234e99;
+    border: 1px solid color(accent, 900);
+    color: color(accent, 900);
   }
 }
 
@@ -102,24 +105,24 @@
   padding: 6px 24px;
   border-radius: 2px;
   background-color: transparent;
-  color: #397df6;
+  color: color(accent, 500);
   border: 2px solid transparent;
 
   &.active {
-    color: #2f68cc;
+    color: color(accent, 700);
   }
 
   &:hover:not(.disabled):not(.active) {
-    color: #73a5ff;
+    color: color(accent, 100);
   }
 
   &:focus:not(.disabled):not(.active) {
-    color: #397df6;
-    border-color: #2f68cc;
+    color: color(accent, 500);
+    border-color: color(accent, 700);
   }
 
   &.disabled {
-    color: #234e99;
+    color: color(accent, 900);
   }
 }
 
@@ -129,6 +132,6 @@
   height: 36px;
   padding: 6px 24px;
   border-radius: 2px;
-  background-color: #333333;
-  color: #ffffff;
+  background-color: color(dark, 300);
+  color: color(light, 100);
 }
