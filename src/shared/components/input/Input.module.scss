@@ -1,65 +1,106 @@
-
-
 .inputWrapper {
   display: flex;
-  width: 300px;
-  height: 100px;
   flex-direction: column;
   font-family: Inter;
-  background-color: black;
-}
-
-.label {
-  margin: 0px 0px 2px 1px;
-  font-size: 14px;
-  color: #8D9094;
-}
-
-.inputContainer {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.input {
-  height: 34px;
   border-radius: 2px;
-  border: 1px solid #4C4C4C;
-  padding: 0px 12px;
-  font-size: 16px;
-  outline: none;
-  background-color: transparent;
-  color: #8D9094;
-  &::placeholder {
 
+
+  .label {
+    margin: 0px 0px 2px 1px;
+    font-size: 14px;
+    color: #8d9094;
   }
-}
 
-.inputWithButton .input {
-  padding-right: 36px;
-}
+  .inputContainer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
 
-.searchInput .input {
-  padding-left: 30px;
-}
+    .toggleButton {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #ffffff;
+      cursor: pointer;
+    }
+  }
 
-.icon {
-  position: absolute;
-  left: 10px;
-  font-size: 16px;
-}
+  .input {
+    height: 34px;
+    width: 100%;
+    border-radius: 2px;
+    border: 1px solid #4c4c4c;
+    padding: 0px 0px 0px 12px;
+    font-size: 16px;
+    outline: none;
+    background-color: transparent;
+    color: #8d9094;
 
-.toggleButton {
-  position: absolute;
-  right: 8px;
-  font-size: 16px;
-  pointer-events: none;
-}
+    &::placeholder {
+      color: #8d9094;
+    }
 
-.errorMessage {
-  margin-top: 4px;
-  font-size: 12px;
-}
+    &:hover:not(:disabled):not(:focus) {
+      border-color: #8d9094;
+      color: #8d9094;
+    }
 
-.error .input {
+    &:focus:not(:disabled) {
+      border-color: #397df6;
+      color: #8d9094;
+    }
+
+    &:disabled {
+      border-color: #4c4c4c;
+      color: #4c4c4c;
+      &::placeholder {
+        color: #4c4c4c;
+      }
+    }
+  }
+
+  &.inputWithButton {
+    .input {
+      padding-right: 30px;
+    }
+  }
+
+  &.active .input {
+    border-color: #ffffff;
+    color: #ffffff;
+    background-color: #171717;
+  }
+
+  &.error .input {
+    border-color: #cc1439;
+    color: #ffffff;
+    &:focus:not(:disabled) {
+      border-color: #2f68cc;
+    }
+  }
+
+  &.error .errorMessage {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #cc1439;
+  }
+
+  &.active .label,
+  &.input:focus + .label {
+    color: #8d9094;
+  }
+
+  &.disabled {
+    .label {
+      color: #4c4c4c;
+    }
+    .toggleButton {
+      color: #4c4c4c;
+      cursor: default;
+    }
+  }
 }

@@ -1,4 +1,6 @@
-import React, { InputHTMLAttributes, forwardRef } from 'react'
+"use client" // нужен чтобы useState работал локально, без него не работал
+
+import React, { InputHTMLAttributes, forwardRef, useState } from 'react'
 import styles from './Input.module.scss'
 
 type Variant = 'inputDefault' | 'inputWithButton' | 'searchInput'
@@ -27,32 +29,60 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     },
     ref
   ) => {
+    const [showPassword, setShowPassword] = useState(false)
+
+    // для варианта с кнопкой, если тип пароль, переключаем тип в зависимости от showPassword
+    const inputType =
+      variant === 'inputWithButton' && type === 'password'
+        ? showPassword
+          ? 'text'
+          : 'password'
+        : type
+
     const wrapperClass = [
       styles.inputWrapper,
       styles[variant],
       error ? styles.error : '',
+      active ? styles.active : '',
+      disabled ? styles.disabled : '',
       className
     ]
       .filter(Boolean)
       .join(' ')
+
+    const togglePasswordVisibility = () => {
+      if (!disabled) {
+        setShowPassword(prev => !prev)
+      }
+    }
 
     return (
       <div className={wrapperClass} style={{ width }}>
         {label && <label className={styles.label}>{label}</label>}
 
         <div className={styles.inputContainer}>
-          {variant === 'searchInput' && <span className={styles.icon}>🔍</span>}
-
           <input
             ref={ref}
-            type={type}
+            disabled={disabled}
+            type={inputType}
             className={styles.input}
-            placeholder={variant === 'searchInput' ? 'Search' : rest.placeholder}
+            placeholder={variant === 'searchInput' ? 'O- Search' : rest.placeholder}
             {...rest}
           />
 
-          {variant === 'inputWithButton' && (
-            <span className={styles.toggleButton}>👁️</span>
+          {variant === 'inputWithButton' && type === 'password' && (
+            <span
+              className={styles.toggleButton}
+              onClick={togglePasswordVisibility}
+              role="button"
+              aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'} // для доступности
+              tabIndex={0} // для фокусировки так как это span (у них на tab нажатие обычно нет фокусировки)
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') togglePasswordVisibility()
+              }} // обработчик чтобы пользователь мог управлять элементом с клавиатуры, переключать видимость пароля, нажимая Enter или пробел
+            >
+              {showPassword ? 'X' : 'O'}
+            </span>
           )}
         </div>
 
