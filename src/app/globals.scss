@@ -1,0 +1,56 @@
+@use '../shared/styles' as *;
+
+/* Базовые сбросы */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Основные стили */
+html,
+body {
+  overflow-x: hidden;
+  font-size: 16px;
+}
+
+body {
+  color: var(--color-primary-light-100); /* Генерация CSS-переменных */
+  background: map-get(map-get($colors, dark), 500); /* Миксин */
+  font-family: var(--font-inter), Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  /* Мобильная версия */
+  @media (max-width: 576px) {
+    max-width: 360px;
+  }
+}
+
+/* Наследование шрифтов для форм */
+input,
+button,
+textarea,
+select,
+optgroup,
+option {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+/* Ссылки */
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Кнопки */
+button {
+  cursor: pointer;
+}
