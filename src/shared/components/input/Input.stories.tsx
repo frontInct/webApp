@@ -1,5 +1,5 @@
-import { Input } from './Input'
 import type { Meta, StoryObj } from '@storybook/react'
+import { Input } from './Input'
 
 const meta: Meta<typeof Input> = {
   title: 'Components/Input',
@@ -8,12 +8,14 @@ const meta: Meta<typeof Input> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['inputDefault', 'inputWithButton', 'searchInput'],
+      options: ['inputDefault', 'inputWithPasswordToggle', 'searchInput'],
     },
-    disabled: { control: 'boolean' },
-    error: { control: 'text' },
     label: { control: 'text' },
     placeholder: { control: 'text' },
+    disabled: { control: 'boolean' },
+    active: { control: 'boolean' },
+    error: { control: 'text' },
+    type: { control: 'text' },
     width: { control: 'text' },
   },
 }
@@ -21,91 +23,74 @@ const meta: Meta<typeof Input> = {
 export default meta
 type Story = StoryObj<typeof Input>
 
-// --- inputDefault ---
-
-export const InputDefault: Story = {
+export const Default: Story = {
   args: {
     variant: 'inputDefault',
-    label: 'Default input',
-    placeholder: 'Enter text',
+    label: 'Default Input',
+    placeholder: 'Enter text...',
+    disabled: false,
+    active: false,
+    error: '',
+    type: 'text',
+    width: '300px',
+  },
+  parameters: {
+    pseudo: { hover: true, focus: true },
+  },
+}
+
+export const WithButton: Story = {
+  args: {
+    variant: 'inputWithPasswordToggle',
+    label: 'Password Input',
+    placeholder: 'Enter password',
+    type: 'password',
+    active: false,
     disabled: false,
     error: '',
+    width: '300px',
+  },
+  parameters: {
+    pseudo: { hover: true, focus: true },
   },
 }
 
-export const InputDefaultError: Story = {
+export const Search: Story = {
+  args: {
+    variant: 'searchInput',
+    label: 'Search',
+    placeholder: 'Search...',
+    active: false,
+    disabled: false,
+    error: '',
+    width: '300px',
+  },
+  parameters: {
+    pseudo: { hover: true, focus: true },
+  },
+}
+
+export const Disabled: Story = {
   args: {
     variant: 'inputDefault',
-    label: 'Default input',
-    placeholder: 'Enter text',
-    error: 'Required field',
+    label: 'Disabled Input',
+    placeholder: 'Can’t type here',
+    disabled: true,
+    active: false,
+    error: '',
+    width: '300px',
   },
 }
 
-export const InputDefaultDisabled: Story = {
+export const WithError: Story = {
   args: {
     variant: 'inputDefault',
-    label: 'Default input',
-    placeholder: 'Enter text',
-    disabled: true,
+    label: 'Email',
+    placeholder: 'Enter email',
+    error: 'Некорректный email',
+    width: '300px',
   },
-}
-
-// --- inputWithButton ---
-
-export const InputWithButton: Story = {
-  args: {
-    variant: 'inputWithButton',
-    label: 'Password',
-    placeholder: 'Enter password',
-    type: 'password',
-  },
-}
-
-export const InputWithButtonError: Story = {
-  args: {
-    variant: 'inputWithButton',
-    label: 'Password',
-    placeholder: 'Enter password',
-    type: 'password',
-    error: 'Wrong password',
-  },
-}
-
-export const InputWithButtonDisabled: Story = {
-  args: {
-    variant: 'inputWithButton',
-    label: 'Password',
-    placeholder: 'Enter password',
-    type: 'password',
-    disabled: true,
-  },
-}
-
-// --- searchInput ---
-
-export const SearchInput: Story = {
-  args: {
-    variant: 'searchInput',
-    label: 'Search',
-    placeholder: 'Search something...',
-  },
-}
-
-export const SearchInputError: Story = {
-  args: {
-    variant: 'searchInput',
-    label: 'Search',
-    placeholder: 'Search something...',
-    error: 'Nothing found',
-  },
-}
-
-export const SearchInputDisabled: Story = {
-  args: {
-    variant: 'searchInput',
-    label: 'Search',
-    placeholder: 'Search something...',
-    disabled: true,
+  parameters: {
+    pseudo: { hover: true, focus: true },
   },
 }

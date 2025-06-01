@@ -3,7 +3,7 @@
 import React, { InputHTMLAttributes, forwardRef, useState } from 'react'
 import styles from './Input.module.scss'
 
-type Variant = 'inputDefault' | 'inputWithButton' | 'searchInput'
+type Variant = 'inputDefault' | 'inputWithPasswordToggle' | 'searchInput'
 
 type Props = InputHTMLAttributes<HTMLInputElement> & {
   variant: Variant
@@ -33,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
 
     // для варианта с кнопкой, если тип пароль, переключаем тип в зависимости от showPassword
     const inputType =
-      variant === 'inputWithButton' && type === 'password'
+      variant === 'inputWithPasswordToggle' && type === 'password'
         ? showPassword
           ? 'text'
           : 'password'
@@ -70,7 +70,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
             {...rest}
           />
 
-          {variant === 'inputWithButton' && type === 'password' && (
+          {variant === 'inputWithPasswordToggle' && type === 'password' && (
             <span
               className={styles.toggleButton}
               onClick={togglePasswordVisibility}
