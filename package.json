@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky install",
+    "commitlint": "commitlint --edit $1 || true"
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.8.2",
@@ -23,12 +25,16 @@
     "zod": "3.24.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cz-commitlint": "^19.8.1",
     "@eslint/eslintrc": "3.3.1",
     "@types/node": "22.15.18",
     "@types/react": "19.1.4",
     "@types/react-dom": "19.1.5",
     "eslint": "9.27.0",
     "eslint-config-next": "15.3.2",
+    "husky": "^8.0.0",
     "prettier": "3.5.3",
     "typescript": "5.8.3"
   }
