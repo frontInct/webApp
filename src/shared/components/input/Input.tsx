@@ -20,6 +20,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
       error,
       label,
       active = false,
+      disabled = false,
       width,
       type = 'text',
       ...rest
@@ -46,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
             ref={ref}
             type={type}
             className={styles.input}
-            placeholder={variant === 'searchInput' ? 'Search...' : rest.placeholder}
+            placeholder={variant === 'searchInput' ? 'Search' : rest.placeholder}
             {...rest}
           />
 

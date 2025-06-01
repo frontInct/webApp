@@ -2,14 +2,17 @@
 
 .inputWrapper {
   display: flex;
+  width: 300px;
+  height: 100px;
   flex-direction: column;
   font-family: Inter;
+  background-color: black;
 }
 
 .label {
-  margin: 0px 0px 6px 1px;
+  margin: 0px 0px 2px 1px;
   font-size: 14px;
-  // color: color(light, 500);
+  color: #8D9094;
 }
 
 .inputContainer {
@@ -19,15 +22,16 @@
 }
 
 .input {
-  height: 36px;
+  height: 34px;
   border-radius: 2px;
-  border-width: 1px;
+  border: 1px solid #4C4C4C;
   padding: 0px 12px;
   font-size: 16px;
   outline: none;
-
+  background-color: transparent;
+  color: #8D9094;
   &::placeholder {
-    // color: color(light, 700);
+
   }
 }
 
@@ -43,23 +47,19 @@
   position: absolute;
   left: 10px;
   font-size: 16px;
-  // color: color(light, 500);
 }
 
 .toggleButton {
   position: absolute;
   right: 8px;
   font-size: 16px;
-  // color: color(light, 500);
   pointer-events: none;
 }
 
 .errorMessage {
   margin-top: 4px;
   font-size: 12px;
-  // color: color(error, 500);
 }
 
 .error .input {
-  // border-color: color(error, 500);
 }
