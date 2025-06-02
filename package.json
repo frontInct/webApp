@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky install",
-    "commitlint": "commitlint --edit $1 || true"
+    "commitlint": "commitlint --edit $1 || true",
     "sb": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
