@@ -52,4 +52,8 @@ next-env.d.ts
 *.sw?
 
 .dockerignore
+
+!.husky/
+
 *storybook.log
+
