@@ -1,4 +1,11 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.scss'
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin', 'cyrillic'],
+})
 
 //автоматически вставляет title,meta в head
 export const metadata: Metadata = {
@@ -6,14 +13,10 @@ export const metadata: Metadata = {
   description: 'Welcome to Next.js',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang='en'>
+      <body className={`${inter.variable}`}>{children}</body>
     </html>
   )
 }

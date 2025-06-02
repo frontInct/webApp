@@ -1,0 +1,132 @@
+@use '../../styles/colors' as *;
+
+
+.button {
+  font-family: Inter;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 2px;
+  padding: 6px 24px;
+  outline: none;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+
+  &:hover:not(.disabled):not(.active) {
+    cursor: pointer;
+  }
+}
+
+/* Primary */
+.primary {
+  background-color: color(accent, 500);
+  color: color(light, 100);
+
+  &.active {
+    background-color: color(accent, 700);
+    color: color(light, 500);
+  }
+
+  &:hover:not(.disabled):not(.active) {
+    background-color: color(accent, 100);
+  }
+
+  &:focus:not(.disabled):not(.active) {
+    background-color: color(accent, 500);
+    border-color: color(accent, 700);
+  }
+
+  &.disabled {
+    background-color: color(accent, 900);
+    color: color(light, 900);
+  }
+}
+
+/* Secondary */
+.secondary {
+  background-color: color(dark, 300);
+  color: color(light, 100);
+
+  &.active {
+    background-color: color(dark, 500);
+    color: color(light, 100);
+  }
+
+  &:hover:not(.disabled):not(.active) {
+    background-color: color(dark, 100);
+  }
+
+  &:focus:not(.disabled):not(.active) {
+    background-color: color(dark, 300);
+    border: 1px solid color(accent, 300);
+  }
+
+  &.disabled {
+    background-color: color(dark, 500);
+    color: color(light, 900);
+  }
+}
+
+/* Outline */
+.outline {
+  background-color: transparent;
+  border: 1px solid color(accent, 500);
+  color: color(accent, 500);
+
+  &.active {
+    border: 1px solid color(accent, 700);
+    color: color(accent, 700);
+  }
+
+  &:hover:not(.disabled):not(.active) {
+    border: 1px solid color(accent, 100);
+    color: color(accent, 100);
+  }
+
+  &:focus:not(.disabled):not(.active) {
+    border: 1px solid color(accent, 700);
+    color: color(accent, 700);
+  }
+
+  &.disabled {
+    border: 1px solid color(accent, 900);
+    color: color(accent, 900);
+  }
+}
+
+/* TextButton */
+.textButton {
+  padding: 6px 24px;
+  border-radius: 2px;
+  background-color: transparent;
+  color: color(accent, 500);
+  border: 2px solid transparent;
+
+  &.active {
+    color: color(accent, 700);
+  }
+
+  &:hover:not(.disabled):not(.active) {
+    color: color(accent, 100);
+  }
+
+  &:focus:not(.disabled):not(.active) {
+    color: color(accent, 500);
+    border-color: color(accent, 700);
+  }
+
+  &.disabled {
+    color: color(accent, 900);
+  }
+}
+
+/* Variant21 */
+.variant21 {
+  width: 115px;
+  height: 36px;
+  padding: 6px 24px;
+  border-radius: 2px;
+  background-color: color(dark, 300);
+  color: color(light, 100);
+}
