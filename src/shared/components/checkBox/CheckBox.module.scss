@@ -1,0 +1,73 @@
+@use '../../styles/colors' as *;
+
+.container {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  user-select: none;
+  color: color(light, 100);
+}
+
+.label.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border: 1px solid color(light, 500);
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.label:hover .input:not(:disabled) ~ .checkmark {
+  box-shadow: 0 0 5px 7px color(dark, 100);
+}
+
+.input:checked ~ .checkmark {
+  background-color: color(light, 100);
+}
+
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.input:checked ~ .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid color(dark, 300);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.labelText {
+  margin-left: 8px;
+  font-size: 14px;
+}
