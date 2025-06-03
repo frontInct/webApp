@@ -1,4 +1,4 @@
-"use client" // нужен чтобы useState работал локально, без него не работал
+'use client' // нужен чтобы useState работал локально, без него не работал
 
 import React, { InputHTMLAttributes, forwardRef, useState } from 'react'
 import styles from './Input.module.scss'
@@ -45,7 +45,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
       error ? styles.error : '',
       active ? styles.active : '',
       disabled ? styles.disabled : '',
-      className
+      className,
     ]
       .filter(Boolean)
       .join(' ')
@@ -57,7 +57,10 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     }
 
     return (
-      <div className={wrapperClass} style={{ width }}>
+      <div
+        className={wrapperClass}
+        style={{ width }}
+      >
         {label && <label className={styles.label}>{label}</label>}
 
         <div className={styles.inputContainer}>
@@ -74,7 +77,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
             <span
               className={styles.toggleButton}
               onClick={togglePasswordVisibility}
-              role="button"
+              role='button'
               aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'} // для доступности
               tabIndex={0} // для фокусировки так как это span (у них на tab нажатие обычно нет фокусировки)
               onKeyDown={e => {

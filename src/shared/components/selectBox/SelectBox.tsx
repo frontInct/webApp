@@ -1,33 +1,34 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import styles from './Selector.module.css'
+import styles from './SelectBox.module.scss'
 
-export interface SelectorOption {
+export interface SelectBoxOption {
   value: string
   label: string
 }
 
-export interface SelectorProps {
-  options: SelectorOption[]
+export interface SelectBoxProps {
+  options: SelectBoxOption[]
   defaultValue?: string
   placeholder?: string
   onChange?: (value: string) => void
   disabled?: boolean
+  title?: string
 }
 
-export const Selector = ({
+export const SelectBox = ({
   options = [],
   defaultValue = '',
   placeholder = 'Выберите вариант',
   onChange = () => {},
   disabled = false,
-}: SelectorProps) => {
+  title = '',
+}: SelectBoxProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -60,6 +61,7 @@ export const Selector = ({
       ref={dropdownRef}
       className={`${styles.selector} ${disabled ? styles.disabled : ''}`}
     >
+      {title}
       <div
         className={styles.selectedValue}
         onClick={toggleDropdown}
