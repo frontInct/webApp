@@ -7,6 +7,7 @@
   width: 100%;
   padding: 1rem 0;
   color: color(light, 100);
+  background-color: color(dark, 500);
 }
 
 .container {
@@ -27,18 +28,9 @@
 
 .navList {
   display: flex;
+  align-items: center;
   gap: 1rem;
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.navLink {
-  text-decoration: none;
-  color: #555;
-  transition: color 0.2s;
-}
-
-.navLink:hover {
-  color: #000;
 }

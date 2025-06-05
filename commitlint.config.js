@@ -1,4 +1,4 @@
-const config  = {
+const config = {
   extends: ['@commitlint/config-conventional'],
   // собственные правила
   rules: {

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import styles from './Header.module.scss'
 import { Button } from '@/shared/components/button'
 import { SelectBox } from '@/shared/components/selectBox'
+import Img from '../../shared/assets/icons/bell.svg'
 
 interface HeaderProps {
   isLoggedIn?: boolean
@@ -20,8 +21,12 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
           {siteName}
         </Link>
         <nav className={styles.nav}>
-          <div className={styles.navList}>
-            {isLoggedIn && <li>Д{/*TODO заменить букву Д на колокольчик*/}</li>}
+          <ul className={styles.navList}>
+            {isLoggedIn && (
+              <li>
+                <Img />
+              </li>
+            )}
             <li>
               <SelectBox
                 defaultValue={'English'}
@@ -38,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
                 </li>
               </>
             )}
-          </div>
+          </ul>
         </nav>
       </div>
     </header>
