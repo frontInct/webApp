@@ -12,7 +12,7 @@ const ModalDemo = (
     children: React.ReactNode | ModalChildFn
   }
 ) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   const content =
     typeof args.children === 'function'
