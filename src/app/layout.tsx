@@ -11,6 +11,18 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Home',
   description: 'Welcome to Next.js',
+  icons: {
+    icon: [
+      {
+        url: '/logo/logo-dark/logo-xl.png',
+        media: '(prefers-color-scheme: light)',
+      },
+      {
+        url: '/logo/logo-light/logo-xl.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+    ],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

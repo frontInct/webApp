@@ -4,6 +4,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import React from 'react'
 import styles from './Modal.module.scss'
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
+import { Typography } from '../Typography'
 
 type Props = {
   children: React.ReactNode
@@ -44,7 +45,7 @@ export const Modal = ({
             {/* Dialog.Title обязателен нужен в Radix для доступности, без него мне выдавало ошибку, пустым он не мешает */}
             <Dialog.Title asChild>
               {title ? (
-                <span className={styles.title}>{title}</span>
+                <Typography className={styles.title}>{title}</Typography>
               ) : (
                 <VisuallyHidden>Modal window</VisuallyHidden>
               )}
@@ -63,7 +64,7 @@ export const Modal = ({
           </div>
           {/* Если есть title, рисуем разделитель */}
           {title && <div className={styles.divider} />}
-          <div className={styles.body}>{children}</div>
+          <Typography className={styles.body}>{children}</Typography>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
