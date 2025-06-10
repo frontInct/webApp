@@ -1,0 +1,105 @@
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  font-family: Inter;
+  border-radius: 2px;
+
+  .label {
+    margin: 0px 0px 2px 1px;
+    font-size: 14px;
+    color: var( --color-primary-light-900);
+  }
+
+  .inputContainer {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 2px;
+
+    .toggleButton {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--color-primary-light-100);
+      cursor: pointer;
+    }
+  }
+
+  .input {
+    height: 34px;
+    width: 100%;
+    border-radius: 2px;
+    border: 1px solid var(--color-primary-dark-100);
+    padding: 0px 0px 0px 12px;
+    font-size: 16px;
+    outline: none;
+    background-color: transparent;
+    color: var(--color-primary-light-900);
+
+    &::placeholder {
+      color: var(--color-primary-light-900);
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+      border-color: var(--color-primary-light-900);
+      color: var(--color-primary-light-900);
+    }
+
+    &:focus:not(:disabled) {
+      border-color: var(--color-primary-accent-500);
+      color: var(--color-primary-light-900);
+    }
+
+    &:disabled {
+      border-color: var(--color-primary-dark-100);
+      color: var(--color-primary-dark-100);
+      &::placeholder {
+        color: var(--color-primary-dark-100);
+      }
+    }
+  }
+
+  &.inputWithPasswordToggle {
+    .input {
+      padding-right: 30px;
+    }
+  }
+
+  &.active .input {
+    border-color: var(--color-primary-light-100);
+    color: var(--color-primary-light-100);
+    background-color: var(--color-primary-dark-500);
+  }
+
+  &.error .input {
+    border-color: var(--color-primary-danger-500);
+    color: var(--color-primary-light-100);
+    &:focus:not(:disabled) {
+      border-color: var(--color-primary-accent-700);
+    }
+  }
+
+  &.error .errorMessage {
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--color-primary-danger-500);
+  }
+
+  &.active .label,
+  &.input:focus + .label {
+    color: var(--color-primary-light-900);
+  }
+
+  &.disabled {
+    .label {
+      color: var(--color-primary-dark-100);
+    }
+    .toggleButton {
+      color: var(--color-primary-dark-100);
+      cursor: default;
+    }
+  }
+}
