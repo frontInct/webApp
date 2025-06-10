@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Montserrat:wght@400;500;600;700&display=swap");
+
+/* Базовые сбросы */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Основные стили */
+html,
+body {
+  overflow-x: hidden;
+  font-size: 16px;
+}
+
+/* Наследование шрифтов для форм */
+input,
+button,
+textarea,
+select,
+optgroup,
+option {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
+}
+
+/* Ссылки */
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Кнопки */
+button {
+  cursor: pointer;
+}
+
+:root {
+  /* Accent colors */
+  --color-primary-accent-100: #73a5ff;
+  --color-primary-accent-300: #4c8dff;
+  --color-primary-accent-500: #397df6;
+  --color-primary-accent-700: #2f68cc;
+  --color-primary-accent-900: #234e99;
+
+  /* Danger colors */
+  --color-primary-danger-100: #ff8099;
+  --color-primary-danger-300: #f23d61;
+  --color-primary-danger-500: #cc1439;
+  --color-primary-danger-700: #990f2b;
+  --color-primary-danger-900: #660a1d;
+
+  /* Dark colors */
+  --color-primary-dark-100: #4c4c4c;
+  --color-primary-dark-300: #333333;
+  --color-primary-dark-500: #171717;
+  --color-primary-dark-700: #0d0d0d;
+  --color-primary-dark-900: #000000;
+
+  /* Light colors */
+  --color-primary-light-100: #ffffff;
+  --color-primary-light-300: #f7fbff;
+  --color-primary-light-500: #edf3fa;
+  --color-primary-light-700: #d5dae0;
+  --color-primary-light-900: #8d9094;
+
+  /* Success colors */
+  --color-primary-success-100: #80ffbf;
+  --color-primary-success-300: #22e584;
+  --color-primary-success-500: #14cc70;
+  --color-primary-success-700: #0f9954;
+  --color-primary-success-900: #0a6638;
+
+  /* Warning colors */
+  --color-primary-warning-100: #ffd073;
+  --color-primary-warning-300: #e5ac39;
+  --color-primary-warning-500: #d99000;
+  --color-primary-warning-700: #996600;
+  --color-primary-warning-900: #664400;
+
+  /* Шрифты */
+  --font-sans: "Inter", "Roboto", "Barlow", sans-serif;
+  --font-heading: "Montserrat", sans-serif;
+
+  /* Межстрочные интервалы */
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --line-height-loose: 2;
+
+  /* Шрифты */
+  --font-family: "Inter", sans-serif;
+  --second-family: "Roboto", sans-serif;
+  --third-family: "Barlow", sans-serif;
+
+
+  /* Размер шрифта */
+  --font-size-xs: 12px;
+  --font-size-s: 14px;
+  --font-size-m: 16px;
+  --font-size-l: 18px;
+  --font-size-xl: 20px;
+  --font-size-xxl: 26px;
+
+  /* Насыщенность шрифта */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+}
+
+/* Генерация CSS-переменных */
+body {
+  font-family: var(--font-family), sans-serif;
+  line-height: var(--line-height-normal);
+  background: var(--color-primary-dark-700);
+  color: var(--color-primary-light-100);
+  max-width: 1280px;
+}
+
+/* Мобильная версия */
+@media (max-width: 576px) {
+  body {
+    max-width: 360px;
+  }
+}

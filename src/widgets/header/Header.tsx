@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/button'
 import { SelectBox } from '@/shared/components/selectBox'
 import Img from '../../shared/assets/icons/bell.svg'
 
+
 interface HeaderProps {
   isLoggedIn?: boolean
   siteName?: string
@@ -36,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
             {!isLoggedIn && (
               <>
                 <li>
-                  <Button variant='textButton'>Log in</Button>
+                  <Button variant='text'>Log in</Button>
                 </li>
                 <li>
                   <Button>Sign up</Button>
