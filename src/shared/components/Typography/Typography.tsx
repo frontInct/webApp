@@ -20,7 +20,7 @@ type ComponentVariants = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span'
 
 type TypographyProps = HTMLAttributes<HTMLElement> & {
   component?: ComponentVariants
-  children: ReactNode | string
+  children?: ReactNode | string
   variant?: TypographyVariant
   className?: string
 }

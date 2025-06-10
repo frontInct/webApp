@@ -1,0 +1,40 @@
+@use '../../../shared/styles/colors' as *;
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  .inputWrapper {
+    &:last-of-type {
+      margin-bottom: 36px;
+    }
+  }
+
+  .label {
+    margin-top: 24px;
+  }
+
+  a {
+    align-self: flex-end;
+    margin: 0 0 24px 0;
+    color: color(light, 900);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: color(light, 100);
+      text-decoration: none;
+    }
+  }
+
+  // Стили для кнопки
+  button {
+    margin-top: 10px;
+  }
+}
