@@ -1,74 +1,76 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { Modal } from '@/shared/components/cards/Modal'
 import styles from './logout.module.scss'
 import { Typography } from '@/shared/components/Typography'
+import { Button } from '@/shared/components/button'
 
 type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
+  email: string
 }
 
-export default function LogoutModal({ open, onOpenChange }: Props) {
-  const router = useRouter()
-  const userEmail = 'Epam@epam.com' // Замените на данные из контекста/стора
+export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
+  //на случай изменения цветов
+  // const [isHovered, setIsHovered] = useState(false)
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-      localStorage.removeItem('token')
-      onOpenChange(false)
-      router.push('/sign-in')
+      await fetch('/api/auth/logout', { method: 'DELETE' })
+      // localStorage.removeItem('token')
+      window.location.href = '/sign-in' // поменять на navigate?
     } catch (error) {
       console.error('Logout failed:', error)
     }
   }
-
-  if (!open) return null // Не рендерим, если закрыто
-
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <Typography
-          variant='H1'
-          component='h1'
-          className={styles.title}
-        >
-          Log Out
-        </Typography>
-        <button onClick={() => onOpenChange(false)}>X</button>
-        <Typography
-          variant='regular_text_16'
-          className={styles.message}
-        >
-          Are you really want to log out of your account <br />
-          <Typography
-            variant='bold_text_16'
-            component='span'
-          >
-            "{userEmail}"?
-          </Typography>
-        </Typography>
-        <div className={styles.buttons}>
-          <button
-            onClick={handleLogout}
-            className={styles.button}
-          >
-            <Typography variant='H3'>Yes</Typography>
-          </button>
-          <button
-            onClick={handleLogout}
-            className={styles.button}
-          >
+    <Modal
+      open={open}
+      onOpenChange={onOpenChange}
+      title='Log Out'
+      backgroundColor='dark300'
+      width='440px'
+      height='240px'
+    >
+      <div className={styles.logoutContainer}>
+        <div className={styles.logoutContent}>
+          <Typography variant='regular_text_16'>
+            Are you really want to log out of your account
+            <br />
             <Typography
-              variant='H3'
+              variant='bold_text_16'
+              component='span'
+            >
+              "{email}"?
+            </Typography>
+          </Typography>
+
+          <div className={styles.buttons}>
+            <Button
+              //на случай изменения цветов
+              //   variant={isHovered ? 'outline' : 'primary'}
+              // onMouseEnter={() => setIsHovered(true)}
+              // onMouseLeave={() => setIsHovered(false)}
+              variant='primary'
+              width='96px'
+              height='36px'
               onClick={() => onOpenChange(false)}
             >
               No
-            </Typography>
-          </button>
+            </Button>
+            <Button
+              variant='primary'
+              width='96px'
+              height='36px'
+              className='hover-outline'
+              onClick={handleLogout}
+            >
+              Yes
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
