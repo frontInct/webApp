@@ -1,5 +1,3 @@
-@use '../../styles/colors' as *;
-
 .inputWrapper {
   display: flex;
   flex-direction: column;
@@ -9,7 +7,7 @@
   .label {
     margin: 0px 0px 2px 1px;
     font-size: 14px;
-    color: color(light, 900);
+    color: var( --color-primary-light-900);
   }
 
   .inputContainer {
@@ -25,7 +23,7 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
-      color: color(light, 100);
+      color: var(--color-primary-light-100);
       cursor: pointer;
     }
   }
@@ -34,32 +32,32 @@
     height: 34px;
     width: 100%;
     border-radius: 2px;
-    border: 1px solid color(dark, 100);
+    border: 1px solid var(--color-primary-dark-100);
     padding: 0px 0px 0px 12px;
     font-size: 16px;
     outline: none;
     background-color: transparent;
-    color: color(light, 900);
+    color: var(--color-primary-light-900);
 
     &::placeholder {
-      color: color(light, 900);
+      color: var(--color-primary-light-900);
     }
 
     &:hover:not(:disabled):not(:focus) {
-      border-color: color(light, 900);
-      color: color(light, 900);
+      border-color: var(--color-primary-light-900);
+      color: var(--color-primary-light-900);
     }
 
     &:focus:not(:disabled) {
-      border-color: color(accent, 500);
-      color: color(light, 900);
+      border-color: var(--color-primary-accent-500);
+      color: var(--color-primary-light-900);
     }
 
     &:disabled {
-      border-color: color(dark, 100);
-      color: color(dark, 100);
+      border-color: var(--color-primary-dark-100);
+      color: var(--color-primary-dark-100);
       &::placeholder {
-        color: color(dark, 100);
+        color: var(--color-primary-dark-100);
       }
     }
   }
@@ -71,36 +69,36 @@
   }
 
   &.active .input {
-    border-color: color(light, 100);
-    color: color(light, 100);
-    background-color: color(dark, 500);
+    border-color: var(--color-primary-light-100);
+    color: var(--color-primary-light-100);
+    background-color: var(--color-primary-dark-500);
   }
 
   &.error .input {
-    border-color: color(danger, 500);
-    color: color(light, 100);
+    border-color: var(--color-primary-danger-500);
+    color: var(--color-primary-light-100);
     &:focus:not(:disabled) {
-      border-color: color(accent, 700);
+      border-color: var(--color-primary-accent-700);
     }
   }
 
   &.error .errorMessage {
     margin-top: 4px;
     font-size: 12px;
-    color: color(danger, 500);
+    color: var(--color-primary-danger-500);
   }
 
   &.active .label,
   &.input:focus + .label {
-    color: color(light, 900);
+    color: var(--color-primary-light-900);
   }
 
   &.disabled {
     .label {
-      color: color(dark, 100);
+      color: var(--color-primary-dark-100);
     }
     .toggleButton {
-      color: color(dark, 100);
+      color: var(--color-primary-dark-100);
       cursor: default;
     }
   }

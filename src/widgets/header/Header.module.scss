@@ -1,13 +1,11 @@
-@use '../../shared/styles/colors' as *;
-
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   padding: 1rem 0;
-  color: color(light, 100);
-  background-color: color(dark, 500);
+  color: var(--color-primary-light-100);
+  background-color: var(--color-primary-dark-500);
 }
 
 .container {
@@ -23,7 +21,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
-  color: color(light, 100);
+  color: var(--color-primary-light-100);
 }
 
 .navList {

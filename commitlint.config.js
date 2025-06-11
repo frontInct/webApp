@@ -1,4 +1,5 @@
-const config = {
+/* eslint-disable */
+export default {
   extends: ['@commitlint/config-conventional'],
   // собственные правила
   rules: {
@@ -33,4 +34,3 @@ const config = {
     },
   ],
 }
-export default config

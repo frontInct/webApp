@@ -1,75 +1,105 @@
+import { Meta, StoryObj } from '@storybook/react'
 import { Button } from './Button'
-import type { Meta, StoryObj } from '@storybook/react'
 
-const meta: Meta<typeof Button> = {
-  title: 'Components/Button',
+type Story = StoryObj<typeof Button>
+
+const meta = {
+  title: 'Shared/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: { type: 'select' },
-      options: ['primary', 'secondary', 'outline', 'textButton', 'variant21'],
+      control: { type: 'radio' },
+      options: ['primary', 'secondary', 'outlined', 'text'],
     },
-    active: { control: 'boolean' },
-    disabled: { control: 'boolean' },
-    children: { control: 'text' },
+    disabled: {
+      control: 'boolean',
+    },
+    asChild: {
+      control: 'boolean',
+    },
   },
-}
+} satisfies Meta<typeof Button>
 
 export default meta
-type Story = StoryObj<typeof Button>
 
 export const Primary: Story = {
   args: {
     variant: 'primary',
-    children: 'Primary',
-    active: false,
-    disabled: false,
-  },
-  parameters: {
-    pseudo: { hover: true, focus: true },
+    children: 'Primary Button',
   },
 }
 
 export const Secondary: Story = {
   args: {
     variant: 'secondary',
-    children: 'Secondary',
-    active: false,
-    disabled: false,
-  },
-  parameters: {
-    pseudo: { hover: true, focus: true },
+    children: 'Secondary Button',
   },
 }
 
-export const Outline: Story = {
+export const Outlined: Story = {
   args: {
-    variant: 'outline',
-    children: 'Outline',
-    active: false,
-    disabled: false,
-  },
-  parameters: {
-    pseudo: { hover: true, focus: true },
+    variant: 'outlined',
+    children: 'Outlined Button',
   },
 }
 
-export const TextButton: Story = {
+export const ButtonAsLink: Story = {
   args: {
-    variant: 'textButton',
-    children: 'TextButton',
-    active: false,
-    disabled: false,
-  },
-  parameters: {
-    pseudo: { hover: true, focus: true },
+    variant: 'text',
+    asChild: true,
+    children: <a href={"https://google.com"}>Link Button</a>
   },
 }
 
-export const Variant21: Story = {
-  args: {
-    variant: 'variant21',
-    children: 'Variant21',
+export const DisabledStates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      <Button variant="primary" disabled>
+        Primary Disabled
+      </Button>
+      <Button variant="secondary" disabled>
+        Secondary Disabled
+      </Button>
+      <Button variant="outlined" disabled>
+        Outlined Disabled
+      </Button>
+      <Button variant="text" disabled>
+        Text Disabled
+      </Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Все варианты кнопок в disabled состоянии',
+      },
+    },
+  },
+}
+
+export const FocusStates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      <Button variant="primary" className="force-focus">
+        Primary Focus
+      </Button>
+      <Button variant="secondary" className="force-focus">
+        Secondary Focus
+      </Button>
+      <Button variant="outlined" className="force-focus">
+        Outlined Focus
+      </Button>
+      <Button variant="text" className="force-focus">
+        Text Focus
+      </Button>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Все варианты кнопок в focus состоянии (используем класс для эмуляции)',
+      },
+    },
   },
 }
