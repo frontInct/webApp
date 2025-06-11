@@ -3,13 +3,13 @@
 import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import Link from 'next/link'
-import styled from './SignInForm.module.scss'
+import s from './SignInForm.module.scss'
 
 export const SignInForm = () => {
   return (
     <>
-      <div className={styled.formContainer}>
-        <div className={styled.inputWrapper}>
+      <div className={s.formContainer}>
+        <div className={s.inputWrapper}>
           <Input
             variant='inputDefault'
             width={'330px'}
@@ -20,13 +20,11 @@ export const SignInForm = () => {
             type='password'
             width={'330px'}
             label='Password'
-            className={styled.label}
+            className={s.label}
           />
         </div>
-
         <Link href='/forgot-password'>Forgot Password</Link>
-
-        <Button width={'330px'}>Sign In</Button>
+        <Button style={{ width: '330px' }}>Sign In</Button>
       </div>
     </>
   )

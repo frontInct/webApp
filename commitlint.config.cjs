@@ -1,5 +1,4 @@
-/* eslint-disable */
-export default {
+module.exports = {
   extends: ['@commitlint/config-conventional'],
   // собственные правила
   rules: {
