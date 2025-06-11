@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   extends: ['@commitlint/config-conventional'],
   // собственные правила
   rules: {
@@ -33,4 +33,3 @@ export default {
     },
   ],
 }
-

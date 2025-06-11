@@ -19,8 +19,8 @@
 
     .toggleButton {
       position: absolute;
-      right: 12px;
-      top: 50%;
+      right: 6px;
+      top: 60%;
       transform: translateY(-50%);
       font-size: 16px;
       color: var(--color-primary-light-100);
@@ -33,7 +33,7 @@
     width: 100%;
     border-radius: 2px;
     border: 1px solid var(--color-primary-dark-100);
-    padding: 0px 0px 0px 12px;
+    // padding: 0px 0px 0px 12px;
     font-size: 16px;
     outline: none;
     background-color: transparent;

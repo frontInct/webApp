@@ -1,0 +1,43 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  .inputWrapper {
+    &:last-of-type {
+      margin-bottom: 36px;
+    }
+  }
+
+  .label {
+    margin-top: 24px;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 171%;
+  }
+
+  a {
+    align-self: flex-end;
+    margin: 0 0 14px 0;
+    color: var(--color-primary-light-900);
+    text-decoration: none;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 171%;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary-light-100);
+      text-decoration: none;
+    }
+  }
+
+  // Стили для кнопки
+  button {
+    margin-top: 10px;
+  }
+}

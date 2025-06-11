@@ -121,7 +121,6 @@ body {
   line-height: var(--line-height-normal);
   background: var(--color-primary-dark-700);
   color: var(--color-primary-light-100);
-  max-width: 1280px;
 }
 
 /* Мобильная версия */

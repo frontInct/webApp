@@ -1,0 +1,65 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.title {
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 180%;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 378px;
+  min-height: 504px;
+  border: 1px solid var(--color-primary-dark-300);
+  padding: 24px;
+  background-color: var(--color-primary-dark-500);
+
+  svg {
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin: 1rem;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.linkSignUp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-primary-light-100);
+
+  a {
+    margin-top: 12px;
+    color: var(--color-primary-accent-500);
+    text-decoration: none;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-primary-light-100);
+      text-decoration: none;
+    }
+  }
+}

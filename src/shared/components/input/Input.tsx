@@ -2,6 +2,8 @@
 
 import React, { InputHTMLAttributes, forwardRef, useState } from 'react'
 import styles from './Input.module.scss'
+import EyeOn from '../../assets/icons/eye.svg'
+import EyeOff from '../../assets/icons/eye-off.svg'
 
 type Variant = 'inputDefault' | 'inputWithPasswordToggle' | 'searchInput'
 
@@ -84,7 +86,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
                 if (e.key === 'Enter' || e.key === ' ') togglePasswordVisibility()
               }} // обработчик чтобы пользователь мог управлять элементом с клавиатуры, переключать видимость пароля, нажимая Enter или пробел
             >
-              {showPassword ? 'X' : 'O'}
+              {showPassword ? <EyeOn /> : <EyeOff/>}
             </span>
           )}
         </div>
@@ -94,3 +96,5 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     )
   }
 )
+
+Input.displayName = 'Input'
