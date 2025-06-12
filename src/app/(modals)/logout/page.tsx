@@ -12,9 +12,6 @@ type Props = {
 }
 
 export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
-  //на случай изменения цветов
-  // const [isHovered, setIsHovered] = useState(false)
-
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'DELETE' })
@@ -48,10 +45,6 @@ export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
 
           <div className={styles.buttons}>
             <Button
-              //на случай изменения цветов
-              //   variant={isHovered ? 'outline' : 'primary'}
-              // onMouseEnter={() => setIsHovered(true)}
-              // onMouseLeave={() => setIsHovered(false)}
               variant='primary'
               width='96px'
               height='36px'
@@ -60,7 +53,7 @@ export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
               No
             </Button>
             <Button
-              variant='primary'
+              variant='outline'
               width='96px'
               height='36px'
               className='hover-outline'
