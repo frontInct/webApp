@@ -185,7 +185,7 @@ export default function SignUpForm() {
 
         <Checkbox
           checked={formData.agreeToTerms}
-          onChange={(e: any) => handleCheckboxChange(e.target.checked)}
+          onCheckedChange={handleCheckboxChange}
           label={
             <>
               I agree to the{' '}
@@ -204,7 +204,6 @@ export default function SignUpForm() {
               </Link>
             </>
           }
-          labelClassName={styles.labelForCheckbox}
         />
 
         <Button
@@ -218,7 +217,7 @@ export default function SignUpForm() {
         <span className={styles.questionText}>Do you have an account?</span>
         <Button
           asChild
-          variant='primary'
+          variant='text'
         >
           <Link href='/sign-in'>Sign In</Link>
         </Button>
