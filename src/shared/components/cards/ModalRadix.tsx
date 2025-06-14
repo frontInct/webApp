@@ -9,7 +9,7 @@ type ModalSize = 'lg' | 'md' | 'sm'
 
 type Props = {
   open: boolean
-  onClose: () => void
+  onClose: (open: boolean) => void
   size?: ModalSize
   modalTitle: string
 } & ComponentPropsWithoutRef<'div'>
