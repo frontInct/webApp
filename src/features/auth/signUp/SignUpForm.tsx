@@ -5,9 +5,10 @@ import { z } from 'zod'
 
 import { Input } from '@/shared/components/input'
 import Link from 'next/link'
-import { CheckBox } from '@/shared/components/checkBox'
 import styles from './SignUpForm.module.scss'
 import { Button } from '@/shared/components/button'
+import { Checkbox } from '@/shared/components/checkBox'
+
 
 // Схема валидации
 const signUpSchema = z
@@ -182,9 +183,9 @@ export default function SignUpForm() {
           width='100%'
         />
 
-        <CheckBox
+        <Checkbox
           checked={formData.agreeToTerms}
-          onChange={e => handleCheckboxChange(e.target.checked)}
+          onChange={(e: any) => handleCheckboxChange(e.target.checked)}
           label={
             <>
               I agree to the{' '}
@@ -203,7 +204,6 @@ export default function SignUpForm() {
               </Link>
             </>
           }
-          containerClassName='mt-2'
           labelClassName={styles.labelForCheckbox}
         />
 
@@ -211,18 +211,17 @@ export default function SignUpForm() {
           type='submit'
           variant='primary'
           disabled={!isValid}
-          width='100%'
           className='mt-4'
         >
           Sign Up
         </Button>
         <span className={styles.questionText}>Do you have an account?</span>
-        {/*<Button*/}
-        {/*  asChild*/}
-        {/*  variant='primary'*/}
-        {/*>*/}
-        {/*  <Link href='/sign-in'>Sign In</Link>*/}
-        {/*</Button>*/}
+        <Button
+          asChild
+          variant='primary'
+        >
+          <Link href='/sign-in'>Sign In</Link>
+        </Button>
       </div>
     </form>
   )

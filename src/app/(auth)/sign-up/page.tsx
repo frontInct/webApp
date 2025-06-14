@@ -1,15 +1,14 @@
 'use client'
-import Link from 'next/link'
+import { PageWrapper } from '@/shared/components/pageWrapper'
+import { AuthLayout } from '@/shared/components/authLayout'
+import SignUpForm from '@/features/auth/signUp/SignUpForm'
 
 export default function SignUpPage() {
   return (
-    <main>
-      <h1>Регистрация</h1>
-      <p>Форма регистрации</p>
-      <span>
-        I agree to the <Link href='/terms-of-service'>Terms of Service</Link> and{' '}
-        <Link href='/privacy-policy'>Privacy Policy</Link>
-      </span>
-    </main>
+    <PageWrapper>
+      <AuthLayout>
+        <SignUpForm/>
+      </AuthLayout>
+    </PageWrapper>
   )
 }
