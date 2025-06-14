@@ -1,0 +1,27 @@
+
+.formWrapper {
+  margin: 0 24px 24px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.labelForCheckbox {
+  font-size: 12px;
+}
+.checkBox {
+  width: 36px;
+  height: 36px;
+}
+.link {
+  color: blue;
+  text-decoration: underline;
+}
+
+.questionText {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+}
