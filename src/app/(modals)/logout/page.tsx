@@ -7,7 +7,7 @@ import { ModalRadix } from '@/shared/components/cards'
 
 type Props = {
   open: boolean
-  onClose: (open: boolean) => void
+  onClose: () => void
   email: string
 }
 
