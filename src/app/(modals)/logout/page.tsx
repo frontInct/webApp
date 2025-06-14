@@ -1,17 +1,19 @@
 'use client'
 
-import { Modal } from '@/shared/components/cards/Modal'
 import styles from './logout.module.scss'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
+import { ModalRadix } from '@/shared/components/cards'
+
+const [isDemoModalOpen, setIsDemoModalOpen] = useState<boolean>(false)
 
 type Props = {
   open: boolean
-  onOpenChange: (open: boolean) => void
+  onClose: () => void
   email: string
 }
 
-export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
+export const LogoutModal = ({ open, onClose, email }: Props) => {
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'DELETE' })
@@ -21,14 +23,17 @@ export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
       console.error('Logout failed:', error)
     }
   }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+  }
+
   return (
-    <Modal
-      open={open}
-      onOpenChange={onOpenChange}
-      title='Log Out'
-      backgroundColor='dark300'
-      width='440px'
-      height='240px'
+    <ModalRadix
+      open={handleModalClose}
+      onClose={onClose}
+      modalTitle='Log Out'
+      size='md'
     >
       <div className={styles.logoutContainer}>
         <div className={styles.logoutContent}>
@@ -46,16 +51,13 @@ export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
           <div className={styles.buttons}>
             <Button
               variant='primary'
-              width='96px'
-              height='36px'
-              onClick={() => onOpenChange(false)}
+              onClick={onClose}
+              // onClick={() => onClose()}
             >
               No
             </Button>
             <Button
-              variant='outline'
-              width='96px'
-              height='36px'
+              variant='outlined'
               className='hover-outline'
               onClick={handleLogout}
             >
@@ -64,6 +66,6 @@ export const LogoutModal = ({ open, onOpenChange, email }: Props) => {
           </div>
         </div>
       </div>
-    </Modal>
+    </ModalRadix>
   )
 }
