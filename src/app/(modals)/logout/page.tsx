@@ -5,11 +5,9 @@ import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
 import { ModalRadix } from '@/shared/components/cards'
 
-const [isDemoModalOpen, setIsDemoModalOpen] = useState<boolean>(false)
-
 type Props = {
   open: boolean
-  onClose: () => void
+  onClose: (open: boolean) => void
   email: string
 }
 
@@ -23,14 +21,9 @@ export const LogoutModal = ({ open, onClose, email }: Props) => {
       console.error('Logout failed:', error)
     }
   }
-
-  const handleModalClose = () => {
-    setIsModalOpen(false)
-  }
-
   return (
     <ModalRadix
-      open={handleModalClose}
+      open={open}
       onClose={onClose}
       modalTitle='Log Out'
       size='md'
@@ -51,7 +44,7 @@ export const LogoutModal = ({ open, onClose, email }: Props) => {
           <div className={styles.buttons}>
             <Button
               variant='primary'
-              onClick={onClose}
+              onClick={() => onClose(false)}
               // onClick={() => onClose()}
             >
               No

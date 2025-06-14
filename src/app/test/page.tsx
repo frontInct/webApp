@@ -21,7 +21,7 @@ export default function ExamplePage() {
 
       <LogoutModal
         open={isLogoutOpen}
-        onOpenChange={setIsLogoutOpen}
+        onClose={setIsLogoutOpen}
         email={userEmail}
       />
     </div>
