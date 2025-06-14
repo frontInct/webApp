@@ -1,9 +1,11 @@
 'use client'
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
+
   return (
     <main>
       <h1>Забыли пароль</h1>
@@ -34,7 +36,7 @@ export default function ForgotPasswordPage() {
         </div>
         <div>
           <button
-            type={'button'}
+            type='button'
             onClick={() => router.push('/sign-in')}
           >
             Send Link
