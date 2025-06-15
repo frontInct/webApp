@@ -1,11 +1,11 @@
 'use client'
 import * as CheckboxRadix from "@radix-ui/react-checkbox";
 import s from "./CheckBox.module.scss";
-import { ComponentPropsWithoutRef, useId } from 'react';
+import { ComponentPropsWithoutRef, ReactNode, useId } from 'react'
 import CheckmarkOutline from "./CheckmarkOutline";
 
 type Props = {
-  label?: string
+  label?: ReactNode;
 } & ComponentPropsWithoutRef<typeof CheckboxRadix.Root>
 
 export const Checkbox = ({ label, id, ...rest }: Props) => {
