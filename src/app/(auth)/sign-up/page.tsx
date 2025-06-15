@@ -9,7 +9,7 @@ import GitHubIcon from '@/shared/assets/icons/github-icon.svg'
 
 export default function SignUpPage() {
   return (
-    <main className={s.main}>
+
     <PageWrapper>
       <AuthLayout>
         <Typography variant='H1' className={s.title}>Sign Up</Typography>
@@ -20,6 +20,6 @@ export default function SignUpPage() {
       </AuthLayout>
     </PageWrapper>
 
-      </main>
+
   )
 }
