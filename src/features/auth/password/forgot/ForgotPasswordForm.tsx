@@ -26,7 +26,7 @@ export const ForgotPasswordForm = () => {
         Enter your email address and we will send you further instructions
       </Typography>
       <Link href='/'>
-        <Button style={{ width: '330px' }}>Send Link</Button>
+        <Button style={{ width: '330px' }} disabled={true}>Send Link</Button>
       </Link>
     </>
   )

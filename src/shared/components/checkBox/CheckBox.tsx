@@ -8,8 +8,8 @@ type Props = {
   label?: ReactNode;
 } & ComponentPropsWithoutRef<typeof CheckboxRadix.Root>
 
-export const Checkbox = ({ label, id, ...rest }: Props) => {
-  const uniqueId = id || useId();
+export const Checkbox = ({ label, ...rest }: Props) => {
+  const uniqueId = useId();
 
   return (
     <div className={s.container}>

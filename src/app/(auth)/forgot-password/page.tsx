@@ -7,6 +7,7 @@ import { Button } from '@/shared/components/button'
 import { Typography } from '@/shared/components/Typography/Typography'
 import { ForgotPasswordForm } from '@/features/auth/password/forgot/ForgotPasswordForm'
 import s from './ForgotPasswordPage.module.scss'
+import { Checkbox } from '@/shared/components/checkBox'
 
 export default function ForgotPasswordPage() {
   return (
@@ -29,15 +30,7 @@ export default function ForgotPasswordPage() {
           </Button>
         </div>
         <div className={s.reCaptcha}>
-          <label>
-            <input type="checkbox"/>
-          </label>
-          <Typography
-            component='span'
-            className={s.typography}
-          >
-            I'm not a robot
-          </Typography>
+          <Checkbox label={"I'm not a robot"} />
         </div>
       </AuthLayout>
     </PageWrapper>
