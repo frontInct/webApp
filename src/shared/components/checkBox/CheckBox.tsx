@@ -6,10 +6,12 @@ import CheckmarkOutline from "./CheckmarkOutline";
 
 type Props = {
   label?: ReactNode;
+  id?: string;
 } & ComponentPropsWithoutRef<typeof CheckboxRadix.Root>
 
-export const Checkbox = ({ label, ...rest }: Props) => {
-  const uniqueId = useId();
+export const Checkbox = ({ label, id, ...rest }: Props) => {
+  const generatedId = useId()
+  const uniqueId = id ?? generatedId  
 
   return (
     <div className={s.container}>
@@ -19,10 +21,10 @@ export const Checkbox = ({ label, ...rest }: Props) => {
         </CheckboxRadix.Indicator>
       </CheckboxRadix.Root>
       {
-      label && 
-      <label className={s.label} htmlFor={uniqueId}>
-        {label}
-      </label>
+        label &&
+        <label className={s.label} htmlFor={uniqueId}>
+          {label}
+        </label>
       }
     </div>
   )
