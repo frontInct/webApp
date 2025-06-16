@@ -2,13 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import { z } from 'zod'
-
 import { Input } from '@/shared/components/input'
 import Link from 'next/link'
 import styles from './SignUpForm.module.scss'
 import { Button } from '@/shared/components/button'
 import { Checkbox } from '@/shared/components/checkBox'
-
 
 // Схема валидации
 const signUpSchema = z
@@ -52,9 +50,9 @@ type FormData = z.infer<typeof signUpSchema>
 export default function SignUpForm() {
   const [formData, setFormData] = useState<
     Omit<FormData, 'confirmPassword' | 'agreeToTerms'> & {
-    confirmPassword: string
-    agreeToTerms: boolean
-  }
+      confirmPassword: string
+      agreeToTerms: boolean
+    }
   >({
     username: '',
     email: '',

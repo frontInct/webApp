@@ -12,7 +12,7 @@ type Props = ComponentPropsWithRef<'main'> & {
 
 export function PageWrapper({
   className,
-  mt = '36px',
+  mt,
   pr,
   pl,
   direction = 'column',
