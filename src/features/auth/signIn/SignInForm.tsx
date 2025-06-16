@@ -12,19 +12,27 @@ export const SignInForm = () => {
         <div className={s.inputWrapper}>
           <Input
             variant='inputDefault'
-            width={'330px'}
+            id='email'
             label='Email'
+            name='email'
+            placeholder='Epam@epam.com'
+            width={'330px'}
           />
           <Input
             variant='inputWithPasswordToggle'
+            id='password'
             type='password'
-            width={'330px'}
             label='Password'
+            name='password'
+            placeholder='**********'
+            width={'330px'}
             className={s.label}
           />
         </div>
         <Link href='/forgot-password'>Forgot Password</Link>
-        <Button style={{ width: '330px' }}>Sign In</Button>
+        <Link href='/'>
+          <Button style={{ width: '330px' }}>Sign In</Button>
+        </Link>
       </div>
     </>
   )
