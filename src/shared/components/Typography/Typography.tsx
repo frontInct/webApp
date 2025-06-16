@@ -1,5 +1,5 @@
 import { HTMLAttributes, ReactNode } from 'react'
-import styles from './style.module.scss'
+import styles from './Typography.module.scss'
 
 export type TypographyVariant =
   | 'large'
