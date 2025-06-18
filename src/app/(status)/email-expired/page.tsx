@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Header } from '@/widgets/header'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
@@ -18,6 +18,8 @@ export default function EmailExpiredPage() {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const handleResend = async () => {
     setError('')
     setMessage('')
@@ -27,27 +29,37 @@ export default function EmailExpiredPage() {
     if (!validation.success) {
       const errorMessage = validation.error.format().email?._errors[0] || 'Invalid email'
       setError(errorMessage)
+      inputRef.current?.focus()
       return
     }
 
     try {
       setIsLoading(true)
-      const res = await fetch('/api/auth/resend-confirmation-email', {
+      const res = await fetch('https://justmyshots.ru/api/v1/auth/resend-confirmation-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
       })
-
-      if (!res.ok) {
+      if (res.status === 204) {
+        setMessage(`We have sent a link to confirm your email to ${email}`)
+        setEmail('')
+        inputRef.current?.focus()
+      } else if (res.status === 400) {
         const data = await res.json()
-        throw new Error(data.message || 'Failed to resend email')
+        const errorMsg = data.errorsMessages?.[0]?.message || 'Invalid request'
+        setError(errorMsg)
+        inputRef.current?.focus()
+      } else {
+        setError('Unexpected error')
+        inputRef.current?.focus()
       }
-
-      setMessage(`We have sent a link to confirm your email to ${email}`)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+        inputRef.current?.focus()
+      }
     } finally {
       setIsLoading(false)
     }
@@ -57,23 +69,26 @@ export default function EmailExpiredPage() {
     <div className={styles.container}>
       <Header isLoggedIn />
       <div className={styles.mainContent}>
-        <Typography component="h1" variant="H1" className={styles.messageTitle}>
+        <Typography
+          component='h1'
+          variant='H1'
+          className={styles.messageTitle}
+        >
           Email verification link expired
         </Typography>
         <Typography className={styles.messageText}>
           Looks like the verification link has expired. Not to worry, we can send the link again
         </Typography>
-
         <Input
+          ref={inputRef}
           className={styles.messageInput}
-          variant="inputDefault"
-          label="Email"
-          placeholder="Epam@epam.com"
+          variant='inputDefault'
+          label='Email'
+          placeholder='Epam@epam.com'
           value={email}
           onChange={e => setEmail(e.target.value)}
           error={error}
         />
-
         <Button
           className={styles.messageButton}
           onClick={handleResend}
@@ -81,11 +96,7 @@ export default function EmailExpiredPage() {
         >
           Resend verification link
         </Button>
-
-        {message && (
-          <Typography className={styles.successMessage}>{message}</Typography>
-        )}
-
+        {message && <Typography className={styles.successMessage}>{message}</Typography>}
         <ClockImg className={styles.image} />
       </div>
     </div>

@@ -15,27 +15,30 @@ type Story = StoryObj<typeof ModalRadix>
 export const BaseModal: Story = {
   args: {
     modalTitle: 'Заголовок модального окна',
-    children: <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero corporis, nesciunt non ipsam corrupti quasi modi tenetur laboriosam voluptate tempore cumque, deserunt exercitationem facere saepe provident libero debitis temporibus cupiditate.</div>,
+    children: <div>Lorem ipsum dolor...</div>,
   },
   render: (args) => {
-    const [showModal, setShowModal] = useState(false)
+    const ModalWrapper = () => {
+      const [showModal, setShowModal] = useState(false)
+      
+      const openModalHandler = () => setShowModal(true)
+      const closeModalHandler = () => setShowModal(false)
 
-    const openModalHandler = () => setShowModal(true)
-
-    const closeModalHandler = () => setShowModal(false)
-
-    return (
-      <>
-        <Button variant={"primary"} onClick={openModalHandler}> 
-          Open modal
-        </Button>
-        <ModalRadix {...args} open={showModal} onClose={closeModalHandler} modalTitle={"Title"} >
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-          <Button variant={"primary"} onClick={closeModalHandler}>
-            Accept
+      return (
+        <>
+          <Button variant={"primary"} onClick={openModalHandler}> 
+            Open modal
           </Button>
-        </ModalRadix>
-      </>
-    )
+          <ModalRadix {...args} open={showModal} onClose={closeModalHandler}>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+            <Button variant={"primary"} onClick={closeModalHandler}>
+              Accept
+            </Button>
+          </ModalRadix>
+        </>
+      )
+    }
+    
+    return <ModalWrapper />
   },
 }
