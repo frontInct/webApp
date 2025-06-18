@@ -81,7 +81,7 @@ export default function EmailExpiredPage() {
         </Typography>
         <Input
           ref={inputRef}
-          className={styles.messageInput}
+          className={styles.emailInput}
           variant='inputDefault'
           label='Email'
           placeholder='Epam@epam.com'
@@ -90,7 +90,7 @@ export default function EmailExpiredPage() {
           error={error}
         />
         <Button
-          className={styles.messageButton}
+          className={styles.resendButton}
           onClick={handleResend}
           disabled={isLoading}
         >
