@@ -1,15 +1,38 @@
 export type userRegistration = {
+  email: string
+  userName: string
+  password: string
+}
+
+export type userRegistrationResponse = {
   id: string
   email: string
   username: string
   createdAt: string
 }
 
-export type ErrorResponseUR = {
+export type userRegistrationConfirmation = {
+  code: string
+}
+
+export type userResendConfirmationCode = {
+  email: string
+}
+
+export type userLogin = {
+  loginOrEmail: string
+  password: string
+}
+
+export type registrationError = {
   errorsMessages: [
     {
       field: string
       message: string
     },
   ]
+}
+
+export type registrationSuccess = {
+  accessToken: string
 }

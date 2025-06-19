@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Button } from '@/shared/components/button'
-import { LogoutModal } from '../(modals)/logout/page'
+import LogoutModal from '../(modals)/logout/page'
 
 export default function ExamplePage() {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false)
