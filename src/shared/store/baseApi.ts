@@ -4,9 +4,9 @@ import {
   userRegistration,
   userRegistrationConfirmation,
   userResendConfirmationCode,
-} from './baseApi.types'
+} from '../types/api/index'
 
-const BASE_URL = 'https://justmyshots.ru/api/v1#/'
+import { BASE_URL } from '../constants'
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
@@ -42,7 +42,7 @@ export const baseApi = createApi({
         method: 'POST',
         body,
       }),
-    }),
+    }), // затестить логин с baseQuery нужен ли он тут
     logOut: builder.mutation<void, void>({
       query: () => ({
         url: 'auth/logout',

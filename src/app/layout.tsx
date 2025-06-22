@@ -31,12 +31,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={`${inter.variable}`}>
-        <Providers>
+      <Providers>
+        <body className={`${inter.variable}`}>
           {children}
           <Header />
-        </Providers>
-      </body>
+        </body>
+      </Providers>
     </html>
   )
 }

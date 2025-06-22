@@ -23,6 +23,7 @@
     "@radix-ui/react-visually-hidden": "1.2.3",
     "@reduxjs/toolkit": "2.8.2",
     "@svgr/webpack": "8.1.0",
+    "async-mutex": "^0.5.0",
     "clsx": "2.1.1",
     "next": "15.3.2",
     "react": "19.1.0",
