@@ -41,7 +41,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions)
 
   if (
-    result.meta?.request.url === `${BASE_URL}/api/v1/auth/login` &&
+    result.meta?.request.url === `${BASE_URL}/auth/login` &&
     result.meta?.response?.status === 200
   ) {
     const data = result.data as RefreshTokenResponse
@@ -54,7 +54,7 @@ export const baseQueryWithReauth: BaseQueryFn<
       const refreshResult = await baseQuery(
         {
           method: 'POST',
-          url: '/api/v1/auth/refresh-token',
+          url: '/auth/refresh-token',
         },
         api,
         extraOptions
