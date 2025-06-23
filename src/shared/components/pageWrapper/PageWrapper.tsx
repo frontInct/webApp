@@ -30,5 +30,12 @@ export function PageWrapper({
   }
   const styles: CSSProperties = { marginTop: mt, paddingRight: pr, paddingLeft: pl, ...style }
 
-  return <main ref={ref} className={classNames.page} style={styles} {...rest} />
+  return (
+    <main
+      ref={ref}
+      className={classNames.page}
+      style={styles}
+      {...rest}
+    />
+  )
 }

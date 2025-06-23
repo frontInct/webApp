@@ -190,9 +190,7 @@ const meta = {
   parameters: {
     backgrounds: {
       default: 'dark',
-      values: [
-        { name: 'dark', value: '#000000' }, 
-      ],
+      values: [{ name: 'dark', value: '#000000' }],
     },
   },
 } satisfies Meta<typeof Checkbox>
@@ -202,37 +200,37 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  args: {}
+  args: {},
 }
 
 export const DefaultWithLabel: Story = {
   args: {
-    label: 'check-box'
-  }
+    label: 'check-box',
+  },
 }
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-  }
+  },
 }
 
 export const DisabledWithLabel: Story = {
   args: {
     disabled: true,
-    label: 'check-box'
-  }
+    label: 'check-box',
+  },
 }
 
 export const Checked: Story = {
   args: {
     checked: true,
-  }
+  },
 }
 
 export const CheckedAndDisabled: Story = {
   args: {
     checked: true,
     disabled: true,
-  }
+  },
 }

@@ -45,12 +45,12 @@
 
     &:hover:not(:disabled):not(:focus) {
       border-color: var(--color-primary-light-900);
-      color:var(--color-primary-light-100);
+      color: var(--color-primary-light-100);
     }
 
     &:focus:not(:disabled) {
       border-color: var(--color-primary-accent-500);
-      color:var(--color-primary-light-100);
+      color: var(--color-primary-light-100);
     }
 
     &:disabled {
@@ -70,7 +70,7 @@
 
   &.error .input {
     border-color: var(--color-primary-danger-500);
-    color:var(--color-primary-light-100);
+    color: var(--color-primary-light-100);
     &:focus:not(:disabled) {
       border-color: var(--color-primary-accent-700);
     }

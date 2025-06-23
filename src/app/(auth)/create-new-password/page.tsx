@@ -1,8 +1,7 @@
 'use client'
 
-import { CreateNewPassword } from "@/features/auth/password/createNewPassword"
-import { PageWrapper } from "@/shared/components/pageWrapper"
-
+import { CreateNewPassword } from '@/features/auth/password/createNewPassword'
+import { PageWrapper } from '@/shared/components/pageWrapper'
 
 const Page = () => {
   return (

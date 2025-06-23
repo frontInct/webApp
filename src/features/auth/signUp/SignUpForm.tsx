@@ -8,13 +8,12 @@ import { Button } from '@/shared/components/button'
 import { Checkbox } from '@/shared/components/checkBox'
 import { signUpSchema, SignUpFormData } from '@/shared/schemas/forms/signUp'
 
-
 export default function SignUpForm() {
   const [formData, setFormData] = useState<
     Omit<SignUpFormData, 'confirmPassword' | 'agreeToTerms'> & {
-    confirmPassword: string
-    agreeToTerms: boolean
-  }
+      confirmPassword: string
+      agreeToTerms: boolean
+    }
   >({
     username: '',
     email: '',
@@ -30,28 +29,28 @@ export default function SignUpForm() {
   useEffect(() => {
     const validateForm = async () => {
       try {
-        await signUpSchema.parseAsync(formData);
-        setErrors({});
-        setIsValid(true);
+        await signUpSchema.parseAsync(formData)
+        setErrors({})
+        setIsValid(true)
       } catch (error) {
         if (error instanceof z.ZodError) {
-          const newErrors: Record<string, string> = {};
+          const newErrors: Record<string, string> = {}
           error.errors.forEach(err => {
             if (err.path && err.path[0] !== 'agreeToTerms') {
-              newErrors[err.path[0]] = err.message;
+              newErrors[err.path[0]] = err.message
             }
-          });
-          setErrors(newErrors);
-          setIsValid(false);
+          })
+          setErrors(newErrors)
+          setIsValid(false)
         }
       }
-    };
+    }
 
     // Обрабатываем Promise явно (Предотвращение "плавающих" промисов)
-    validateForm().catch((error) => {
-      console.error("Unhandled validation error:", error);
-    });
-  }, [formData]);
+    validateForm().catch(error => {
+      console.error('Unhandled validation error:', error)
+    })
+  }, [formData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target
