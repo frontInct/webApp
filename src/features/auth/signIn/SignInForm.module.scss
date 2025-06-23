@@ -5,20 +5,6 @@
   justify-content: center;
   box-sizing: border-box;
 
-  .inputWrapper {
-    &:last-of-type {
-      margin-bottom: 36px;
-    }
-  }
-
-  .label {
-    margin-top: 24px;
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 171%;
-  }
-
   a {
     align-self: flex-end;
     margin: 0 0 14px 0;
@@ -36,8 +22,47 @@
     }
   }
 
-  // Стили для кнопки
   button {
     margin-top: 10px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+  }
+}
+
+.label {
+  margin-top: 24px;
+  margin-bottom: 36px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 171%;
+}
+
+.linkSignUp {
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-primary-light-100);
+
+  a {
+    margin-top: 12px;
+    color: var(--color-primary-accent-500);
+    text-decoration: none;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-primary-light-100);
+      text-decoration: none;
+    }
   }
 }
