@@ -9,17 +9,19 @@ import GitHubIcon from '@/shared/assets/icons/github-icon.svg'
 
 export default function SignUpPage() {
   return (
-
     <PageWrapper>
       <AuthLayout>
-        <Typography variant='H1' className={s.title}>Sign Up</Typography>
+        <Typography
+          variant='H1'
+          className={s.title}
+        >
+          Sign Up
+        </Typography>
         <div className={s.svgContainer}>
           {<GoogleIcon />} {<GitHubIcon />}
         </div>
-        <SignUpForm/>
+        <SignUpForm />
       </AuthLayout>
     </PageWrapper>
-
-
   )
 }

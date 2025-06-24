@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import '../shared/styles/globals.css'
 import '@radix-ui/themes/styles.css'
 import { Header } from '@/widgets/header'
+import { Providers } from './StoreProvider'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -30,10 +31,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body className={`${inter.variable}`}>
-        {children}
-        <Header />
-      </body>
+      <Providers>
+        <body className={`${inter.variable}`}>
+          {children}
+          <Header />
+        </body>
+      </Providers>
     </html>
   )
 }

@@ -86,7 +86,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
                 if (e.key === 'Enter' || e.key === ' ') togglePasswordVisibility()
               }} // обработчик чтобы пользователь мог управлять элементом с клавиатуры, переключать видимость пароля, нажимая Enter или пробел
             >
-              {showPassword ? <EyeOn /> : <EyeOff/>}
+              {showPassword ? <EyeOn /> : <EyeOff />}
             </span>
           )}
         </div>
