@@ -13,5 +13,10 @@ export const AuthLayout = <T extends ElementType = 'div'>({ as, className, ...re
 
   const Component = as || 'div'
 
-  return <Component className={classNames.authLayout} {...rest} />
+  return (
+    <Component
+      className={classNames.authLayout}
+      {...rest}
+    />
+  )
 }

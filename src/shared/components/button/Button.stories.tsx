@@ -48,23 +48,35 @@ export const ButtonAsLink: Story = {
   args: {
     variant: 'text',
     asChild: true,
-    children: <a href={"https://google.com"}>Link Button</a>
+    children: <a href={'https://google.com'}>Link Button</a>,
   },
 }
 
 export const DisabledStates: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-      <Button variant="primary" disabled>
+      <Button
+        variant='primary'
+        disabled
+      >
         Primary Disabled
       </Button>
-      <Button variant="secondary" disabled>
+      <Button
+        variant='secondary'
+        disabled
+      >
         Secondary Disabled
       </Button>
-      <Button variant="outlined" disabled>
+      <Button
+        variant='outlined'
+        disabled
+      >
         Outlined Disabled
       </Button>
-      <Button variant="text" disabled>
+      <Button
+        variant='text'
+        disabled
+      >
         Text Disabled
       </Button>
     </div>
@@ -81,16 +93,28 @@ export const DisabledStates: Story = {
 export const FocusStates: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-      <Button variant="primary" className="force-focus">
+      <Button
+        variant='primary'
+        className='force-focus'
+      >
         Primary Focus
       </Button>
-      <Button variant="secondary" className="force-focus">
+      <Button
+        variant='secondary'
+        className='force-focus'
+      >
         Secondary Focus
       </Button>
-      <Button variant="outlined" className="force-focus">
+      <Button
+        variant='outlined'
+        className='force-focus'
+      >
         Outlined Focus
       </Button>
-      <Button variant="text" className="force-focus">
+      <Button
+        variant='text'
+        className='force-focus'
+      >
         Text Focus
       </Button>
     </div>

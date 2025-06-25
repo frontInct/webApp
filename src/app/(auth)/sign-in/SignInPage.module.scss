@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .title {
   font-family: var(--font-family);
   font-weight: 700;
@@ -14,6 +15,29 @@
     cursor: pointer;
     transition: transform 0.2s;
     margin: 1rem;
+=======
+.linkSignUp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-primary-light-100);
+
+  a {
+    margin-top: 12px;
+    color: var(--color-primary-accent-500);
+    text-decoration: none;
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    transition: color 0.2s;
+>>>>>>> dev
 
     &:hover {
       transform: scale(1.1);

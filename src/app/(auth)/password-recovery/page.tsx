@@ -1,12 +1,12 @@
 'use client'
 
-import { PasswordRecovery } from "@/features/auth/password/password-recovery"
-import { PageWrapper } from "@/shared/components/pageWrapper"
+import { PasswordRecovery } from '@/features/auth/password/password-recovery'
+import { PageWrapper } from '@/shared/components/pageWrapper'
 
 const Page = () => {
   return (
     <PageWrapper>
-      <PasswordRecovery/>
+      <PasswordRecovery />
     </PageWrapper>
   )
 }
