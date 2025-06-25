@@ -3,19 +3,3 @@
   font-size: 20px;
   line-height: 180%;
 }
-
-.svgContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  svg {
-    cursor: pointer;
-    transition: transform 0.2s;
-    margin: 1rem;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
-}
