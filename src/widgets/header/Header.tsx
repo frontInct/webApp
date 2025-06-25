@@ -5,7 +5,6 @@ import { Button } from '@/shared/components/button'
 import { SelectBox } from '@/shared/components/selectBox'
 import Img from '../../shared/assets/icons/bell.svg'
 
-
 interface HeaderProps {
   isLoggedIn?: boolean
   siteName?: string

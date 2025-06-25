@@ -1,55 +1,16 @@
 'use client'
-
-import React, { useState, useEffect } from 'react'
 import { z } from 'zod'
+import React, { useState, useEffect } from 'react'
 import { Input } from '@/shared/components/input'
 import Link from 'next/link'
 import styles from './SignUpForm.module.scss'
 import { Button } from '@/shared/components/button'
 import { Checkbox } from '@/shared/components/checkBox'
-
-// Схема валидации
-const signUpSchema = z
-  .object({
-    username: z
-      .string()
-      .min(6, 'Minimum number of characters 6')
-      .max(30, 'Maximum number of characters 30')
-      .regex(/^[a-zA-Z0-9_-]+$/, 'Username must contain 0-9, a-z, A-Z'),
-    email: z.string().email('The email must match the format example@example.com'),
-    password: z
-      .string()
-      .min(6, 'Minimum number of characters 6')
-      .max(20, 'Maximum number of characters 20')
-      .regex(
-        /[0-9]/,
-        'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~'
-      )
-      .regex(
-        /[a-z]/,
-        'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~'
-      )
-      .regex(
-        /[A-Z]/,
-        'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~'
-      )
-      .regex(
-        /[!\"#$%&'()*+,-.\/:;<=>?@[\\\]^_`{|}~]/,
-        'Password must contain 0-9, a-z, A-Z, ! " # $ % & \' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ { | } ~'
-      ),
-    confirmPassword: z.string(),
-    agreeToTerms: z.literal(true),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    message: 'Passwords must match',
-    path: ['confirmPassword'],
-  })
-
-type FormData = z.infer<typeof signUpSchema>
+import { signUpSchema, SignUpFormData } from '@/shared/schemas/forms/signUp'
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState<
-    Omit<FormData, 'confirmPassword' | 'agreeToTerms'> & {
+    Omit<SignUpFormData, 'confirmPassword' | 'agreeToTerms'> & {
       confirmPassword: string
       agreeToTerms: boolean
     }
@@ -61,8 +22,8 @@ export default function SignUpForm() {
     agreeToTerms: false,
   })
 
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
-  const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({})
+  const [errors, setErrors] = useState<Partial<Record<keyof SignUpFormData, string>>>({})
+  const [touched, setTouched] = useState<Partial<Record<keyof SignUpFormData, boolean>>>({})
   const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
@@ -85,7 +46,10 @@ export default function SignUpForm() {
       }
     }
 
-    validateForm()
+    // Обрабатываем Promise явно (Предотвращение "плавающих" промисов)
+    validateForm().catch(error => {
+      console.error('Unhandled validation error:', error)
+    })
   }, [formData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,7 +84,7 @@ export default function SignUpForm() {
     }
   }
 
-  const shouldShowError = (field: keyof FormData) => {
+  const shouldShowError = (field: keyof SignUpFormData) => {
     return (
       touched[field] ||
       (formData[field as keyof typeof formData] !== '' &&

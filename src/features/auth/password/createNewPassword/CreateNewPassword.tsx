@@ -1,11 +1,11 @@
 'use client'
 
-import { AuthLayout } from "@/shared/components/authLayout"
-import { Button } from "@/shared/components/button"
-import { Input } from "@/shared/components/input"
-import { Typography } from "@/shared/components/Typography"
-import { useState, useEffect } from "react"
-import { z } from "zod"
+import { AuthLayout } from '@/shared/components/authLayout'
+import { Button } from '@/shared/components/button'
+import { Input } from '@/shared/components/input'
+import { Typography } from '@/shared/components/Typography'
+import { useState, useEffect } from 'react'
+import { z } from 'zod'
 import s from './CreateNewPassword.module.scss'
 
 // Схема валидации для сброса пароля
@@ -99,20 +99,23 @@ export const CreateNewPassword = () => {
 
   return (
     <AuthLayout>
-      <Typography component="h1" variant="H1">
+      <Typography
+        component='h1'
+        variant='H1'
+      >
         Create new Password
       </Typography>
-      <form 
+      <form
         className={s.form}
         onSubmit={handleSubmit}
       >
         <div className={s.inputContainer}>
           <Input
-            variant="inputWithPasswordToggle"
-            type="password"
-            id="new-password"
-            name="newPassword"
-            label="New password"
+            variant='inputWithPasswordToggle'
+            type='password'
+            id='new-password'
+            name='newPassword'
+            label='New password'
             value={formData.newPassword}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -121,11 +124,11 @@ export const CreateNewPassword = () => {
         </div>
         <div className={s.inputContainer}>
           <Input
-            variant="inputWithPasswordToggle"
-            type="password"
-            id="confirm-password"
-            name="confirmPassword"
-            label="Password confirmation"
+            variant='inputWithPasswordToggle'
+            type='password'
+            id='confirm-password'
+            name='confirmPassword'
+            label='Password confirmation'
             value={formData.confirmPassword}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -133,18 +136,18 @@ export const CreateNewPassword = () => {
           />
         </div>
         <div className={s.requirementsBlock}>
-          <Typography 
-            component="p" 
-            variant="regular_text_14" 
+          <Typography
+            component='p'
+            variant='regular_text_14'
             className={s.passwordRequirements}
           >
             Your password must be between 6 and 20 characters
           </Typography>
         </div>
         <div className={s.buttonContainer}>
-          <Button 
-            variant="primary" 
-            type="submit"
+          <Button
+            variant='primary'
+            type='submit'
             disabled={!isValid}
           >
             Create new password

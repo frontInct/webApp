@@ -30,7 +30,7 @@
   }
 
   &::before {
-    content: "";
+    content: '';
     width: 36px;
     height: 36px;
     position: absolute;
@@ -65,12 +65,12 @@
     color: var(--color-primary-light-900);
     border: 2px solid var(--color-primary-light-900);
 
-    &+.label {
+    & + .label {
       color: var(--color-primary-light-900);
     }
   }
 
-  &[data-state="checked"] {
+  &[data-state='checked'] {
     border: 2px solid var(--color-primary-light-100);
     background-color: var(--color-primary-light-100);
     color: var(--color-primary-dark-100);
@@ -81,7 +81,6 @@
       color: var(--color-primary-light-900);
     }
   }
-
 }
 
 .CheckboxIndicator {

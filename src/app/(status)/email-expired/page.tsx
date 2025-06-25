@@ -6,19 +6,18 @@ import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import ClockImg from '@/shared/assets/images/img-with-clock.svg'
 import styles from './EmailExpiredPage.module.scss'
-import { z } from 'zod'
-
-const emailSchema = z.object({
-  email: z.string().email({ message: 'Enter a valid email address' }),
-})
+import { useResendConfirmationCodeMutation } from '@/shared/store/baseApi'
+import { TopLoader } from '@/shared/components/topLoader/TopLoader'
+import { emailSchema } from '@/shared/schemas/emailSchema/emailSchema'
 
 export default function EmailExpiredPage() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const [resendConfirmationCode, { isLoading }] = useResendConfirmationCodeMutation()
 
   const handleResend = async () => {
     setError('')
@@ -34,39 +33,20 @@ export default function EmailExpiredPage() {
     }
 
     try {
-      setIsLoading(true)
-      const res = await fetch('https://justmyshots.ru/api/v1/auth/resend-confirmation-code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      })
-      if (res.status === 204) {
-        setMessage(`We have sent a link to confirm your email to ${email}`)
-        setEmail('')
-        inputRef.current?.focus()
-      } else if (res.status === 400) {
-        const data = await res.json()
-        const errorMsg = data.errorsMessages?.[0]?.message || 'Invalid request'
-        setError(errorMsg)
-        inputRef.current?.focus()
-      } else {
-        setError('Unexpected error')
-        inputRef.current?.focus()
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message)
-        inputRef.current?.focus()
-      }
-    } finally {
-      setIsLoading(false)
+      await resendConfirmationCode({ email }).unwrap()
+      setMessage(`We have sent a link to confirm your email to ${email}`)
+      setEmail('')
+      inputRef.current?.focus()
+    } catch (err: any) {
+      const serverError = err?.data?.errorsMessages?.[0]?.message
+      setError(serverError || 'Unexpected error')
+      inputRef.current?.focus()
     }
   }
 
   return (
     <div className={styles.container}>
+      <TopLoader isActive={isLoading} />
       <Header isLoggedIn />
       <div className={styles.mainContent}>
         <Typography
@@ -94,7 +74,7 @@ export default function EmailExpiredPage() {
           onClick={handleResend}
           disabled={isLoading}
         >
-          Resend verification link
+          {isLoading ? 'Sending...' : 'Resend verification link'}
         </Button>
         {message && <Typography className={styles.successMessage}>{message}</Typography>}
         <ClockImg className={styles.image} />
