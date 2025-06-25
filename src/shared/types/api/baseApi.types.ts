@@ -1,6 +1,6 @@
 export type userRegistration = {
   email: string
-  userName: string
+  username: string
   password: string
 }
 
