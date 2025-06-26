@@ -4,8 +4,7 @@ import { AuthLayout } from '@/shared/components/authLayout'
 import SignUpForm from '@/features/auth/signUp/SignUpForm'
 import s from '@/app/(auth)/sign-up/SignUp.module.scss'
 import { Typography } from '@/shared/components/Typography'
-import GoogleIcon from '@/shared/assets/icons/google-icon.svg'
-import GitHubIcon from '@/shared/assets/icons/github-icon.svg'
+import YandexAuth from '@/shared/components/YandexAuth/YandexAuth'
 
 export default function SignUpPage() {
   return (
@@ -17,9 +16,7 @@ export default function SignUpPage() {
         >
           Sign Up
         </Typography>
-        <div className={s.svgContainer}>
-          {<GoogleIcon />} {<GitHubIcon />}
-        </div>
+        <YandexAuth />
         <SignUpForm />
       </AuthLayout>
     </PageWrapper>
