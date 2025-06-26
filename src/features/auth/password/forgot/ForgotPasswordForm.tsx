@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import { Typography } from '@/shared/components/Typography'
@@ -5,8 +7,8 @@ import s from './ForgotPasswordForm.module.scss'
 import { useEffect, useState } from 'react'
 import { ForgotPasswordData, forgotPasswordSchema } from '@/shared/schemas/forms/forgotPassword'
 import { z } from 'zod'
-import { Checkbox } from '@/shared/components/checkBox'
 import Link from 'next/link'
+import ReCaptcha from 'react-google-recaptcha'
 
 export const ForgotPasswordForm = () => {
   const [formData, setFormData] = useState<ForgotPasswordData>({ email: '' })
@@ -73,6 +75,10 @@ export const ForgotPasswordForm = () => {
     console.log('Email sand')
   }
 
+  const onChange = () => {
+    console.log('Captcha value:')
+  }
+
   if (isSubmitted) {
     return (
       <div>
@@ -126,7 +132,10 @@ export const ForgotPasswordForm = () => {
   return (
     <>
       <div>
-        <form onSubmit={handlerSubmit} className={s.form}>
+        <form
+          onSubmit={handlerSubmit}
+          className={s.form}
+        >
           <Input
             variant='inputDefault'
             type='email'
@@ -163,9 +172,12 @@ export const ForgotPasswordForm = () => {
               <Link href='/sign-in'>Back to Sign In</Link>
             </Button>
           </div>
-          <div className={s.reCaptcha}>
-            <Checkbox label={"I'm not a robot"} />
-          </div>
+          <ReCaptcha
+            size='normal'
+            sitekey={'<SITE KEY>'}
+            onChange={onChange}
+            theme='dark'
+          />
         </form>
       </div>
     </>
