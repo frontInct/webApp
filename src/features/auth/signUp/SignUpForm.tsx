@@ -29,7 +29,6 @@ export default function SignUpForm() {
   const [isValid, setIsValid] = useState(false)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [successEmail, setSuccessEmail] = useState<string>('')
-
   const [registration, { isLoading }] = useRegistrationMutation()
 
   useEffect(() => {
@@ -41,11 +40,12 @@ export default function SignUpForm() {
       } catch (error) {
         if (error instanceof z.ZodError) {
           const newErrors: Record<string, string> = {}
-          error.errors.forEach(err => {
-            if (err.path && err.path[0] !== 'agreeToTerms') {
-              newErrors[err.path[0]] = err.message
+          for (const err of error.errors) {
+            const field = err.path[0] as keyof SignUpFormData
+            if (!newErrors[field]) {
+              newErrors[field] = err.message
             }
-          })
+          }
           setErrors(newErrors)
           setIsValid(false)
         }
@@ -81,16 +81,13 @@ export default function SignUpForm() {
 
     try {
       const validatedData = signUpSchema.parse(formData)
-
       await registration({
         email: validatedData.email,
         username: validatedData.username,
         password: validatedData.password,
       }).unwrap()
-
       setSuccessEmail(validatedData.email)
       setIsSuccessModalOpen(true)
-
       setFormData({
         username: '',
         email: '',
@@ -111,21 +108,18 @@ export default function SignUpForm() {
         setErrors(newErrors)
         return
       }
-
       if (err?.data) {
-        if (Array.isArray(err.data.errorsMessages)) {
-          const serverErrors: Partial<Record<keyof SignUpFormData, string>> = {}
-          err.data.errorsMessages.forEach(({ field, message }: { field: string; message: string }) => {
+        const serverErrors: Partial<Record<keyof SignUpFormData, string>> = {}
+        const mapServerError = (field: string, message: string): string => {
+          if (field === 'username') return 'This username is already taken'
+          if (field === 'email') return 'This email is already registered'
+          return message
+        }
+        const errorsArray = err.data.errorsMessages || err.data.errors
+        if (Array.isArray(errorsArray)) {
+          errorsArray.forEach(({ field, message }: { field: string; message: string }) => {
             if (field === 'email' || field === 'username') {
-              serverErrors[field as keyof SignUpFormData] = message
-            }
-          })
-          setErrors(serverErrors)
-        } else if (Array.isArray(err.data.errors)) {
-          const serverErrors: Partial<Record<keyof SignUpFormData, string>> = {}
-          err.data.errors.forEach(({ field, message }: { field: string; message: string }) => {
-            if (field === 'email' || field === 'username') {
-              serverErrors[field as keyof SignUpFormData] = message
+              serverErrors[field as keyof SignUpFormData] = mapServerError(field, message)
             }
           })
           setErrors(serverErrors)
@@ -135,97 +129,113 @@ export default function SignUpForm() {
   }
 
   const shouldShowError = (field: keyof SignUpFormData) => {
+    const value = formData[field]
+    if (typeof value === 'string') {
+      return Boolean(touched[field] && errors[field] && value.trim() !== '')
+    }
     return Boolean(touched[field] && errors[field])
   }
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.formWrapper}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.formWrapper}
+      >
         <div className={styles.content}>
           <Input
-            variant="inputDefault"
-            name="username"
+            variant='inputDefault'
+            name='username'
             value={formData.username}
             onChange={handleChange}
             onBlur={handleBlur}
-            label="Username"
+            label='Username'
             error={shouldShowError('username') ? errors.username : undefined}
-            width="100%"
+            width='100%'
           />
-
           <Input
-            variant="inputDefault"
-            type="email"
-            name="email"
+            variant='inputDefault'
+            type='email'
+            name='email'
             value={formData.email}
             onChange={handleChange}
             onBlur={handleBlur}
-            label="Email"
+            label='Email'
             error={shouldShowError('email') ? errors.email : undefined}
-            width="100%"
+            width='100%'
           />
-
           <Input
-            variant="inputWithPasswordToggle"
-            type="password"
-            name="password"
+            variant='inputWithPasswordToggle'
+            type='password'
+            name='password'
             value={formData.password}
             onChange={handleChange}
             onBlur={handleBlur}
-            label="Password"
+            label='Password'
             error={shouldShowError('password') ? errors.password : undefined}
-            width="100%"
+            width='100%'
           />
-
           <Input
-            variant="inputWithPasswordToggle"
-            type="password"
-            name="confirmPassword"
+            variant='inputWithPasswordToggle'
+            type='password'
+            name='confirmPassword'
             value={formData.confirmPassword}
             onChange={handleChange}
             onBlur={handleBlur}
-            label="Password confirmation"
+            label='Password confirmation'
             error={shouldShowError('confirmPassword') ? errors.confirmPassword : undefined}
-            width="100%"
+            width='100%'
           />
-
           <Checkbox
             checked={formData.agreeToTerms}
             onCheckedChange={handleCheckboxChange}
             label={
               <>
                 I agree to the{' '}
-                <Link href="/terms-of-service" className={styles.link}>
+                <Link
+                  href='/terms-of-service'
+                  className={styles.link}
+                >
                   Terms of Service
                 </Link>{' '}
                 and{' '}
-                <Link href="/privacy-policy" className={styles.link}>
+                <Link
+                  href='/privacy-policy'
+                  className={styles.link}
+                >
                   Privacy Policy
                 </Link>
               </>
             }
           />
-
-          <Button type="submit" variant="primary" disabled={!isValid || isLoading} className="mt-4">
+          <Button
+            type='submit'
+            variant='primary'
+            disabled={!isValid || isLoading}
+            className='mt-4'
+          >
             {isLoading ? 'Signing up...' : 'Sign Up'}
           </Button>
-
           <span className={styles.questionText}>Do you have an account?</span>
-
-          <Button asChild variant="text">
-            <Link href="/sign-in">Sign In</Link>
+          <Button
+            asChild
+            variant='text'
+          >
+            <Link href='/sign-in'>Sign In</Link>
           </Button>
         </div>
       </form>
-
       <ModalRadix
         open={isSuccessModalOpen}
         onClose={() => setIsSuccessModalOpen(false)}
-        modalTitle="Email sent"
-        size="sm"
+        modalTitle='Email sent'
+        size='sm'
       >
-        <p className="mb-4">We have sent a link to confirm your email to {successEmail}</p>
-        <Button onClick={() => setIsSuccessModalOpen(false)} variant="primary">
+        <p className='mb-4'>We have sent a link to confirm your email to {successEmail}</p>
+        <Button
+          onClick={() => setIsSuccessModalOpen(false)}
+          variant='primary'
+        >
           OK
         </Button>
       </ModalRadix>
