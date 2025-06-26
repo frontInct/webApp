@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainContent {
+  padding-top: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.messageText {
+  padding: 19px 0px 30px 0px;
+  text-align: center;
+  width: 294px;
+  line-height: 24px;
+  letter-spacing: 0%;
+}
+
+.emailInput {
+  margin-bottom: 24px;
+  width: 229px;
+}
+
+.resendButton {
+  width: 229px;
+  height: 36px;
+}
+
+.image {
+  margin-top: 36px;
+  width: 473px;
+  height: 352px;
+}
+
+.successMessage {
+  margin-top: 16px;
+  color: var(--color-primary-accent-500);
+  text-align: center;
+}
