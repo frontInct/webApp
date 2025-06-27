@@ -49,6 +49,13 @@ export const baseApi = createApi({
         method: 'POST',
       }),
     }),
+    forgotPassword: builder.mutation<void, { code: string; password: string }>({
+      query: body => ({
+        url: 'auth/forgot-password',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 })
 
@@ -58,4 +65,5 @@ export const {
   useResendConfirmationCodeMutation,
   useLoginMutation,
   useLogOutMutation,
+  useForgotPasswordMutation
 } = baseApi
