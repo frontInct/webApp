@@ -37,7 +37,7 @@ type FormData = z.infer<typeof resetPasswordSchema>
 // Определяем тип ошибки API
 type ApiError = {
   data?: {
-    errorsMessages?: Array<{ field?: string; message: string }>
+    errors?: Array<{ field?: string; message: string }>
     message?: string
   }
   status?: number
@@ -111,7 +111,7 @@ export const CreateNewPassword = () => {
       router.push('/login')
     } catch (err: unknown) {
       if (isApiError(err)) {
-        const backendErrors = err.data?.errorsMessages || []
+        const backendErrors = err.data?.errors || []
         const invalidCode = backendErrors.some(m =>
           ['Invalid or expired code', 'Invalid or expired token'].includes(m.message)
         )
