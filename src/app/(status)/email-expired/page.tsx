@@ -8,7 +8,7 @@ import ClockImg from '@/shared/assets/images/img-with-clock.svg'
 import styles from './EmailExpiredPage.module.scss'
 import { useResendConfirmationCodeMutation } from '@/shared/store/baseApi'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
-import { emailSchema } from '@/shared/schemas/emailSchema/emailSchema'
+import { emailSchema } from '@/shared/schemas/primitives/email'
 
 export default function EmailExpiredPage() {
   const [email, setEmail] = useState('')
