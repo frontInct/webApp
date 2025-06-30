@@ -72,7 +72,7 @@ export const CreateNewPassword = () => {
     }
     try {
       await forgotPassword({ code, password: data.newPassword }).unwrap()
-      // router.push('/login')
+      router.push('/login')
     } catch (err: unknown) {
       if (isApiError(err)) {
         const backendErrors = err.data?.errors || []
