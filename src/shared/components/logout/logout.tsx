@@ -24,11 +24,11 @@ export default function LogoutModal({ open, onClose, email }: Props) {
       await logOut().unwrap()
     } catch (err) {
       console.error('Logout failed:', err)
-      alert('Logout failed. Please try again.')
+      //alert('Logout failed. Please try again.')
     } finally {
       localStorage.removeItem(TOKEN)
-      onClose(false) // закрыть модалку
-      router.push('/sign-in') // или PublicPages.signIn
+      onClose(false)
+      router.push('/sign-in')
     }
   }, [logOut, router, onClose])
 
