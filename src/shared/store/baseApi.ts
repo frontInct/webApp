@@ -3,6 +3,7 @@ import {
   userLogin,
   userRegistration,
   userRegistrationConfirmation,
+  userRegistrationResponse,
   userResendConfirmationCode,
 } from '../types/api/index'
 
@@ -13,8 +14,8 @@ export const baseApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: builder => ({
     registration: builder.mutation<
-      userRegistration,
-      { email: string; userName: string; password: string }
+      userRegistrationResponse,
+      userRegistration
     >({
       query: credentials => ({
         url: 'auth/registration',

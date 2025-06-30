@@ -10,26 +10,17 @@ import { Typography } from '@/shared/components/Typography'
 import { useForgotPasswordMutation } from '@/shared/store/baseApi'
 import s from './CreateNewPassword.module.scss'
 import { ModalRadix } from '@/shared/components/cards'
+import { passwordSchema } from '@/shared/schemas/primitives/password'
 
 // Схема валидации пароля
 const resetPasswordSchema = z
   .object({
-    newPassword: z
-      .string()
-      .min(6, 'Password must be at least 6 characters')
-      .max(20, 'Password cannot exceed 20 characters')
-      .regex(/[0-9]/, 'Password must contain at least one number (0-9)')
-      .regex(/[a-z]/, 'Password must contain at least one lowercase letter (a-z)')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter (A-Z)')
-      .regex(
-        /[!\"#$%&'()*+,-.\/:;<=>?@[\\\]^_`{|}~]/,
-        'Password must contain at least one special character (!@#$%^&*)'
-      ),
+    newPassword: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine(data => data.newPassword === data.confirmPassword, {
-    message: 'Passwords must match',
     path: ['confirmPassword'],
+    message: 'Passwords must match',
   })
 
 type FormData = z.infer<typeof resetPasswordSchema>
