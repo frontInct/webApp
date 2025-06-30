@@ -52,7 +52,8 @@ export const baseApi = createApi({
     }),
     forgotPassword: builder.mutation<void, { code: string; password: string }>({
       query: body => ({
-        url: 'auth/forgot-password',
+        url: 'http://178.20.41.242:9000/api/v1/auth/forgot-password',
+        // url: 'auth/forgot-password',
         method: 'POST',
         body,
       }),

@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 import { AuthLayout } from '@/shared/components/authLayout'
@@ -11,8 +10,10 @@ import { useForgotPasswordMutation } from '@/shared/store/baseApi'
 import s from './CreateNewPassword.module.scss'
 import { ModalRadix } from '@/shared/components/cards'
 import { passwordSchema } from '@/shared/schemas/primitives/password'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 
-// Схема валидации пароля
 const resetPasswordSchema = z
   .object({
     newPassword: passwordSchema,
@@ -25,7 +26,6 @@ const resetPasswordSchema = z
 
 type FormData = z.infer<typeof resetPasswordSchema>
 
-// Определяем тип ошибки API
 type ApiError = {
   data?: {
     errors?: Array<{ field?: string; message: string }>
@@ -34,13 +34,12 @@ type ApiError = {
   status?: number
 }
 
-// Type guard для проверки, что объект — ApiError
 function isApiError(obj: unknown): obj is ApiError {
   return (
     typeof obj === 'object' &&
     obj !== null &&
     'data' in obj &&
-    (typeof (obj as any).data === 'object' || typeof (obj as any).data === 'undefined')
+    (typeof (obj as Record<string, unknown>).data === 'object' || typeof (obj as Record<string, unknown>).data === 'undefined')
   )
 }
 
@@ -49,57 +48,31 @@ export const CreateNewPassword = () => {
   const searchParams = useSearchParams()
   const code = searchParams.get('code') ?? ''
 
-  const [formData, setFormData] = useState<FormData>({
-    newPassword: '',
-    confirmPassword: '',
-  })
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
-  const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({})
-  const [isValid, setIsValid] = useState(false)
   const [showTokenErrorModal, setShowTokenErrorModal] = useState(false)
-
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation()
 
-  // Валидация формы
-  useEffect(() => {
-    const validateForm = async () => {
-      try {
-        await resetPasswordSchema.parseAsync(formData)
-        setErrors({})
-        setIsValid(true)
-      } catch (error) {
-        if (error instanceof z.ZodError) {
-          const newErrors: Record<string, string> = {}
-          error.errors.forEach(err => {
-            const field = err.path[0] as keyof FormData
-            if (!newErrors[field]) newErrors[field] = err.message
-          })
-          setErrors(newErrors)
-          setIsValid(false)
-        }
-      }
-    }
-    validateForm()
-  }, [formData])
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, touchedFields, isSubmitting },
+    watch,
+  } = useForm<FormData>({
+    resolver: zodResolver(resetPasswordSchema),
+    mode: 'onChange',
+    defaultValues: {
+      newPassword: '',
+      confirmPassword: '',
+    },
+  })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-    setTouched(prev => ({ ...prev, [name]: true }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: FormData) => {
     if (!code) {
       setShowTokenErrorModal(true)
       return
     }
-
-    if (!isValid) return
-
     try {
-      await forgotPassword({ code, password: formData.newPassword }).unwrap()
-      router.push('/login')
+      await forgotPassword({ code, password: data.newPassword }).unwrap()
+      // router.push('/login')
     } catch (err: unknown) {
       if (isApiError(err)) {
         const backendErrors = err.data?.errors || []
@@ -111,16 +84,16 @@ export const CreateNewPassword = () => {
           return
         }
         if (err.data?.message === 'Passwords must match') {
-          // Здесь можно добавить отображение ошибки, если нужно
+          // Можно показать ошибку через setError, если нужно
           return
         }
       }
-      // Можно добавить обработку других ошибок или показать общее сообщение
+      // Общая обработка ошибок, если нужно
     }
   }
 
   const shouldShowError = (field: keyof FormData) =>
-    touched[field] || formData[field].length > 0
+    (touchedFields[field] || !!watch(field)) && errors[field]?.message
 
   const handleModalClose = () => {
     setShowTokenErrorModal(false)
@@ -129,54 +102,60 @@ export const CreateNewPassword = () => {
 
   return (
     <AuthLayout>
-      <Typography component='h1' variant='H1'>
+      <Typography
+        component='h1'
+        variant='H1'
+      >
         Create New Password
       </Typography>
-      <form className={s.form} onSubmit={handleSubmit} noValidate>
+      <form
+        className={s.form}
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div className={s.inputContainer}>
           <Input
+            {...register('newPassword')}
             variant='inputWithPasswordToggle'
             type='password'
             id='new-password'
-            name='newPassword'
             label='New password'
-            value={formData.newPassword}
-            onChange={handleChange}
-            onBlur={() => setTouched(prev => ({ ...prev, newPassword: true }))}
-            error={shouldShowError('newPassword') ? errors.newPassword : undefined}
-            disabled={isLoading}
+            error={shouldShowError('newPassword') ? errors.newPassword?.message : undefined}
+            disabled={isSubmitting}
             autoComplete='new-password'
           />
         </div>
         <div className={s.inputContainer}>
           <Input
+            {...register('confirmPassword')}
             variant='inputWithPasswordToggle'
             type='password'
             id='confirm-password'
-            name='confirmPassword'
             label='Confirm password'
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            onBlur={() => setTouched(prev => ({ ...prev, confirmPassword: true }))}
-            error={shouldShowError('confirmPassword') ? errors.confirmPassword : undefined}
-            disabled={isLoading}
+            error={shouldShowError('confirmPassword') ? errors.confirmPassword?.message : undefined}
+            disabled={isSubmitting}
             autoComplete='new-password'
           />
         </div>
-
         <div className={s.requirementsBlock}>
-          <Typography component='p' variant='regular_text_14' className={s.passwordRequirements}>
+          <Typography
+            component='p'
+            variant='regular_text_14'
+            className={s.passwordRequirements}
+          >
             Your password must be between 6 and 20 characters
           </Typography>
         </div>
-
         <div className={s.buttonContainer}>
-          <Button variant='primary' type='submit' disabled={!isValid || isLoading}>
-            {isLoading ? 'Saving...' : 'Create new password'}
+          <Button
+            variant='primary'
+            type='submit'
+            disabled={!isValid || isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Create new password'}
           </Button>
         </div>
       </form>
-
       <ModalRadix
         open={showTokenErrorModal}
         onClose={handleModalClose}
@@ -184,10 +163,16 @@ export const CreateNewPassword = () => {
         size='sm'
       >
         <div style={{ padding: '16px' }}>
-          <Typography component='p' variant='regular_text_16'>
+          <Typography
+            component='p'
+            variant='regular_text_16'
+          >
             Your password reset link is invalid or expired.
           </Typography>
-          <Button style={{ marginTop: '16px' }} onClick={handleModalClose}>
+          <Button
+            style={{ marginTop: '16px' }}
+            onClick={handleModalClose}
+          >
             Go to reset form
           </Button>
         </div>
