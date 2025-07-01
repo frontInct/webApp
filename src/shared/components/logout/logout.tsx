@@ -4,8 +4,10 @@ import styles from './logout.module.scss'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
 import { ModalRadix } from '@/shared/components/cards'
+import { TOKEN } from '@/shared/constants'
 import { useLogOutMutation } from '@/shared/store/baseApi'
 import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
 
 type Props = {
   open: boolean
@@ -14,36 +16,22 @@ type Props = {
 }
 
 export default function LogoutModal({ open, onClose, email }: Props) {
-  // const handleLogout = async () => {
-  //   try {
-  //     await fetch('/api/auth/logout', { method: 'DELETE' })
-  //     // localStorage.removeItem('token')
-  //     window.location.href = '/sign-in' // поменять на navigate?
-  //   } catch (error) {
-  //     console.error('Logout failed:', error)
-  //   }
-  // }
-  // *********************************
-  const [logout] = useLogOutMutation()
+  const [logOut] = useLogOutMutation()
   const router = useRouter()
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
-      await logout().unwrap()
-      // Очистка данных
-      localStorage.removeItem('accessToken')
-      sessionStorage.clear()
-
-      // Редирект
-      router.push('/sign-in')
-      router.refresh() // Для Next.js 13+
-    } catch (error) {
-      console.error('Logout failed:', error)
-      // Можно добавить toast-уведомление об ошибке
+      await logOut().unwrap()
+    } catch (err) {
+      console.error('Logout failed:', err)
+      //alert('Logout failed. Please try again.')
     } finally {
+      localStorage.removeItem(TOKEN)
       onClose(false)
+      router.push('/sign-in')
     }
-  }
+  }, [logOut, router, onClose])
+
   return (
     <ModalRadix
       open={open}
