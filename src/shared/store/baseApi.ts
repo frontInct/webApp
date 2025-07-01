@@ -48,15 +48,19 @@ export const baseApi = createApi({
         method: 'POST',
       }),
     }),
-<<<<<<< HEAD
-    passwordRecovery: builder.mutation<userPasswordRecovery, { email: string; recaptchaToken: string }>({
+    passwordRecovery: builder.mutation<
+      userPasswordRecovery,
+      { email: string; recaptchaToken: string }
+    >({
       query: body => ({
         url: 'auth/password-recovery',
-=======
+        method: 'POST',
+        body,
+      }),
+    }),
     forgotPassword: builder.mutation<void, { code: string; password: string }>({
       query: body => ({
         url: 'auth/forgot-password',
->>>>>>> dev
         method: 'POST',
         body,
       }),
@@ -70,9 +74,6 @@ export const {
   useResendConfirmationCodeMutation,
   useLoginMutation,
   useLogOutMutation,
-<<<<<<< HEAD
   usePasswordRecoveryMutation,
-=======
-  useForgotPasswordMutation
->>>>>>> dev
+  useForgotPasswordMutation,
 } = baseApi
