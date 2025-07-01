@@ -4,19 +4,23 @@ import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import { Typography } from '@/shared/components/Typography'
 import s from './ForgotPasswordForm.module.scss'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ForgotPasswordData, forgotPasswordSchema } from '@/shared/schemas/forms/forgotPassword'
 import { z } from 'zod'
 import Link from 'next/link'
 import ReCaptcha from 'react-google-recaptcha'
+import { usePasswordRecoveryMutation } from '@/shared/store/baseApi'
 
 export const ForgotPasswordForm = () => {
-  const [formData, setFormData] = useState<ForgotPasswordData>({ email: '' })
+  const [formData, setFormData] = useState<ForgotPasswordData>({ email: '', recaptchaToken: '' })
   const [errors, setErrors] = useState<Partial<Record<keyof ForgotPasswordData, string>>>({})
   const [touched, setTouched] = useState<Partial<Record<keyof ForgotPasswordData, boolean>>>({})
   const [isValid, setIsValid] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [passwordRecovery] = usePasswordRecoveryMutation()
+
+  const recaptchaRef = useRef<ReCaptcha>(null)
 
   useEffect(() => {
     const validateForm = async () => {
@@ -46,17 +50,36 @@ export const ForgotPasswordForm = () => {
     }))
   }
 
-  const handlerSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!isValid) return
+    const validatedData = forgotPasswordSchema.safeParse(formData)
+    if (!validatedData.success) {
+      const newErrors: Record<string, string> = {}
+      validatedData.error.errors.forEach(e => {
+        newErrors[e.path[0]] = e.message
+      })
+      setErrors(newErrors)
+      return
+    }
+
     try {
       setIsLoading(true)
-      // await API call
+      await passwordRecovery({
+        email: formData.email,
+        recaptchaToken: formData.recaptchaToken,
+      }).unwrap()
       setIsSubmitted(true)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      // API error
-      setErrors({ email: 'Failed to send link. Please try again.' })
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        const newErrors: Record<string, string> = {}
+        err.errors.forEach(e => {
+          if (e.path && e.path[0] !== 'agreeToTerms') {
+            newErrors[e.path[0]] = e.message
+          }
+        })
+        setIsValid(false)
+        setErrors(newErrors)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -75,8 +98,15 @@ export const ForgotPasswordForm = () => {
     console.log('Email sand')
   }
 
-  const onChange = () => {
-    console.log('Captcha value:')
+  const onChange = (token: string | null) => {
+    setFormData(prev => ({
+      ...prev,
+      recaptchaToken: token || '',
+    }))
+  }
+
+  const handleExpired = () => {
+    setIsValid(false)
   }
 
   if (isSubmitted) {
@@ -133,7 +163,7 @@ export const ForgotPasswordForm = () => {
     <>
       <div>
         <form
-          onSubmit={handlerSubmit}
+          onSubmit={handleSubmit}
           className={s.form}
         >
           <Input
@@ -174,9 +204,11 @@ export const ForgotPasswordForm = () => {
           </div>
           <ReCaptcha
             size='normal'
-            sitekey={'<SITE KEY>'}
-            onChange={onChange}
             theme='dark'
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}
+            onChange={onChange}
+            ref={recaptchaRef}
+            onExpired={handleExpired}
           />
         </form>
       </div>

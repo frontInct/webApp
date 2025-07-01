@@ -1,6 +1,8 @@
 import { z } from 'zod'
+import { emailSchema } from '../primitives/email'
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().email('The email must match the format example@example.com'),
+  email: emailSchema.shape.email,
+  recaptchaToken: z.string().min(1)
 })
 export type ForgotPasswordData = z.infer<typeof forgotPasswordSchema>

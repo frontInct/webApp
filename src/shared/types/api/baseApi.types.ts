@@ -36,3 +36,8 @@ export type registrationError = {
 export type registrationSuccess = {
   accessToken: string
 }
+
+export type userPasswordRecovery = {
+  email: string
+  recaptchaToken: string
+}

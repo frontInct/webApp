@@ -97,6 +97,7 @@ export default function SignUpForm() {
       })
       setIsValid(false)
       setTouched({})
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       if (err instanceof z.ZodError) {
         const newErrors: Record<string, string> = {}
