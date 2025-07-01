@@ -30,7 +30,7 @@ export function useCreateNewPasswordForm() {
     },
   })
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<FormData> = async data => {
     if (!code) {
       setShowTokenErrorModal(true)
       return
@@ -41,8 +41,10 @@ export function useCreateNewPasswordForm() {
     } catch (err: unknown) {
       if (isApiError(err)) {
         const backendErrors = err.data?.errors || []
-        const invalidCode = backendErrors.some(m =>
-          ['Invalid or expired code', 'Invalid or expired token'].includes(m.message)
+        const invalidCode = backendErrors.some(
+          e =>
+            e.field === 'code' &&
+            (e.message.includes('валидным UUID') || e.message.includes('Invalid or expired'))
         )
         if (invalidCode) {
           setShowTokenErrorModal(true)
