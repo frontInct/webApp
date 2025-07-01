@@ -1,107 +1,32 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import { z } from 'zod'
 import { AuthLayout } from '@/shared/components/authLayout'
 import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import { Typography } from '@/shared/components/Typography'
-import { useForgotPasswordMutation } from '@/shared/store/baseApi'
-import s from './CreateNewPassword.module.scss'
 import { ModalRadix } from '@/shared/components/cards'
-import { passwordSchema } from '@/shared/schemas/primitives/password'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-
-const resetPasswordSchema = z
-  .object({
-    newPassword: passwordSchema,
-    confirmPassword: z.string(),
-  })
-  .refine(data => data.newPassword === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Passwords must match',
-  })
-
-type FormData = z.infer<typeof resetPasswordSchema>
-
-type ApiError = {
-  data?: {
-    errors?: Array<{ field?: string; message: string }>
-    message?: string
-  }
-  status?: number
-}
-
-function isApiError(obj: unknown): obj is ApiError {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    'data' in obj &&
-    (typeof (obj as Record<string, unknown>).data === 'object' || typeof (obj as Record<string, unknown>).data === 'undefined')
-  )
-}
+import { TopLoader } from '@/shared/components/topLoader/TopLoader'
+import s from './CreateNewPassword.module.scss'
+import { shouldShowError } from '@/shared/utils/forms/shouldShowError'
+import { useCreateNewPasswordForm } from '@/shared/hooks/useCreateNewPasswordForm'
 
 export const CreateNewPassword = () => {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const code = searchParams.get('code') ?? ''
-
-  const [showTokenErrorModal, setShowTokenErrorModal] = useState(false)
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation()
-
   const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid, touchedFields, isSubmitting },
-    watch,
-  } = useForm<FormData>({
-    resolver: zodResolver(resetPasswordSchema),
-    mode: 'onChange',
-    defaultValues: {
-      newPassword: '',
-      confirmPassword: '',
+    form: {
+      register,
+      handleSubmit,
+      formState: { errors, isValid, touchedFields, isSubmitting },
+      watch,
     },
-  })
-
-  const onSubmit = async (data: FormData) => {
-    if (!code) {
-      setShowTokenErrorModal(true)
-      return
-    }
-    try {
-      await forgotPassword({ code, password: data.newPassword }).unwrap()
-      router.push('/login')
-    } catch (err: unknown) {
-      if (isApiError(err)) {
-        const backendErrors = err.data?.errors || []
-        const invalidCode = backendErrors.some(m =>
-          ['Invalid or expired code', 'Invalid or expired token'].includes(m.message)
-        )
-        if (invalidCode) {
-          setShowTokenErrorModal(true)
-          return
-        }
-        if (err.data?.message === 'Passwords must match') {
-          // Можно показать ошибку через setError, если нужно
-          return
-        }
-      }
-      // Общая обработка ошибок, если нужно
-    }
-  }
-
-  const shouldShowError = (field: keyof FormData) =>
-    (touchedFields[field] || !!watch(field)) && errors[field]?.message
-
-  const handleModalClose = () => {
-    setShowTokenErrorModal(false)
-    router.push('/forgot-password')
-  }
+    onSubmit,
+    showTokenErrorModal,
+    handleModalClose,
+    isLoading,
+  } = useCreateNewPasswordForm()
 
   return (
     <AuthLayout>
+      <TopLoader isActive={isLoading} />
       <Typography
         component='h1'
         variant='H1'
@@ -120,7 +45,11 @@ export const CreateNewPassword = () => {
             type='password'
             id='new-password'
             label='New password'
-            error={shouldShowError('newPassword') ? errors.newPassword?.message : undefined}
+            error={
+              shouldShowError('newPassword', touchedFields, errors, watch)
+                ? errors.newPassword?.message
+                : undefined
+            }
             disabled={isSubmitting}
             autoComplete='new-password'
           />
@@ -132,7 +61,11 @@ export const CreateNewPassword = () => {
             type='password'
             id='confirm-password'
             label='Confirm password'
-            error={shouldShowError('confirmPassword') ? errors.confirmPassword?.message : undefined}
+            error={
+              shouldShowError('confirmPassword', touchedFields, errors, watch)
+                ? errors.confirmPassword?.message
+                : undefined
+            }
             disabled={isSubmitting}
             autoComplete='new-password'
           />
