@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForgotPasswordMutation } from '@/shared/store/baseApi'
 import { resetPasswordSchema } from '@/shared/schemas/forms/reserPassword'
@@ -29,6 +29,12 @@ export function useCreateNewPasswordForm() {
       confirmPassword: '',
     },
   })
+
+  const newPassword = form.watch('newPassword')
+
+  useEffect(() => {
+    form.trigger('confirmPassword')
+  }, [newPassword, form])
 
   const onSubmit: SubmitHandler<FormData> = async data => {
     if (!code) {

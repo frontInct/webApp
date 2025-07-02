@@ -12,7 +12,9 @@ export const signUpSchema = z
     email: emailSchema.shape.email,
     password: passwordSchema,
     confirmPassword: z.string(),
-    agreeToTerms: z.literal(true),
+    agreeToTerms: z.boolean().refine(val => val === true, {
+  message: 'You must agree to terms',
+}),
   })
   .refine(data => data.password === data.confirmPassword, {
     message: 'Passwords must match',
