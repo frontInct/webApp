@@ -10,6 +10,10 @@ import { useResendConfirmationCodeMutation } from '@/shared/store/baseApi'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
 import { emailSchema } from '@/shared/schemas/primitives/email'
 
+type ServerError = {
+  error?: string
+}
+
 export default function EmailExpiredPage() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
@@ -37,9 +41,23 @@ export default function EmailExpiredPage() {
       setMessage(`We have sent a link to confirm your email to ${email}`)
       setEmail('')
       inputRef.current?.focus()
-    } catch (err: any) {
-      const serverError = err?.data?.errorsMessages?.[0]?.message
-      setError(serverError || 'Unexpected error')
+    } catch (err: unknown) {
+      console.error('Catch error:', err)
+      let serverError = 'Unexpected error'
+
+      if (typeof err === 'object' && err !== null) {
+        const errorData = (err as { data?: ServerError }).data
+
+        if (errorData?.error) {
+          const rawMessage = errorData.error.replace(/^Error:\s*/, '').trim()
+          if (rawMessage === 'Email уже подтверждён') {
+            serverError = 'Email is already confirmed'
+          } else {
+            serverError = rawMessage
+          }
+        }
+      }
+      setError(serverError)
       inputRef.current?.focus()
     }
   }
