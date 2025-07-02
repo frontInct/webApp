@@ -36,10 +36,14 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
             {!isLoggedIn && (
               <>
                 <li>
-                  <Button variant='text'>Log in</Button>
+                  <Link href='/sign-in'>
+                    <Button variant='text'>Log in</Button>
+                  </Link>
                 </li>
                 <li>
-                  <Button>Sign up</Button>
+                  <Link href='/sign-up'>
+                    <Button>Sign up</Button>
+                  </Link>
                 </li>
               </>
             )}

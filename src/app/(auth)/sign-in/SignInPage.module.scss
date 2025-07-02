@@ -1,28 +1,6 @@
-.linkSignUp {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 18px;
+.title {
   font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 150%;
-  color: var(--color-primary-light-100);
-
-  a {
-    margin-top: 12px;
-    color: var(--color-primary-accent-500);
-    text-decoration: none;
-    font-family: var(--font-family);
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 150%;
-    transition: color 0.2s;
-
-    &:hover {
-      color: var(--color-primary-light-100);
-      text-decoration: none;
-    }
-  }
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 180%;
 }

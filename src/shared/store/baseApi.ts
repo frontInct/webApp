@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {
   userLogin,
+  userPasswordRecovery,
   userRegistration,
   userRegistrationConfirmation,
   userRegistrationResponse,
@@ -13,10 +14,7 @@ export const baseApi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: builder => ({
-    registration: builder.mutation<
-      userRegistrationResponse,
-      userRegistration
-    >({
+    registration: builder.mutation<userRegistrationResponse, userRegistration>({
       query: credentials => ({
         url: 'auth/registration',
         method: 'POST',
@@ -50,6 +48,16 @@ export const baseApi = createApi({
         method: 'POST',
       }),
     }),
+    passwordRecovery: builder.mutation<
+      userPasswordRecovery,
+      { email: string; recaptchaToken: string }
+    >({
+      query: body => ({
+        url: 'auth/password-recovery',
+        method: 'POST',
+        body,
+      }),
+    }),
     forgotPassword: builder.mutation<void, { code: string; password: string }>({
       query: body => ({
         url: 'auth/forgot-password',
@@ -66,5 +74,6 @@ export const {
   useResendConfirmationCodeMutation,
   useLoginMutation,
   useLogOutMutation,
-  useForgotPasswordMutation
+  usePasswordRecoveryMutation,
+  useForgotPasswordMutation,
 } = baseApi

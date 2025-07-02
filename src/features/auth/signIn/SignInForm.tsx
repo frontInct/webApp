@@ -8,7 +8,7 @@ import s from './SignInForm.module.scss'
 export const SignInForm = () => {
   return (
     <>
-      <div className={s.formContainer}>
+      <form className={s.formContainer}>
         <div className={s.inputWrapper}>
           <Input
             variant='inputDefault'
@@ -33,7 +33,13 @@ export const SignInForm = () => {
         <Link href='/'>
           <Button style={{ width: '330px' }}>Sign In</Button>
         </Link>
-      </div>
+        <div className={s.linkSignUp}>
+          <span>Don’t have an account?</span>
+          <Button variant='text'>
+            <Link href='/sign-up'>Sign Up</Link>
+          </Button>
+        </div>
+      </form>
     </>
   )
 }
