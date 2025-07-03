@@ -24,15 +24,6 @@ export type userLogin = {
   password: string
 }
 
-export type registrationError = {
-  errorsMessages: [
-    {
-      field: string
-      message: string
-    },
-  ]
-}
-
 export type registrationSuccess = {
   accessToken: string
 }
@@ -40,4 +31,41 @@ export type registrationSuccess = {
 export type userPasswordRecovery = {
   email: string
   recaptchaToken: string
+}
+
+// --------------------
+// Errors
+// --------------------
+
+export type registrationError = {
+  errorsMessages: {
+    field: string
+    message: string
+  }[]
+}
+
+export type FieldError = {
+  field: string
+  message: string
+}
+
+export type BadRequestError = {
+  status: 400
+  data: {
+    errorsMessages: FieldError[]
+  }
+}
+
+export type UnauthorizedError = {
+  status: 401
+  data: {
+    message: string
+  }
+}
+
+export type NotFoundError = {
+  status: 404
+  data: {
+    message: string
+  }
 }
