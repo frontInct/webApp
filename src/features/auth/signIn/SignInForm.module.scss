@@ -40,6 +40,10 @@
   line-height: 171%;
 }
 
+.loginError {
+  color: var(--color-primary-danger-500);
+}
+
 .linkSignUp {
   display: flex;
   flex-direction: column;
