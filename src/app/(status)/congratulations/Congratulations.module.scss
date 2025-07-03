@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 105px;
+  align-items: center;
+  justify-content: center;
+}
+
+.congratulations {
+  font-family: Inter;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 36px;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+.message {
+  margin-top: 20px;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.signInButton {
+  margin-top: 54px;
+  width: 182px;
+  height: 36px;
+}
+
+.image {
+  margin-top: 72px;
+  width: 432px;
+  height: 300px;
+}

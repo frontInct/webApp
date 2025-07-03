@@ -1,231 +1,112 @@
 'use client'
-import { z } from 'zod'
-import React, { useState, useEffect } from 'react'
+
+import { Controller } from 'react-hook-form'
 import { Input } from '@/shared/components/input'
-import Link from 'next/link'
-import styles from './SignUpForm.module.scss'
 import { Button } from '@/shared/components/button'
 import { Checkbox } from '@/shared/components/checkBox'
-import { signUpSchema, SignUpFormData } from '@/shared/schemas/forms/signUp'
-import { useRegistrationMutation } from '@/shared/store/baseApi'
 import { ModalRadix } from '@/shared/components/cards'
+import Link from 'next/link'
+import styles from './SignUpForm.module.scss'
+import { shouldShowError } from '@/shared/utils/forms/shouldShowError'
+import { useSignUpForm } from '@/shared/hooks/useSignUpForm'
+import { TopLoader } from '@/shared/components/topLoader/TopLoader'
 
 export default function SignUpForm() {
-  const [formData, setFormData] = useState<
-    Omit<SignUpFormData, 'confirmPassword' | 'agreeToTerms'> & {
-      confirmPassword: string
-      agreeToTerms: boolean
-    }
-  >({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false,
-  })
+  const {
+    form,
+    onSubmit,
+    isLoading,
+    isSuccessModalOpen,
+    setIsSuccessModalOpen,
+    successEmail,
+  } = useSignUpForm()
 
-  const [errors, setErrors] = useState<Partial<Record<keyof SignUpFormData, string>>>({})
-  const [touched, setTouched] = useState<Partial<Record<keyof SignUpFormData, boolean>>>({})
-  const [isValid, setIsValid] = useState(false)
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
-  const [successEmail, setSuccessEmail] = useState<string>('')
-  const [registration, { isLoading }] = useRegistrationMutation()
-
-  useEffect(() => {
-    const validateForm = async () => {
-      try {
-        await signUpSchema.parseAsync(formData)
-        setErrors({})
-        setIsValid(true)
-      } catch (error) {
-        if (error instanceof z.ZodError) {
-          const newErrors: Record<string, string> = {}
-          for (const err of error.errors) {
-            const field = err.path[0] as keyof SignUpFormData
-            if (!newErrors[field]) {
-              newErrors[field] = err.message
-            }
-          }
-          setErrors(newErrors)
-          setIsValid(false)
-        }
-      }
-    }
-    validateForm().catch(console.error)
-  }, [formData])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
-    }))
-  }
-
-  const handleCheckboxChange = (checked: boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      agreeToTerms: checked,
-    }))
-    setTouched(prev => ({ ...prev, agreeToTerms: true }))
-  }
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name } = e.target
-    setTouched(prev => ({ ...prev, [name]: true }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setErrors({})
-
-    try {
-      const validatedData = signUpSchema.parse(formData)
-      await registration({
-        email: validatedData.email,
-        username: validatedData.username,
-        password: validatedData.password,
-      }).unwrap()
-      setSuccessEmail(validatedData.email)
-      setIsSuccessModalOpen(true)
-      setFormData({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        agreeToTerms: false,
-      })
-      setIsValid(false)
-      setTouched({})
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      if (err instanceof z.ZodError) {
-        const newErrors: Record<string, string> = {}
-        err.errors.forEach(e => {
-          if (e.path && e.path[0] !== 'agreeToTerms') {
-            newErrors[e.path[0]] = e.message
-          }
-        })
-        setErrors(newErrors)
-        return
-      }
-      if (err?.data) {
-        const serverErrors: Partial<Record<keyof SignUpFormData, string>> = {}
-        const mapServerError = (field: string, message: string): string => {
-          if (field === 'username') return 'This username is already taken'
-          if (field === 'email') return 'This email is already registered'
-          return message
-        }
-        const errorsArray = err.data.errorsMessages || err.data.errors
-        if (Array.isArray(errorsArray)) {
-          errorsArray.forEach(({ field, message }: { field: string; message: string }) => {
-            if (field === 'email' || field === 'username') {
-              serverErrors[field as keyof SignUpFormData] = mapServerError(field, message)
-            }
-          })
-          setErrors(serverErrors)
-        }
-      }
-    }
-  }
-
-  const shouldShowError = (field: keyof SignUpFormData) => {
-    const value = formData[field]
-    if (typeof value === 'string') {
-      return Boolean(touched[field] && errors[field] && value.trim() !== '')
-    }
-    return Boolean(touched[field] && errors[field])
-  }
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isValid, touchedFields },
+  } = form
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit}
-        className={styles.formWrapper}
-      >
+    <TopLoader isActive={isLoading}/>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
         <div className={styles.content}>
           <Input
             variant='inputDefault'
-            name='username'
-            value={formData.username}
-            onChange={handleChange}
-            onBlur={handleBlur}
             label='Username'
-            error={shouldShowError('username') ? errors.username : undefined}
+            error={shouldShowError('username', touchedFields, errors) ? errors.username?.message : undefined}
             width='100%'
+            {...register('username')}
           />
+
           <Input
             variant='inputDefault'
             type='email'
-            name='email'
-            value={formData.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
             label='Email'
-            error={shouldShowError('email') ? errors.email : undefined}
+            error={shouldShowError('email', touchedFields, errors) ? errors.email?.message : undefined}
             width='100%'
+            {...register('email')}
           />
+
           <Input
             variant='inputWithPasswordToggle'
             type='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-            onBlur={handleBlur}
             label='Password'
-            error={shouldShowError('password') ? errors.password : undefined}
+            error={shouldShowError('password', touchedFields, errors) ? errors.password?.message : undefined}
             width='100%'
+            {...register('password')}
           />
+
           <Input
             variant='inputWithPasswordToggle'
             type='password'
-            name='confirmPassword'
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            onBlur={handleBlur}
             label='Password confirmation'
-            error={shouldShowError('confirmPassword') ? errors.confirmPassword : undefined}
+            error={shouldShowError('confirmPassword', touchedFields, errors) ? errors.confirmPassword?.message : undefined}
             width='100%'
+            {...register('confirmPassword')}
           />
-          <Checkbox
-            checked={formData.agreeToTerms}
-            onCheckedChange={handleCheckboxChange}
-            label={
+
+          <Controller
+            name='agreeToTerms'
+            control={control}
+            render={({ field }) => (
               <>
-                I agree to the{' '}
-                <Link
-                  href='/terms-of-service'
-                  className={styles.link}
-                >
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link
-                  href='/privacy-policy'
-                  className={styles.link}
-                >
-                  Privacy Policy
-                </Link>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={value => field.onChange(!!value)}
+                  label={
+                    <>
+                      I agree to the{' '}
+                      <Link href='/terms-of-service' className={styles.link}>
+                        Terms of Service
+                      </Link>{' '}
+                      and{' '}
+                      <Link href='/privacy-policy' className={styles.link}>
+                        Privacy Policy
+                      </Link>
+                    </>
+                  }
+                />
+                {shouldShowError('agreeToTerms', touchedFields, errors) && (
+                  <p className={styles.errorMessage}>{errors.agreeToTerms?.message}</p>
+                )}
               </>
-            }
+            )}
           />
-          <Button
-            type='submit'
-            variant='primary'
-            disabled={!isValid || isLoading}
-            className='mt-4'
-          >
+
+          <Button type='submit' variant='primary' disabled={!isValid || isLoading} className='mt-4'>
             {isLoading ? 'Signing up...' : 'Sign Up'}
           </Button>
+
           <span className={styles.questionText}>Do you have an account?</span>
-          <Button
-            asChild
-            variant='text'
-          >
+          <Button asChild variant='text'>
             <Link href='/sign-in'>Sign In</Link>
           </Button>
         </div>
       </form>
+
       <ModalRadix
         open={isSuccessModalOpen}
         onClose={() => setIsSuccessModalOpen(false)}
@@ -233,10 +114,7 @@ export default function SignUpForm() {
         size='sm'
       >
         <p className='mb-4'>We have sent a link to confirm your email to {successEmail}</p>
-        <Button
-          onClick={() => setIsSuccessModalOpen(false)}
-          variant='primary'
-        >
+        <Button onClick={() => setIsSuccessModalOpen(false)} variant='primary'>
           OK
         </Button>
       </ModalRadix>

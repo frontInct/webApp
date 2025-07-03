@@ -1,5 +1,5 @@
 .button {
-  all: unset;
+  // all: unset;
   cursor: pointer;
   box-sizing: border-box;
   color: var(--color-primary-light-100);
@@ -8,6 +8,8 @@
   min-width: 100px;
   text-align: center;
   display: inline-block;
+  border: none;
+  border-radius: 1px;
 
   &:disabled {
     cursor: not-allowed;
