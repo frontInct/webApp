@@ -10,6 +10,7 @@ import { z } from 'zod'
 import Link from 'next/link'
 import ReCaptcha from 'react-google-recaptcha'
 import { usePasswordRecoveryMutation } from '@/shared/store/baseApi'
+import type { BadRequestError, NotFoundError, UnauthorizedError } from '@/shared/types/api/index'
 
 export const ForgotPasswordForm = () => {
   const [formData, setFormData] = useState<ForgotPasswordData>({ email: '', recaptchaToken: '' })
@@ -68,20 +69,25 @@ export const ForgotPasswordForm = () => {
         email: formData.email,
         recaptchaToken: formData.recaptchaToken,
       }).unwrap()
+
       setIsSubmitted(true)
     } catch (err) {
-      if (err instanceof z.ZodError) {
+      const error = err as BadRequestError | UnauthorizedError | NotFoundError
+      if (error.status === 404) {
+        setErrors({ email: "User with this email doesn't exist" })
+      } else if (error.status === 401) {
+        setErrors({ recaptchaToken: 'Invalid or missing reCAPTCHA token' })
+      } else if (error.status === 400 && error.data?.errorsMessages) {
         const newErrors: Record<string, string> = {}
-        err.errors.forEach(e => {
-          if (e.path && e.path[0] !== 'agreeToTerms') {
-            newErrors[e.path[0]] = e.message
-          }
+        error.data.errorsMessages.forEach((msg: { field: string; message: string }) => {
+          newErrors[msg.field as keyof ForgotPasswordData] = msg.message
         })
-        setIsValid(false)
         setErrors(newErrors)
+      } else {
+        console.error('Unexpected error:', err)
       }
-    } finally {
-      setIsLoading(false)
+
+      setIsValid(false)
     }
   }
 
@@ -137,8 +143,7 @@ export const ForgotPasswordForm = () => {
           variant='regular_text_14'
           className={s.typographySendLink}
         >
-          The link has been sent by email.
-          <span>If you don’t receive an email send link again</span>
+          We have sent a link to confirm your email to <strong>{formData.email}</strong>.
         </Typography>
         <Button
           onClick={() => setIsSubmitted(false)}
