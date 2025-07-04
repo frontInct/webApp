@@ -17,6 +17,7 @@ export const SignInForm = () => {
             name='email'
             placeholder='Epam@epam.com'
             width={'330px'}
+            autoComplete="email"
           />
           <Input
             variant='inputWithPasswordToggle'
@@ -27,6 +28,7 @@ export const SignInForm = () => {
             placeholder='**********'
             width={'330px'}
             className={s.label}
+            autoComplete="current-password"
           />
         </div>
         <Link href='/forgot-password'>Forgot Password</Link>

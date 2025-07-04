@@ -47,6 +47,7 @@ export default function SignUpForm() {
             label='Email'
             error={shouldShowError('email', touchedFields, errors) ? errors.email?.message : undefined}
             width='100%'
+            autoComplete="current-password"
             {...register('email')}
           />
 

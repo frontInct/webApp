@@ -63,7 +63,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
         className={wrapperClass}
         style={{ width }}
       >
-        {label && <label className={styles.label}>{label}</label>}
+        {label && <label htmlFor={rest.id} className={styles.label}>{label}</label>}
 
         <div className={styles.inputContainer}>
           <input
