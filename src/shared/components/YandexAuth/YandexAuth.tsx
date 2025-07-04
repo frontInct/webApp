@@ -1,5 +1,6 @@
 'use client'
 
+import { YandexAuthType } from '@/shared/components/YandexAuth/YandexAuth.type'
 import { useEffect } from 'react'
 
 interface YandexAuthProps {
@@ -10,7 +11,7 @@ interface YandexAuthProps {
 
 export default function YandexAuth({
   clientId = process.env.YANDEX_CLIENT_ID || '7f2572bd68454a90b302f410ddc985e2',
-  redirectUri = process.env.YANDEX_REDIRECT_URI || 'http://localhost:3000/auth/callback',
+  redirectUri = process.env.YANDEX_REDIRECT_URI || 'http://localhost:3000/callback',
   elementId = 'buttonContainerId',
 }: YandexAuthProps) {
   useEffect(() => {
@@ -24,11 +25,12 @@ export default function YandexAuth({
       delete (window).YaSendSuggestToken
     }
 
-    window.YaAuthSuggest.init(
+    (window.YaAuthSuggest as YandexAuthType).init(
       {
         client_id: clientId,
         response_type: 'token',
-        redirect_uri: redirectUri
+        redirect_uri: redirectUri,
+        scope: 'login:email',    
       },
       // 'http://localhost:3000',
       redirectUri,
