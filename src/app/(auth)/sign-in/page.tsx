@@ -1,10 +1,10 @@
 'use client'
 import { SignInForm } from '@/features/auth/signIn/SignInForm'
-import { Typography } from '@/shared/components/Typography'
-import s from './SignInPage.module.scss'
-import { PageWrapper } from '@/shared/components/pageWrapper'
 import { AuthLayout } from '@/shared/components/authLayout'
+import { PageWrapper } from '@/shared/components/pageWrapper'
+import { Typography } from '@/shared/components/Typography'
 import YandexAuth from '@/shared/components/YandexAuth/YandexAuth'
+import s from './SignInPage.module.scss'
 
 export default function SignInPage() {
   return (

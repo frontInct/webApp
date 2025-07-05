@@ -1,8 +1,8 @@
 'use client'
-import { PageWrapper } from '@/shared/components/pageWrapper'
-import { AuthLayout } from '@/shared/components/authLayout'
-import SignUpForm from '@/features/auth/signUp/SignUpForm'
 import s from '@/app/(auth)/sign-up/SignUp.module.scss'
+import SignUpForm from '@/features/auth/signUp/SignUpForm'
+import { AuthLayout } from '@/shared/components/authLayout'
+import { PageWrapper } from '@/shared/components/pageWrapper'
 import { Typography } from '@/shared/components/Typography'
 import YandexAuth from '@/shared/components/YandexAuth/YandexAuth'
 
