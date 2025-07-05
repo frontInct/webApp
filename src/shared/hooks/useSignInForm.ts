@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLoginMutation } from '@/shared/store/baseApi'
 import { SignInFormData } from '@/shared/schemas/forms/signIn'
+import { isApiError } from '../utils/errors/isApiError'
 
 export function useSignInForm() {
   const router = useRouter()
@@ -26,19 +27,10 @@ export function useSignInForm() {
       // router.push('/user/profiles/myProfile')
     } catch (err: any) {
       console.log('LOGIN ERROR:', err)
-
-      // если ошибка парсинга, но оригинальный статус 401, пока не юзаем isApiError потому что у бэка очень странная ошибка на неправильный майл и пароль, как они поправят сделаем тут норм проверку
-      if (err.status === 'PARSING_ERROR' && err.originalStatus === 401) {
+      if (isApiError(err) && err.status === 401) {
         setLoginError('The email or password are incorrect. Try again please.')
         return
       }
-
-      // если приходит нормальный статус 401
-      if (err.status === 401) {
-        setLoginError('The email or password are incorrect. Try again please.')
-        return
-      }
-
       setLoginError('Unexpected error occurred. Please try again.')
     }
   }
