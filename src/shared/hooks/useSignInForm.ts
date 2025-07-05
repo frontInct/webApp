@@ -24,7 +24,7 @@ export function useSignInForm() {
       // router.push('/user/profiles/accManage')
 
       // если нужен редиректит на профиль - заменяем на:
-      // router.push('/user/profiles/myProfile')
+      router.push('/user/profiles/myProfile')
     } catch (err: any) {
       console.log('LOGIN ERROR:', err)
       if (isApiError(err) && err.status === 401) {
