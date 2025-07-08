@@ -23,6 +23,15 @@ export default function EmailExpiredPage() {
 
   const [resendConfirmationCode, { isLoading }] = useResendConfirmationCodeMutation()
 
+  const handleEmailBlur = () => {
+    const result = emailSchema.safeParse({ email })
+    setError(
+      !result.success
+        ? result.error.format().email?._errors[0] || 'Enter a valid email address'
+        : ''
+    )
+  }
+
   const handleResend = async () => {
     setError('')
     setMessage('')
@@ -85,6 +94,7 @@ export default function EmailExpiredPage() {
           placeholder='Epam@epam.com'
           value={email}
           onChange={e => setEmail(e.target.value)}
+          onBlur={handleEmailBlur}
           error={error}
         />
         <Button

@@ -22,6 +22,7 @@ export type userResendConfirmationCode = {
 export type userLogin = {
   loginOrEmail: string
   password: string
+  accessToken: string
 }
 
 export type registrationSuccess = {

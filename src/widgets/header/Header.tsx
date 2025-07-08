@@ -4,6 +4,7 @@ import styles from './Header.module.scss'
 import { Button } from '@/shared/components/button'
 import { SelectBox } from '@/shared/components/selectBox'
 import Img from '../../shared/assets/icons/bell.svg'
+import { Typography } from '@/shared/components/Typography'
 
 interface HeaderProps {
   isLoggedIn?: boolean
@@ -14,11 +15,12 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <Link
-          href='/'
-          className={styles.logo}
-        >
-          {siteName}
+        <Link href='/'>
+          <Typography
+            variant='large'
+          >
+            {siteName}
+          </Typography>
         </Link>
         <nav className={styles.nav}>
           <ul className={styles.navList}>
