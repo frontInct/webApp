@@ -1,3 +1,4 @@
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface AuthState {
@@ -6,7 +7,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  isLoggedIn: false,
+  isLoggedIn: typeof window !== 'undefined' && !!localStorage.getItem('accessToken'),
   email: undefined,
 }
 

@@ -22,10 +22,9 @@ export const Sidebar = () => {
   const pathname = usePathname()
   const [activeItem, setActiveItem] = useState<string | null>(pathname)
 
-  const { isLoggedIn, email } = useAppSelector(state => ({
-    isLoggedIn: state.auth.isLoggedIn,
-    email: state.auth.email,
-  }))
+  const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+  const email = useAppSelector(state => state.auth.email)
+  
 
   // Если пользователь не авторизован — не отображаем сайдбар
   if (!isLoggedIn) return null

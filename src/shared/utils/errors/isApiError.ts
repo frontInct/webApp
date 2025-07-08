@@ -7,11 +7,17 @@ type ApiError = {
 }
 
 export function isApiError(obj: unknown): obj is ApiError {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    'data' in obj &&
-    (typeof (obj as Record<string, unknown>).data === 'object' ||
-      typeof (obj as Record<string, unknown>).data === 'undefined')
-  )
+  if (typeof obj !== 'object' || obj === null) return false
+
+  const maybe = obj as Record<string, unknown>
+
+  const hasData =
+    !('data' in maybe) ||
+    typeof maybe.data === 'undefined' ||
+    typeof maybe.data === 'object'
+
+  const hasStatus =
+    !('status' in maybe) || typeof maybe.status === 'number'
+
+  return hasData && hasStatus
 }
