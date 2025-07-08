@@ -4,6 +4,7 @@ import '../shared/styles/globals.css'
 import '@radix-ui/themes/styles.css'
 import { Header } from '@/widgets/header'
 import { Providers } from './StoreProvider'
+import { AppLayout } from '@/widgets/appLayout/AppLayout'
 
 const inter = Inter({
   variable: '--font-inter',
@@ -33,8 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <Providers>
         <body className={`${inter.variable}`}>
-          {children}
           <Header />
+          <AppLayout>{children}</AppLayout>
         </body>
       </Providers>
     </html>

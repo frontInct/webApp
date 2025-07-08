@@ -1,23 +1,19 @@
 .sidebar {
   position: fixed;
-  top: 80px; // учитываем фиксированный Header
+  top: 78px; /* учитывая фиксированный Header */
   left: 0;
-  height: calc(100vh - 64px);
-  width: 244px;
+  height: calc(100vh - 78px); 
+  width: 220px;
   background-color: var(--color-primary-dark-700);
   color: var(--color-primary-light-100);
-  border-right: 1px solid var(--color-primary-dark-500);
+  border-right: 1px solid var(--color-primary-dark-300);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem 0;
-  z-index: 100;
+  padding: 70px 0;
   transition: transform 0.3s ease;
 
   @media (max-width: 768px) {
     transform: translateX(-100%);
-    position: fixed;
-    width: 220px;
   }
 
   &.open {
@@ -25,35 +21,29 @@
   }
 }
 
+
 .nav {
   flex: 1;
   overflow-y: auto;
-}
 
-.nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .navItem {
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.5rem;
-  color: var(--color-primary-light-100);
-  font-size: 1rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-  border-left: 4px solid transparent;
+  margin: 0 0 25px 60px;
+  font-weight: var(--font-weight-medium);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
 
-  &:hover {
-    background-color: var(--color-primary-dark-500);
+  &.active {
+    color: var(--color-primary-accent-500);
   }
-}
-
-.active {
-  background-color: var(--color-primary-dark-500);
-  border-left: 4px solid var(--color-primary-accent-500);
 }
 
 .icon {
@@ -63,28 +53,36 @@
   margin-right: 12px;
   width: 24px;
   height: 24px;
+  color: inherit;
 }
 
 .label {
   white-space: nowrap;
+  color: inherit;
+  width: 75px;
+  height: 24px;
+  display: flex;             
+  align-items: center;       
+  justify-content: flex-start; 
 }
 
 .logout {
   display: flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: none;
-  border: none;
-  color: var(--color-primary-light-100);
-  font-size: 1rem;
-  font-weight: 500;
+  margin: 0 0 25px 65px; 
+  font-weight: var(--font-weight-medium);
+  transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  border: none;
+  background: transparent;
+  padding: 0;          
+  line-height: 24px;   
+  height: 24px;  
 
-  &:hover {
-    background-color: var(--color-primary-dark-500);
+  &.active {
+    color: var(--color-primary-accent-500);
   }
 }
+
 
 /* Темный overlay при открытом сайдбаре (для мобильной версии) */
 .overlay {
@@ -95,8 +93,12 @@
   height: calc(100vh - 64px);
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 90;
+}
 
-  @media (min-width: 769px) {
-    display: none;
+.section {
+  margin-top: 70px;
+
+  &:not(:last-child) {
+    margin-bottom: 60px; 
   }
 }

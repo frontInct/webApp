@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 import styles from './Sidebar.module.scss'
+
 import FeedIcon from '@/shared/assets/icons/home.svg'
 import SearchIcon from '@/shared/assets/icons/maximize.svg'
 import MessengerIcon from '@/shared/assets/icons/message-circle.svg'
@@ -19,30 +20,63 @@ import { useAppSelector } from '@/shared/hooks/useAppSelector'
 
 export const Sidebar = () => {
   const pathname = usePathname()
-  const [isLogoutOpen, setLogoutOpen] = useState(false)
+  const [activeItem, setActiveItem] = useState<string | null>(pathname)
 
-  const userEmail = useAppSelector(state => state.auth.email) || 'user@example.com'
+  const { isLoggedIn, email } = useAppSelector(state => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    email: state.auth.email,
+  }))
 
-  const links = [
+  // Если пользователь не авторизован — не отображаем сайдбар
+  if (!isLoggedIn) return null
+
+  const primaryLinks = [
     { href: '/', label: 'Feed', icon: <FeedIcon /> },
     { href: '/create', label: 'Create', icon: <CreateIcon /> },
     { href: '/profile', label: 'My Profile', icon: <PersonIcon /> },
     { href: '/messenger', label: 'Messenger', icon: <MessengerIcon /> },
     { href: '/search', label: 'Search', icon: <SearchIcon /> },
+  ]
+
+  const secondaryLinks = [
     { href: '/statistics', label: 'Statistics', icon: <StatisticsIcon /> },
     { href: '/favorites', label: 'Favorites', icon: <FavoritesIcon /> },
   ]
+
+  const handleCloseLogout = () => {
+    setActiveItem(pathname)
+  }
+
+  const openLogout = () => {
+    setActiveItem('logout')
+  }
 
   return (
     <>
       <aside className={styles.sidebar}>
         <nav className={styles.nav}>
-          <ul>
-            {links.map(link => (
+          <ul className={styles.section}>
+            {primaryLinks.map(link => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={clsx(styles.navItem, pathname === link.href && styles.active)}
+                  className={clsx(styles.navItem, activeItem === link.href && styles.active)}
+                  onClick={() => setActiveItem(link.href)}
+                >
+                  <span className={styles.icon}>{link.icon}</span>
+                  <span className={styles.label}>{link.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <ul className={styles.section}>
+            {secondaryLinks.map(link => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={clsx(styles.navItem, activeItem === link.href && styles.active)}
+                  onClick={() => setActiveItem(link.href)}
                 >
                   <span className={styles.icon}>{link.icon}</span>
                   <span className={styles.label}>{link.label}</span>
@@ -53,8 +87,8 @@ export const Sidebar = () => {
         </nav>
 
         <button
-          className={styles.logout}
-          onClick={() => setLogoutOpen(true)}
+          className={clsx(styles.logout, activeItem === 'logout' && styles.active)}
+          onClick={openLogout}
           type="button"
         >
           <span className={styles.icon}>
@@ -65,9 +99,9 @@ export const Sidebar = () => {
       </aside>
 
       <LogoutModal
-        open={isLogoutOpen}
-        onClose={setLogoutOpen}
-        email={userEmail}
+        open={activeItem === 'logout'}
+        onClose={handleCloseLogout}
+        email={email ?? ''} // передаём email 
       />
     </>
   )

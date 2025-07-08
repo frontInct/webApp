@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-// import '/src/shared/styles/globals'
+import 'src/shared/styles/globals.css'
 import '@radix-ui/themes/styles.css'
 import { Header } from '@/widgets/header'
 import { Providers } from '@/app/StoreProvider'
-import { AppLayout } from '@/widgets/appLayout/AppLayout'
 
 
 const inter = Inter({
@@ -34,8 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={`${inter.variable}`}>
         <Providers>
+          {children}
           <Header />
-          <AppLayout>{children}</AppLayout>
         </Providers>
       </body>
     </html>
