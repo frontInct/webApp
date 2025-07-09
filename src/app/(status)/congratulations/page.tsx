@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useRegistrationConfirmationMutation } from '@/shared/store/baseApi'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
@@ -9,11 +9,19 @@ import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
 import MailImg from '@/shared/assets/images/img-with-email.svg'
 
-export default function CongratulationsPage() {
-  const router = useRouter()
+function SearchParamsWrapper() {
   const searchParams = useSearchParams()
   const code = searchParams.get('code') || ''
 
+  return <SearchParamsContent code={code} />
+}
+
+interface SearchParamsContentProps {
+  code: string | null;
+}
+
+function SearchParamsContent({ code }: SearchParamsContentProps) {
+  const router = useRouter()
   const [confirmRegistration, { isLoading }] = useRegistrationConfirmationMutation()
   const [confirmed, setConfirmed] = useState(false)
 
@@ -54,30 +62,39 @@ export default function CongratulationsPage() {
 
   if (isLoading) return <TopLoader isActive={true} />
 
-  if (confirmed) {
-    return (
-      <div className={styles.container}>
-        <Typography
-          className={styles.congratulations}
-          variant={'H1'}
-        >
-          Congratulations!
-        </Typography>
-        <Typography
-          className={styles.message}
-          variant={'regular_text_16'}
-        >
-          Your email has been confirmed
-        </Typography>
-        <Button
-          className={styles.signInButton}
-          onClick={() => router.push('/sign-in')}
-        >
-          Sign In
-        </Button>
-        <MailImg className={styles.image} />
-      </div>
-    )
-  }
-  return null
+  return (
+    <div>
+      {confirmed ? (
+        <div className={styles.container}>
+          <Typography
+            className={styles.congratulations}
+            variant={'H1'}
+          >
+            Congratulations!
+          </Typography>
+          <Typography
+            className={styles.message}
+            variant={'regular_text_16'}
+          >
+            Your email has been confirmed
+          </Typography>
+          <Button
+            className={styles.signInButton}
+            onClick={() => router.push('/sign-in')}
+          >
+            Sign In
+          </Button>
+          <MailImg className={styles.image} />
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchParamsWrapper />
+    </Suspense>
+  )
 }
