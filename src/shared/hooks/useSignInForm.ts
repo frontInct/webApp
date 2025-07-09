@@ -25,7 +25,7 @@ export function useSignInForm() {
 
       // если нужен редиректит на профиль - заменяем на:
       router.push('/user/profiles/myProfile')
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.log('LOGIN ERROR:', err)
       if (isApiError(err) && err.status === 401) {
         setLoginError('The email or password are incorrect. Try again please.')
