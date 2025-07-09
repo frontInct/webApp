@@ -210,7 +210,7 @@ export const ForgotPasswordForm = () => {
           <ReCaptcha
             size='normal'
             theme='dark'
-            sitekey="6LcOf20rAAAAAAwuRLk0eoPMup_ZBGzrYCAIhcJN"
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}
             onChange={onChange}
             ref={recaptchaRef}
             onExpired={handleExpired}
