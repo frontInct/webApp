@@ -16,7 +16,7 @@ export const CreateNewPassword = () => {
       register,
       handleSubmit,
       formState: { errors, isValid, touchedFields, isSubmitting },
-      watch,
+      //watch,
     },
     onSubmit,
     showTokenErrorModal,
@@ -46,7 +46,7 @@ export const CreateNewPassword = () => {
             id='new-password'
             label='New password'
             error={
-              shouldShowError('newPassword', touchedFields, errors, watch)
+              shouldShowError('newPassword', touchedFields, errors)
                 ? errors.newPassword?.message
                 : undefined
             }
@@ -62,7 +62,7 @@ export const CreateNewPassword = () => {
             id='confirm-password'
             label='Confirm password'
             error={
-              shouldShowError('confirmPassword', touchedFields, errors, watch)
+              shouldShowError('confirmPassword', touchedFields, errors)
                 ? errors.confirmPassword?.message
                 : undefined
             }

@@ -3,7 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 import type { ComponentPropsWithoutRef } from 'react'
-import s from './ModalRadix.module.css'
+import s from './ModalRadix.module.scss'
 
 type ModalSize = 'lg' | 'md' | 'sm'
 

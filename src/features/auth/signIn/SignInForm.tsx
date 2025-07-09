@@ -17,7 +17,7 @@ export const SignInForm = () => {
     register,
     handleSubmit,
     formState: { errors, isValid, touchedFields, isSubmitting },
-    watch,
+    //watch,
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     mode: 'onChange',
@@ -46,7 +46,7 @@ export const SignInForm = () => {
             placeholder="Epam@epam.com"
             width="330px"
             error={
-              shouldShowError('email', touchedFields, errors, watch)
+              shouldShowError('email', touchedFields, errors)
                 ? errors.email?.message
                 : undefined
             }
@@ -61,7 +61,7 @@ export const SignInForm = () => {
             width="330px"
             className={styles.label}
             error={
-              shouldShowError('password', touchedFields, errors, watch)
+              shouldShowError('password', touchedFields, errors)
                 ? errors.password?.message
                 : undefined
             }

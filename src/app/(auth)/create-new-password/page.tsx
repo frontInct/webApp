@@ -2,11 +2,14 @@
 
 import { CreateNewPassword } from '@/features/auth/password/createNewPassword'
 import { PageWrapper } from '@/shared/components/pageWrapper'
+import { Suspense } from 'react';
 
 const Page = () => {
   return (
     <PageWrapper>
-      <CreateNewPassword />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CreateNewPassword />
+      </Suspense>
     </PageWrapper>
   )
 }
