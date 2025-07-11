@@ -1,17 +1,17 @@
 export type Post = {
   id: string
-  description?: string
-  photos: string[] // массив URL'ов изображений
+  description: string | null
+  photoUrls: string[]
   createdAt: string
   updatedAt: string
   published: boolean
-  authorId: string
+  userId: string
   likesCount: number
   commentsCount?: number
 }
 
 // Публичный тип поста (для отображения в ленте, профиле и т.д.)
-export type PublicPost = Omit<Post, 'authorId'> & {
+export type PublicPost = Omit<Post, 'userId'> & {
   author: {
     name: string
     avatar?: string
