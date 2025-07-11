@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
 import {
   userLogin,
   userPasswordRecovery,
@@ -8,11 +8,12 @@ import {
   userResendConfirmationCode,
 } from '../types/api/index'
 
-import { BASE_URL } from '../constants'
+import { baseQueryWithReauth } from './baseQuery';
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL, credentials: 'include' }),
+  // baseQuery: fetchBaseQuery({ baseUrl: BASE_URL, credentials: 'include' }),
+  baseQuery: baseQueryWithReauth, // подключил baseQueryWithReauth вместо стандартного fetchBaseQuery, посмотрим нормально ли работает
   endpoints: builder => ({
     registration: builder.mutation<userRegistrationResponse, userRegistration>({
       query: credentials => ({
