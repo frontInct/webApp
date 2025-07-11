@@ -1,5 +1,3 @@
-// src/types/Post.ts
-
 export type Post = {
   id: string
   description?: string
