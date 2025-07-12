@@ -11,6 +11,8 @@ env:
   NAMESPACE: justmyshots-ru
   REGISTRY_HOSTNAME: backinct
   PROJECT: main-front
+  # Добавляем имя деплоймента в переменные
+  DEPLOYMENT_NAME: main-front-deployment  # Замените на ваше реальное имя деплоймента
 
 jobs:
   build-and-push:
@@ -41,5 +43,37 @@ jobs:
             -t $DOCKER_IMAGE .
           docker push $DOCKER_IMAGE
 
-      # Если есть доступ к кластеру — здесь можно задеплоить с помощью kubectl или helm
+      # ========== НАЧАЛО ДОБАВЛЕННОГО КОДА ==========
+      - name: Install kubectl and yq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y kubectl
+          sudo snap install yq
 
+      - name: Configure Kubernetes access
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          mkdir -p ~/.kube
+          echo "$KUBE_CONFIG" > ~/.kube/config
+          kubectl config use-context default
+
+      - name: Update Kubernetes deployment
+        run: |
+          # Скачайте текущий deployment
+          kubectl get deployment/${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }} -o yaml > deployment.yaml
+          
+          # Добавьте переменные окружения
+          yq e '.spec.template.spec.containers[0].env += [
+            {"name": "NEXT_PUBLIC_RECAPTCHA_SITE_KEY", "value": "${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}"}
+          ]' -i deployment.yaml
+          
+          # Обновите образ
+          yq e ".spec.template.spec.containers[0].image = \"$DOCKER_IMAGE\"" -i deployment.yaml
+          
+          # Примените изменения
+          kubectl apply -f deployment.yaml
+          
+          # Рестарт деплоймента
+          kubectl rollout restart deployment/${{ env.DEPLOYMENT_NAME }} -n ${{ env.NAMESPACE }}
+      # ========== КОНЕЦ ДОБАВЛЕННОГО КОДА ==========
