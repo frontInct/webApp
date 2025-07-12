@@ -10,7 +10,7 @@ import { z } from 'zod'
 import Link from 'next/link'
 import ReCaptcha from 'react-google-recaptcha'
 import { usePasswordRecoveryMutation } from '@/shared/store/baseApi'
-import type { BadRequestError, NotFoundError, UnauthorizedError } from '@/shared/types/api/index'
+import type { BadRequestError, NotFoundError, UnauthorizedError } from '@/shared/types/api'
 
 export const ForgotPasswordForm = () => {
   const [formData, setFormData] = useState<ForgotPasswordData>({ email: '', recaptchaToken: '' })
@@ -41,6 +41,7 @@ export const ForgotPasswordForm = () => {
       }
     }
     validateForm()
+    console.log('RECAPTCHA_KEY:', process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
   }, [formData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
