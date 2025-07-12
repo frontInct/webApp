@@ -147,6 +147,9 @@ importers:
       eslint-config-next:
         specifier: 15.3.2
         version: 15.3.2(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
+      eslint-plugin-react-hooks:
+        specifier: ^5.2.0
+        version: 5.2.0(eslint@9.27.0(jiti@2.4.2))
       eslint-plugin-storybook:
         specifier: 9.0.0
         version: 9.0.0(eslint@9.27.0(jiti@2.4.2))(storybook@8.6.14(prettier@3.5.3))(typescript@5.8.3)

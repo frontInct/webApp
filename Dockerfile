@@ -12,6 +12,11 @@ FROM node:20.11-alpine as builder
 RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
+
+# Добавляем ARG для переменной reCAPTCHA
+ARG NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+ENV NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN pnpm run build:production
 

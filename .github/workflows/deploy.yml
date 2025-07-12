@@ -1,0 +1,45 @@
+name: Build and Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ENV_TYPE: production
+  PORT: 3891
+  NAMESPACE: justmyshots-ru
+  REGISTRY_HOSTNAME: backinct
+  PROJECT: main-front
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set image name
+        run: |
+          echo "IMAGE_NAME=${{ github.run_number }}_${{ env.ENV_TYPE }}_${{ github.sha }}" >> $GITHUB_ENV
+          echo "DOCKER_IMAGE=${{ env.REGISTRY_HOSTNAME }}/${{ env.PROJECT }}:${{ env.IMAGE_NAME }}" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }} \
+            -t $DOCKER_IMAGE .
+          docker push $DOCKER_IMAGE
+
+      # Если есть доступ к кластеру — здесь можно задеплоить с помощью kubectl или helm
+
