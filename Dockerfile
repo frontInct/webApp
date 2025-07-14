@@ -12,6 +12,7 @@ FROM node:20.11-alpine as builder
 RUN npm install -g pnpm
 WORKDIR /app
 COPY . .
+
 COPY --from=dependencies /app/node_modules ./node_modules
 RUN pnpm run build:production
 

@@ -6,13 +6,13 @@ branch_name=$(git symbolic-ref --short HEAD)
 # Допустимые типы веток
 pattern='^(feature|bugfix|hotfix|chore|refactor|test)/IT-[0-9]+$'
 
-if ! echo "$branch_name" | grep -qE "$pattern"; 
+if ! echo "$branch_name" | grep -qE "$pattern";
 then
   echo "❌ Название ветки '$branch_name' не соответствует шаблону."
   echo "\
 ==========================
 
-Придерживайтесь формата: 
+Придерживайтесь формата:
 <тип>/IT-<номер>
 
 ПРИМЕР:
@@ -24,12 +24,11 @@ feature/IT-5
 - hotfix: срочное исправление
 - chore: обслуживание проекта
 - refactor: рефакторинг без изменения поведения
-- test: добавление или изменение тестов    
+- test: добавление или изменение тестов
 
 ==========================
-" 
+"
   exit 1
 fi
 
 echo "✅ Ветка '$branch_name' соответствует шаблону"
-
