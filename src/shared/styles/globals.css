@@ -83,10 +83,6 @@ button {
   --color-primary-warning-700: #996600;
   --color-primary-warning-900: #664400;
 
-  /* Шрифты */
-  --font-sans: 'Inter', 'Roboto', 'Barlow', sans-serif;
-  --font-heading: 'Montserrat', sans-serif;
-
   /* Межстрочные интервалы */
   --line-height-tight: 1.1;
   --line-height-snug: 1.3;

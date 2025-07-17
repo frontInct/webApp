@@ -3,11 +3,10 @@
 import { useState } from 'react'
 import { Button } from '@/shared/components/button'
 import { PageWrapper } from '@/shared/components/pageWrapper'
-import LogoutModal from '@/shared/components/logout/logout'
+import AddPhotoModal from '@/entities/user/createPosts/addPhoto/addPhoto'
 
 export default function TestModalPage() {
   const [isOpen, setIsOpen] = useState(false)
-  const email = 'test@example.com' // Здесь можно получить email из хранилища
 
   return (
     <PageWrapper>
@@ -16,12 +15,11 @@ export default function TestModalPage() {
         variant='primary'
         onClick={() => setIsOpen(true)}
       >
-        Открыть модалку выхода
+        Открыть модалку добавления фотки
       </Button>
-      <LogoutModal
+      <AddPhotoModal
         open={isOpen}
         onClose={value => setIsOpen(value)}
-        email={email}
       />
     </PageWrapper>
   )

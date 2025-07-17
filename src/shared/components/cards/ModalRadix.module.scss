@@ -6,9 +6,10 @@
 }
 
 .Content {
-  background-color: var(--color-primary-dark-100);
-  border-radius: 6px;
-  box-shadow: 
+  background-color: var(--color-primary-dark-300);
+  border: 1px solid var(--color-primary-dark-100);
+  border-radius: 2px;
+  box-shadow:
     hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
     hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   position: fixed;
@@ -17,7 +18,7 @@
   transform: translate(-50%, -50%);
   width: 90vw;
   max-height: 85vh;
-  padding: 25px;
+  padding: 12px 24px;
   animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
@@ -40,9 +41,20 @@
 
 .Title {
   margin: 0;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-primary-light-100);
-  font-size: 20px;
+  font-size: var(--font-size-xl);
+  line-height: 180%;
+  font-family: var(--font-family)
+}
+
+.hr {
+  background-color: var(--color-primary-dark-100);
+  border: none;
+  height: 1px;
+  margin-top: 11px;
+  margin-left: -25px;
+  margin-right: -25px;
 }
 
 .IconButton {
@@ -54,14 +66,10 @@
   justify-content: center;
   color: var(--color-primary-light-100);
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 18px;
+  right: 24px;
   background-color: transparent;
   border: none;
-
-  &:hover {
-    background-color: var(--color-primary-dark-300);
-  }
 }
 
 .Fieldset {
