@@ -1,103 +1,109 @@
-import { useState } from 'react'
+'use client'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createPostSchema, CreatePostFormData } from '@/shared/schemas/forms/createPost'
 import { validateImageFile } from '@/shared/utils/validateImageFile'
-// import { PostService } from '@/shared/services/PostService' // ← позже, когда будет API
+// import { PostService } from '@/shared/services/PostService'
+
+import {
+  addFiles,
+  addPreview,
+  clearPostEditor,
+  setDescription,
+  setError,
+} from '@/shared/store/postEditorSlice'
+import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
+import { useAppSelector } from '@/shared/hooks/useAppSelector'
 
 export const CreatePost = () => {
+  const dispatch = useAppDispatch()
+  const { files, previews, error, description } = useAppSelector(state => state.postEditor)
+
   const form = useForm<CreatePostFormData>({
     resolver: zodResolver(createPostSchema),
     mode: 'onChange',
     defaultValues: {
-      description: '',
+      description,
     },
   })
-
-  const [files, setFiles] = useState<File[]>([])
-  const [previews, setPreviews] = useState<string[]>([])
-  const [error, setError] = useState<string | null>(null)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files
     if (!selectedFiles) return
 
     const validFiles: File[] = []
-    const newPreviews: string[] = []
 
     if (files.length + selectedFiles.length > 10) {
-      setError('Максимум 10 файлов')
+      dispatch(setError('Максимум 10 файлов'))
       return
     }
 
-    Array.from(selectedFiles).forEach((file) => {
+    Array.from(selectedFiles).forEach(file => {
       if (validateImageFile(file)) {
         validFiles.push(file)
 
         const reader = new FileReader()
         reader.onloadend = () => {
-          setPreviews((prev) => [...prev, reader.result as string])
+          dispatch(addPreview(reader.result as string))
         }
         reader.readAsDataURL(file)
       } else {
-        setError('Неверный формат файла или размер > 20MB')
+        dispatch(setError('Неверный формат файла или размер > 20MB'))
       }
     })
-
-    setFiles((prev) => [...prev, ...validFiles])
+    dispatch(addFiles(validFiles))
   }
 
   const onSubmit = async (data: CreatePostFormData) => {
     const formData = new FormData()
     if (data.description) formData.append('description', data.description)
-    files.forEach((file) => formData.append('photos', file))
+    files.forEach(file => formData.append('photos', file))
 
     try {
       // await PostService.createPost(formData)
       console.log('Отправка...', { formData })
-      // Очистка формы после успешной отправки:
+      dispatch(clearPostEditor())
       form.reset()
-      setFiles([])
-      setPreviews([])
-      setError(null)
     } catch (err) {
       console.error('Ошибка при создании поста', err)
     }
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form onSubmit={form.handleSubmit(onSubmit)}>
       <textarea
         {...form.register('description')}
-        placeholder="Описание поста"
-        className="border p-2 rounded"
+        placeholder='Описание поста'
+        onChange={e => dispatch(setDescription(e.target.value))}
+        value={description}
+        style={{color: 'black'}}
       />
       {form.formState.errors.description && (
-        <span className="text-red-500">{form.formState.errors.description.message}</span>
+        <span>{form.formState.errors.description.message}</span>
       )}
 
       <input
-        type="file"
-        accept=".jpg,.jpeg,.png"
+        type='file'
+        accept='.jpg,.jpeg,.png'
         multiple
         onChange={handleFileChange}
       />
-      {error && <span className="text-red-500">{error}</span>}
+      {error && <span>{error}</span>}
 
-      <div className="flex gap-2 flex-wrap">
+      <div>
         {previews.map((src, index) => (
           <img
             key={index}
             src={src}
             alt={`preview-${index}`}
-            className="w-24 h-24 object-cover rounded"
+            style={{width: 100, height: 100, objectFit: 'cover'}} // заменить стилями
           />
         ))}
       </div>
 
       <button
-        type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        type='submit'
         disabled={form.formState.isSubmitting}
       >
         Опубликовать
