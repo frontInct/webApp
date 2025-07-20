@@ -4,21 +4,23 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createPostSchema, CreatePostFormData } from '@/shared/schemas/forms/createPost'
 import { validateImageFile } from '@/shared/utils/validateImageFile'
-// import { PostService } from '@/shared/services/PostService'
-
+import style from './CreatePost.module.scss'
 import {
-  addFiles,
-  addPreview,
+  addFile,
   clearPostEditor,
+  removeFile,
   setDescription,
   setError,
 } from '@/shared/store/postEditorSlice'
 import { useAppDispatch } from '@/shared/hooks/useAppDispatch'
 import { useAppSelector } from '@/shared/hooks/useAppSelector'
+import { Button } from '@/shared/components/button'
+import { Input } from '@/shared/components/input'
+import { Typography } from '@/shared/components/Typography'
 
 export const CreatePost = () => {
   const dispatch = useAppDispatch()
-  const { files, previews, error, description } = useAppSelector(state => state.postEditor)
+  const { files, error, description } = useAppSelector(state => state.postEditor)
 
   const form = useForm<CreatePostFormData>({
     resolver: zodResolver(createPostSchema),
@@ -31,83 +33,111 @@ export const CreatePost = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files
     if (!selectedFiles) return
-
-    const validFiles: File[] = []
-
-    if (files.length + selectedFiles.length > 10) {
-      dispatch(setError('Максимум 10 файлов'))
+    const totalFiles = files.length + selectedFiles.length
+    if (totalFiles > 10) {
+      dispatch(setError('You can upload up to 10 files'))
       return
     }
-
+    dispatch(setError(null))
     Array.from(selectedFiles).forEach(file => {
-      if (validateImageFile(file)) {
-        validFiles.push(file)
-
-        const reader = new FileReader()
-        reader.onloadend = () => {
-          dispatch(addPreview(reader.result as string))
-        }
-        reader.readAsDataURL(file)
-      } else {
-        dispatch(setError('Неверный формат файла или размер > 20MB'))
+      const errors = validateImageFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const preview = errors.length > 0 ? null : (reader.result as string)
+        dispatch(addFile(file, preview, errors.length > 0 ? errors : undefined))
       }
+      reader.readAsDataURL(file)
     })
-    dispatch(addFiles(validFiles))
   }
 
   const onSubmit = async (data: CreatePostFormData) => {
     const formData = new FormData()
     if (data.description) formData.append('description', data.description)
-    files.forEach(file => formData.append('photos', file))
+    files.forEach(({ file }) => formData.append('photos', file))
 
     try {
       // await PostService.createPost(formData)
-      console.log('Отправка...', { formData })
+      // console.log('Sending...', { formData })
       dispatch(clearPostEditor())
       form.reset()
     } catch (err) {
-      console.error('Ошибка при создании поста', err)
+      // console.error('Error creating post', err)
     }
   }
 
+  const handleRemoveFile = (id: string) => {
+    dispatch(removeFile(id))
+    const nextFiles = files.filter(file => file.id !== id)
+    if (nextFiles.length <= 10) {
+      dispatch(setError(null))
+    }
+  }
+
+  const hasInvalidFiles = files.some(f => f.errors && f.errors.length > 0)
+
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className={style.form}
+    >
       <textarea
         {...form.register('description')}
-        placeholder='Описание поста'
+        placeholder='Write a description...'
         onChange={e => dispatch(setDescription(e.target.value))}
         value={description}
-        style={{color: 'black'}}
+        className={style.textarea}
       />
       {form.formState.errors.description && (
-        <span>{form.formState.errors.description.message}</span>
+        <span className={style.errorMessage}>{form.formState.errors.description.message}</span>
       )}
-
-      <input
-        type='file'
-        accept='.jpg,.jpeg,.png'
-        multiple
-        onChange={handleFileChange}
-      />
-      {error && <span>{error}</span>}
-
-      <div>
-        {previews.map((src, index) => (
-          <img
-            key={index}
-            src={src}
-            alt={`preview-${index}`}
-            style={{width: 100, height: 100, objectFit: 'cover'}} // заменить стилями
-          />
+      <label className={`${style.fileLabel} ${files.length >= 10 ? style.disabledLabel : ''}`}>
+        Choose File
+        <Input
+          variant='inputDefault'
+          type='file'
+          accept='.jpg,.jpeg,.png'
+          multiple
+          onChange={handleFileChange}
+          className={style.hiddenInput}
+          disabled={files.length >= 10}
+        />
+      </label>
+      {error && <Typography className={style.errorText}>{error}</Typography>}
+      <div className={style.filesContainer}>
+        {files.map(({ id, preview, errors }, i) => (
+          <div
+            key={id}
+            className={`${style.filePreview} ${errors ? style.error : ''}`}
+          >
+            {preview ? (
+              <img
+                src={preview}
+                alt={`preview-${i}`}
+              />
+            ) : (
+              errors?.join(', ')
+            )}
+            <Button
+              variant='text'
+              type='button'
+              onClick={() => handleRemoveFile(id)}
+              className={style.removeButton}
+            >
+              ×
+            </Button>
+          </div>
         ))}
       </div>
-
-      <button
+      <Button
+        variant='primary'
         type='submit'
-        disabled={form.formState.isSubmitting}
+        disabled={form.formState.isSubmitting || hasInvalidFiles}
+        className={`${style.submitButton} ${
+          form.formState.isSubmitting || hasInvalidFiles ? style.disabled : ''
+        }`}
       >
-        Опубликовать
-      </button>
+        Publish
+      </Button>
     </form>
   )
 }

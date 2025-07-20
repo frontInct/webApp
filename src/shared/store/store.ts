@@ -11,7 +11,13 @@ export const store = configureStore({
     postEditor: postEditorReducer,
   },
 
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware)
+  middleware: getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck: {
+      // Игнорировать File и preview (dataURL) в postEditor.files
+      ignoredPaths: ['postEditor.files'],
+      ignoredActions: ['postEditor/addFile'],
+    },
+  }).concat(baseApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>
