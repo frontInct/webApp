@@ -1,6 +1,6 @@
 export type Post = {
   id: string
-  description: string
+  description: string | null
   photoUrls: string[]
   createdAt: string
   updatedAt: string
