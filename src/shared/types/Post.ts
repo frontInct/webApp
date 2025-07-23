@@ -4,10 +4,19 @@ export type Post = {
   photoUrls: string[]
   createdAt: string
   updatedAt: string
-  published: boolean
   userId: string
-  likesCount: number
-  commentsCount?: number
+  reactions: {
+    likesCount: number
+    commentsCount: number
+  }
+}
+
+export type PostsResponse = {
+  totalCount: number
+  pagesCount: number
+  pageNumber: number
+  pageSize: number
+  items: Post[]
 }
 
 // Публичный тип поста (для отображения в ленте, профиле и т.д.)
