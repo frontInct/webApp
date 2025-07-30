@@ -3,10 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { baseApi } from './baseApi'
 import { authReducer } from './authSlice'
 import { postEditorReducer } from './postEditorSlice'
+import { postApi } from './postApi'
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
+    [postApi.reducerPath]: postApi.reducer,
     auth: authReducer,
     postEditor: postEditorReducer,
   },
@@ -17,7 +19,7 @@ export const store = configureStore({
       ignoredPaths: ['postEditor.files'],
       ignoredActions: ['postEditor/addFile'],
     },
-  }).concat(baseApi.middleware)
+  }).concat(baseApi.middleware, postApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>
