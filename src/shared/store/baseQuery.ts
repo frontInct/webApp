@@ -19,7 +19,6 @@ type RefreshTokenResponse = {
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: 'include',
-
   prepareHeaders: headers => {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem(TOKEN)
@@ -50,7 +49,6 @@ export const baseQueryWithReauth: BaseQueryFn<
   if (result.error && result.error.status === 401) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire()
-      // try to get a new token
       const refreshResult = await baseQuery(
         {
           method: 'POST',
@@ -59,9 +57,7 @@ export const baseQueryWithReauth: BaseQueryFn<
         api,
         extraOptions
       )
-
       if (refreshResult.meta?.response?.status === 200) {
-        // retry the initial query
         const data = refreshResult.data as RefreshTokenResponse
         if (data.accessToken) {
           localStorage.setItem(TOKEN, data.accessToken)
@@ -71,7 +67,6 @@ export const baseQueryWithReauth: BaseQueryFn<
         if (typeof window !== 'undefined') {
           localStorage.removeItem(TOKEN)
           const isSignInPage = window.location.pathname === PublicPages.signIn
-
           if (!isSignInPage) {
             window.location.href = PublicPages.signIn
           }
@@ -84,6 +79,5 @@ export const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions)
     }
   }
-
   return result
 }
