@@ -11,13 +11,13 @@ export function isApiError(obj: unknown): obj is ApiError {
 
   const maybe = obj as Record<string, unknown>
 
+  const hasStatus = !('status' in maybe) || typeof maybe.status === 'number'
+  const data = maybe.data
+
   const hasData =
     !('data' in maybe) ||
-    typeof maybe.data === 'undefined' ||
-    typeof maybe.data === 'object'
-
-  const hasStatus =
-    !('status' in maybe) || typeof maybe.status === 'number'
+    typeof data === 'undefined' ||
+    (typeof data === 'object' && data !== null && !Array.isArray(data))
 
   return hasData && hasStatus
 }

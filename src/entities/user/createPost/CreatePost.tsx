@@ -17,8 +17,12 @@ import { useAppSelector } from '@/shared/hooks/useAppSelector'
 import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import { Typography } from '@/shared/components/Typography'
+import { useCreatePostMutation } from '@/shared/store/postApi'
+import { TopLoader } from '@/shared/components/topLoader/TopLoader'
+import { isApiError } from '@/shared/utils/errors/isApiError'
 
 export const CreatePost = () => {
+  const [createPost, { isLoading }] = useCreatePostMutation()
   const dispatch = useAppDispatch()
   const { files, error, description } = useAppSelector(state => state.postEditor)
 
@@ -48,6 +52,7 @@ export const CreatePost = () => {
       }
       reader.readAsDataURL(file)
     })
+    event.target.value = ''
   }
 
   const onSubmit = async (data: CreatePostFormData) => {
@@ -56,12 +61,25 @@ export const CreatePost = () => {
     files.forEach(({ file }) => formData.append('photos', file))
 
     try {
-      // await PostService.createPost(formData)
-      // console.log('Sending...', { formData })
+      await createPost(formData).unwrap()
       dispatch(clearPostEditor())
       form.reset()
     } catch (err) {
-      // console.error('Error creating post', err)
+      if (isApiError(err)) {
+        const { status, data } = err
+        if (status === 400 && data?.errors?.length) {
+          // покажет первое сообщение в массиве ошибки
+          dispatch(setError(data.errors[0].message))
+        } else if (status === 401) {
+          dispatch(setError('You are not authorized'))
+        } else if (status === 429) {
+          dispatch(setError('Too many requests. Please try again later.'))
+        } else {
+          dispatch(setError('Unknown error occurred'))
+        }
+      } else {
+        dispatch(setError('Unexpected error occurred'))
+      }
     }
   }
 
@@ -76,6 +94,9 @@ export const CreatePost = () => {
   const hasInvalidFiles = files.some(f => f.errors && f.errors.length > 0)
 
   return (
+    <>
+    <TopLoader isActive={isLoading}/> 
+    {/* если будете юзать как модалку этот компонент возможно TopLoader надо в родителя прописать а тут убрать */}
     <form
       onSubmit={form.handleSubmit(onSubmit)}
       className={style.form}
@@ -131,13 +152,14 @@ export const CreatePost = () => {
       <Button
         variant='primary'
         type='submit'
-        disabled={form.formState.isSubmitting || hasInvalidFiles}
+        disabled={isLoading || hasInvalidFiles}
         className={`${style.submitButton} ${
-          form.formState.isSubmitting || hasInvalidFiles ? style.disabled : ''
+          isLoading || hasInvalidFiles ? style.disabled : ''
         }`}
       >
         Publish
       </Button>
     </form>
+    </>
   )
 }
