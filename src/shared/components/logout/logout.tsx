@@ -55,11 +55,13 @@ export default function LogoutModal({ open, onClose, email }: Props) {
           <div className={styles.buttons}>
             <Button
               variant='primary'
+              style={{ width: '70px' }}
               onClick={() => onClose(false)}
             >
               No
             </Button>
             <Button
+              style={{ width: '70px' }}
               variant='outlined'
               className='hover-outline'
               onClick={handleLogout}
