@@ -103,7 +103,7 @@ export const CreateNewPassword = () => {
             Your password reset link is invalid or expired.
           </Typography>
           <Button
-            style={{ marginTop: '16px' }}
+            style={{ marginTop: '16px', width: '150px' }}
             onClick={handleModalClose}
           >
             Go to reset form
