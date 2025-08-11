@@ -4,12 +4,11 @@
   box-sizing: border-box;
   color: var(--color-primary-light-100);
   font-family: inherit;
-  padding: 5px;
-  min-width: 100px;
   text-align: center;
   display: inline-block;
   border: none;
   border-radius: 1px;
+  height: 36px;
 
   &:disabled {
     cursor: not-allowed;
@@ -88,7 +87,6 @@
   &--text {
     color: var(--color-primary-accent-500);
     background-color: transparent;
-    min-width: 100px;
 
     &:hover {
       color: var(--color-primary-accent-100);
