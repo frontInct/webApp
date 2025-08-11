@@ -1,5 +1,7 @@
+'use client'
+
 import { ModalRadix } from '@/shared/components/cards'
-import s from './addPhoto.module.scss'
+import s from './AddPhotoModal.module.scss'
 import { Button } from '@/shared/components/button'
 import Img from '@/shared/assets/icons/image-outline.svg'
 import { useRef, useState } from 'react'
@@ -9,9 +11,10 @@ import Image from 'next/image'
 type Props = {
   open: boolean
   onClose: (open: boolean) => void
+  title: string
 }
 
-export default function AddPhotoModal({ open, onClose }: Props) {
+export default function AddPhotoModal({ open, onClose, title }: Props) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -35,7 +38,7 @@ export default function AddPhotoModal({ open, onClose }: Props) {
     <ModalRadix
       open={open}
       onClose={onClose}
-      modalTitle='Add Photo'
+      modalTitle={title}
       size='md'
     >
       <div className={s.container}>
@@ -44,22 +47,20 @@ export default function AddPhotoModal({ open, onClose }: Props) {
             <Input
               variant='inputDefault'
               type='file'
-              accept='image/*'
+              accept='image/jpeg, image/png'
               onChange={handleImgChange}
               ref={fileInputRef}
               style={{ display: 'none' }}
               id='file-input'
             />
-            <label
-              htmlFor='file-input'
-              style={{ cursor: 'pointer' }}
-            >
+            <label htmlFor='file-input'>
               {previewUrl ? (
                 <Image
                   width={222}
                   height={228}
                   src={previewUrl}
                   alt='Preview'
+                  className={s.previewImage}
                 />
               ) : (
                 <Img />

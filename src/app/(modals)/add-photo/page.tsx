@@ -1,13 +1,21 @@
 'use client'
-import { PageWrapper } from "@/shared/components/pageWrapper"
-// import { useRouter } from "next/router"
+
+import AddPhotoModal from '@/entities/user/createPost/addPhoto/AddPhotoModal'
+import { PageWrapper } from '@/shared/components/pageWrapper'
+import { useRouter } from 'next/navigation'
 
 export default function AddPhotoModalPage() {
-    // const router = useRouter()
+  const router = useRouter()
 
-    return (
-        <PageWrapper>
+  const handleClose = () => router.back()
 
-        </PageWrapper>
-    )
+  return (
+    <PageWrapper>
+      <AddPhotoModal
+        open={true}
+        onClose={handleClose}
+        title='Add Photo'
+      />
+    </PageWrapper>
+  )
 }

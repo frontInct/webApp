@@ -1,3 +1,4 @@
+import { TermsOfService } from '@/features/auth/rules/termsOfService/TermsOfService'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -7,8 +8,7 @@ export const metadata: Metadata = {
 export default function TermsOfServicePage() {
   return (
     <main>
-      <h1>Условия использования</h1>
-      <p>Здесь размещаются условия предоставления сервиса</p>
+      <TermsOfService />
     </main>
   )
 }
