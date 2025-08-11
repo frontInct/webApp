@@ -14,18 +14,24 @@ export const postApi = createApi({
       { userId: string; pageNumber?: number; pageSize?: number; sortBy?: string; sortDirection?: 'asc' | 'desc' }
     >({
       query: ({ userId, pageNumber = 1, pageSize = 8, sortBy = 'createdAt', sortDirection = 'desc' }) =>
-        `api/v1/users/${userId}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
+        `users/${userId}/posts?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`,
     }),
     getPostById: builder.query<Post, string>({
-      query: (postId) => `api/v1/posts/${postId}`,
+      query: (postId) => `posts/${postId}`,
     }),
     createPost: builder.mutation<Post, CreatePostPayload>({
       query: (formData) => ({
-        url: 'api/v1/posts',
+        url: 'posts',
         method: 'POST',
         body: formData,
       }),
     }),
+    deletePost: builder.mutation<void, string>({
+      query: (postId) => ({
+        url: `posts/${postId}`,
+        method: 'DELETE'
+      })
+    })
   }),
 })
 

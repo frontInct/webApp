@@ -39,12 +39,22 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
               <>
                 <li>
                   <Link href='/sign-in'>
-                    <Button variant='text'>Log in</Button>
+                    <Button
+                      variant='text'
+                      style={{ width: '80px' }}
+                    >
+                      Log in
+                    </Button>
                   </Link>
                 </li>
                 <li>
                   <Link href='/sign-up'>
-                    <Button>Sign up</Button>
+                    <Button
+                      variant='primary'
+                      style={{ width: '80px' }}
+                    >
+                      Sign up
+                    </Button>
                   </Link>
                 </li>
               </>

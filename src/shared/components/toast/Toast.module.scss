@@ -1,0 +1,101 @@
+.toastRoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 387px;
+  height: 48px;
+  padding: 12px 24px;
+  border-radius: 2px;
+
+  &[data-state='open'] {
+    animation: slide-in-top 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &[data-state='closed'] {
+    animation: hide 100ms ease-in;
+  }
+
+  &[data-swipe='move'] {
+    transform: translateY(var(--radix-toast-swipe-move-y));
+  }
+
+  &[data-swipe='cancel'] {
+    transform: translateY(0);
+    transition: transform 200ms ease-out;
+  }
+
+  &[data-swipe='end'] {
+    animation: swipe-out-top 100ms ease-out;
+  }
+}
+
+@keyframes slide-in-top {
+  from {
+    transform: translateY(var(--slide-in-start));
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes hide {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes swipe-out-top {
+  from {
+    transform: translateY(var(--radix-toast-swipe-end-y));
+  }
+
+  to {
+    transform: translateY(var(--swipe-out-start));
+  }
+}
+
+.error {
+  border: 1px solid var(--color-danger-500);
+  background-color: var(--color-danger-900);
+}
+
+.success {
+  border: 1px solid var(--color-success-500);
+  background-color: var(--color-success-900);
+}
+
+.closeButton {
+  cursor: pointer;
+  user-select: none;
+
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+
+  background-color: transparent;
+}
+
+.textContainer {
+  display: flex;
+  gap: 0.4rem;
+  justify-items: center;
+}
+
+.viewPort {
+  position: fixed;
+  z-index: 2147483647;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+
+  outline: none;
+}
