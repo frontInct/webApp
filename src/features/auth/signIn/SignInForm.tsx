@@ -9,7 +9,7 @@ import { Input } from '@/shared/components/input'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
 import { Typography } from '@/shared/components/Typography'
 import Link from 'next/link'
-import styles from './SignInForm.module.scss'
+import s from './SignInForm.module.scss'
 import { useSignInForm } from '@/shared/hooks/useSignInForm'
 
 export const SignInForm = () => {
@@ -33,11 +33,11 @@ export const SignInForm = () => {
     <>
       <TopLoader isActive={isLoading} />
       <form
-        className={styles.formContainer}
+        className={s.formContainer}
         onSubmit={handleSubmit(signIn)}
         noValidate
       >
-        <div className={styles.inputWrapper}>
+        <div className={s.inputWrapper}>
           <Input
             {...register('email')}
             variant="inputDefault"
@@ -59,7 +59,7 @@ export const SignInForm = () => {
             label="Password"
             placeholder="**********"
             width="330px"
-            className={styles.label}
+            className={s.label}
             error={
               shouldShowError('password', touchedFields, errors)
                 ? errors.password?.message
@@ -70,7 +70,7 @@ export const SignInForm = () => {
         <Link href="/forgot-password">Forgot Password</Link>
 
         {loginError && (
-          <Typography className={styles.loginError}>{loginError}</Typography>
+          <Typography className={s.loginError}>{loginError}</Typography>
         )}
 
         <Button
@@ -81,7 +81,7 @@ export const SignInForm = () => {
           {isSubmitting || isLoading ? 'Signing in...' : 'Sign In'}
         </Button>
 
-        <div className={styles.linkSignUp}>
+        <div className={s.linkSignUp}>
           <Typography>Don’t have an account?</Typography>
           <Button variant="text">
             <Link href="/sign-up">Sign Up</Link>

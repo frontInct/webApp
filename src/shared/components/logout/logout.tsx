@@ -1,6 +1,6 @@
 'use client'
 
-import styles from './logout.module.scss'
+import s from './logout.module.scss'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
 import { ModalRadix } from '@/shared/components/cards'
@@ -39,8 +39,8 @@ export default function LogoutModal({ open, onClose, email }: Props) {
       modalTitle='Log Out'
       size='md'
     >
-      <div className={styles.logoutContainer}>
-        <div className={styles.logoutContent}>
+      <div className={s.logoutContainer}>
+        <div className={s.logoutContent}>
           <Typography variant='regular_text_16'>
             Are you really want to log out of your account
             <br />
@@ -52,7 +52,7 @@ export default function LogoutModal({ open, onClose, email }: Props) {
             </Typography>
           </Typography>
 
-          <div className={styles.buttons}>
+          <div className={s.buttons}>
             <Button
               variant='primary'
               style={{ width: '70px' }}

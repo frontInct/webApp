@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useRegistrationConfirmationMutation } from '@/shared/store/baseApi'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
-import styles from './Congratulations.module.scss'
+import s from './Congratulations.module.scss'
 import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
 import MailImg from '@/shared/assets/images/img-with-email.svg'
@@ -65,26 +65,26 @@ function SearchParamsContent({ code }: SearchParamsContentProps) {
   return (
     <div>
       {confirmed ? (
-        <div className={styles.container}>
+        <div className={s.container}>
           <Typography
-            className={styles.congratulations}
+            className={s.congratulations}
             variant={'H1'}
           >
             Congratulations!
           </Typography>
           <Typography
-            className={styles.message}
+            className={s.message}
             variant={'regular_text_16'}
           >
             Your email has been confirmed
           </Typography>
           <Button
-            className={styles.signInButton}
+            className={s.signInButton}
             onClick={() => router.push('/sign-in')}
           >
             Sign In
           </Button>
-          <MailImg className={styles.image} />
+          <MailImg className={s.image} />
         </div>
       ) : null}
     </div>

@@ -1,5 +1,5 @@
 import { HTMLAttributes, ReactNode } from 'react'
-import styles from './Typography.module.scss'
+import s from './Typography.module.scss'
 
 export type TypographyVariant =
   | 'large'
@@ -35,7 +35,7 @@ export const Typography = ({
   const Comp = component
   return (
     <Comp
-      className={[styles[variant], className].filter(el => el).join(' ')}
+      className={[s[variant], className].filter(el => el).join(' ')}
       {...props}
     >
       {children}

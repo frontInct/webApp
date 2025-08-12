@@ -1,9 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
-import styles from './Header.module.scss'
+import s from './Header.module.scss'
 import { Button } from '@/shared/components/button'
 import { SelectBox } from '@/shared/components/selectBox'
-import Img from '../../shared/assets/icons/bell.svg'
+import Img from '@/shared/assets/icons/bell.svg'
+import ImgEn from '@/shared/assets/icons/flag-uk.svg'
+import ImgRu from '@/shared/assets/icons/flag-russia.svg'
 import { Typography } from '@/shared/components/Typography'
 
 interface HeaderProps {
@@ -11,19 +13,20 @@ interface HeaderProps {
   siteName?: string
 }
 
-export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLoggedIn = false }) => {
+export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLoggedIn }) => {
+  const languageOptions = [
+    { value: 'en', label: 'English', flag: <ImgEn /> },
+    { value: 'ru', label: 'Russian', flag: <ImgRu /> },
+  ]
+
   return (
-    <header className={styles.header}>
-      <div className={styles.container}>
+    <header className={s.header}>
+      <div className={s.container}>
         <Link href='/'>
-          <Typography
-            variant='large'
-          >
-            {siteName}
-          </Typography>
+          <Typography variant='large'>{siteName}</Typography>
         </Link>
-        <nav className={styles.nav}>
-          <ul className={styles.navList}>
+        <nav className={s.nav}>
+          <ul className={s.navList}>
             {isLoggedIn && (
               <li>
                 <Img />
@@ -31,8 +34,8 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
             )}
             <li>
               <SelectBox
-                defaultValue={'English'}
-                options={[{ label: 'English', value: 'English' }]}
+                defaultValue='en'
+                options={languageOptions}
               />
             </li>
             {!isLoggedIn && (
@@ -41,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
                   <Link href='/sign-in'>
                     <Button
                       variant='text'
-                      style={{ width: '80px' }}
+                      style={{ width: '100px' }}
                     >
                       Log in
                     </Button>
@@ -51,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({ siteName = 'Inctagram', isLogged
                   <Link href='/sign-up'>
                     <Button
                       variant='primary'
-                      style={{ width: '80px' }}
+                      style={{ width: '100px', borderRadius: '2px' }}
                     >
                       Sign up
                     </Button>

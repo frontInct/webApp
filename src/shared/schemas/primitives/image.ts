@@ -10,8 +10,6 @@ export const imageSchema = z.object({
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: 'The photo must have JPEG or PNG format.',
     })
-    .array()
-    .length(10),
 })
 
 export type ImageSchemaType = z.infer<typeof imageSchema>

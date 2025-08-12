@@ -1,83 +1,85 @@
 .large {
   font-weight: 600;
-  font-size: 1.625rem;
-  line-height: 36px;
+  font-size: 26px;
+  line-height: 138%;
 }
 
 .H1 {
   font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 180%;
 }
 
 .H2 {
   font-weight: 700;
-  font-size: 1.125rem;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 133%;
 }
 
 .H3 {
   font-weight: 600;
-  font-size: 1rem;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 150%;
 }
 
 .regular_text_16 {
   font-weight: 400;
-  font-size: 1rem;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 150%;
 }
 
 .bold_text_16 {
   font-weight: 700;
-  font-size: 1rem;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 150%;
 }
 
 .regular_text_14 {
   font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 171%;
 }
 
 .medium_text_14 {
   font-weight: 500;
-  font-size: 0.875rem;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 171%;
 }
 
 .bold_text_14 {
   font-weight: 700;
-  font-size: 0.875rem;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 171%;
 }
 
 .small_text {
   font-weight: 400;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 12px;
+  line-height: 133%;
 }
 
 .semi-bold_small_text {
   font-weight: 600;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 12px;
+  line-height: 133%;
 }
 
 .regular_link {
   font-weight: 400;
-  font-size: 0.875rem;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 171%;
   text-decoration: underline;
   text-decoration-style: solid;
   text-decoration-thickness: 0%;
+  text-decoration-skip-ink: none;
 }
 
 .small_link {
   font-weight: 400;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  font-size: 12px;
+  line-height: 133%;
   text-decoration: underline;
   text-decoration-style: solid;
   text-decoration-thickness: 0%;
+  text-decoration-skip-ink: none;
 }

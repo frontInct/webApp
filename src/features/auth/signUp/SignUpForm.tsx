@@ -6,7 +6,7 @@ import { Button } from '@/shared/components/button'
 import { Checkbox } from '@/shared/components/checkBox'
 import { ModalRadix } from '@/shared/components/cards'
 import Link from 'next/link'
-import styles from './SignUpForm.module.scss'
+import s from './SignUpForm.module.scss'
 import { shouldShowError } from '@/shared/utils/forms/shouldShowError'
 import { useSignUpForm } from '@/shared/hooks/useSignUpForm'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
@@ -31,8 +31,8 @@ export default function SignUpForm() {
   return (
     <>
     <TopLoader isActive={isLoading}/>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.formWrapper}>
-        <div className={styles.content}>
+      <form onSubmit={handleSubmit(onSubmit)} className={s.formWrapper}>
+        <div className={s.content}>
           <Input
             variant='inputDefault'
             label='Username'
@@ -79,18 +79,18 @@ export default function SignUpForm() {
                   label={
                     <>
                       I agree to the{' '}
-                      <Link href='/terms-of-service' className={styles.link}>
+                      <Link href='/terms-of-service' className={s.link}>
                         Terms of Service
                       </Link>{' '}
                       and{' '}
-                      <Link href='/privacy-policy' className={styles.link}>
+                      <Link href='/privacy-policy' className={s.link}>
                         Privacy Policy
                       </Link>
                     </>
                   }
                 />
                 {shouldShowError('agreeToTerms', touchedFields, errors) && (
-                  <p className={styles.errorMessage}>{errors.agreeToTerms?.message}</p>
+                  <p className={s.errorMessage}>{errors.agreeToTerms?.message}</p>
                 )}
               </>
             )}
@@ -100,7 +100,7 @@ export default function SignUpForm() {
             {isLoading ? 'Signing up...' : 'Sign Up'}
           </Button>
 
-          <span className={styles.questionText}>Do you have an account?</span>
+          <span className={s.questionText}>Do you have an account?</span>
           <Button asChild variant='text'>
             <Link href='/sign-in'>Sign In</Link>
           </Button>

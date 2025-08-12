@@ -1,11 +1,13 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import styles from './SelectBox.module.scss'
+import s from './SelectBox.module.scss'
+import Img from '@/shared/assets/icons/arrow-ios-down-outline.svg'
 
 export interface SelectBoxOption {
   value: string
   label: string
+  flag?: React.ReactNode
 }
 
 export interface SelectBoxProps {
@@ -59,24 +61,29 @@ export const SelectBox = ({
   return (
     <div
       ref={dropdownRef}
-      className={`${styles.selector} ${disabled ? styles.disabled : ''}`}
+      className={`${s.selector} ${disabled ? s.disabled : ''}`}
     >
       {title}
       <div
-        className={styles.selectedValue}
+        className={s.selectedValue}
         onClick={toggleDropdown}
         role='button'
         tabIndex={0}
         aria-haspopup='listbox'
         aria-expanded={isOpen}
       >
-        {selectedOption ? selectedOption.label : placeholder}
-        <span className={`${styles.arrow} ${isOpen ? styles.open : ''}`}>▼</span>
+        <div className={s.selectedContent}>
+          {selectedOption?.flag && <span className={s.flag}>{selectedOption.flag}</span>}
+          {selectedOption ? selectedOption.label : placeholder}
+        </div>
+        <span className={`${s.arrow} ${isOpen ? s.open : ''}`}>
+          <Img />
+        </span>
       </div>
 
       {isOpen && (
         <ul
-          className={styles.options}
+          className={s.options}
           role='listbox'
           aria-activedescendant={selectedValue}
         >
@@ -84,14 +91,15 @@ export const SelectBox = ({
             <li
               key={option.value}
               id={option.value}
-              className={`${styles.option} ${
-                selectedValue === option.value ? styles.selected : ''
-              }`}
+              className={`${s.option} ${selectedValue === option.value ? s.selected : ''}`}
               onClick={() => handleOptionClick(option.value)}
               role='option'
               aria-selected={selectedValue === option.value}
             >
-              {option.label}
+              <div className={s.optionContent}>
+                {option.flag && <span className={s.flag}>{option.flag}</span>}
+                {option.label}
+              </div>
             </li>
           ))}
         </ul>

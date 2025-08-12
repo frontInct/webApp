@@ -1,7 +1,7 @@
 'use client' // нужен чтобы useState работал локально, без него не работал
 
 import React, { InputHTMLAttributes, forwardRef, useState } from 'react'
-import styles from './Input.module.scss'
+import s from './Input.module.scss'
 import EyeOn from '../../assets/icons/eye.svg'
 import EyeOff from '../../assets/icons/eye-off.svg'
 
@@ -42,11 +42,11 @@ export const Input = forwardRef<HTMLInputElement, Props>(
         : type
 
     const wrapperClass = [
-      styles.inputWrapper,
-      styles[variant],
-      error ? styles.error : '',
-      active ? styles.active : '',
-      disabled ? styles.disabled : '',
+      s.inputWrapper,
+      s[variant],
+      error ? s.error : '',
+      active ? s.active : '',
+      disabled ? s.disabled : '',
       className,
     ]
       .filter(Boolean)
@@ -63,21 +63,21 @@ export const Input = forwardRef<HTMLInputElement, Props>(
         className={wrapperClass}
         style={{ width }}
       >
-        {label && <label className={styles.label}>{label}</label>}
+        {label && <label className={s.label}>{label}</label>}
 
-        <div className={styles.inputContainer}>
+        <div className={s.inputContainer}>
           <input
             ref={ref}
             disabled={disabled}
             type={inputType}
-            className={styles.input}
+            className={s.input}
             placeholder={variant === 'searchInput' ? 'O- Search' : rest.placeholder}
             {...rest}
           />
 
           {variant === 'inputWithPasswordToggle' && type === 'password' && (
             <span
-              className={styles.toggleButton}
+              className={s.toggleButton}
               onClick={togglePasswordVisibility}
               role='button'
               aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'} // для доступности
@@ -91,7 +91,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           )}
         </div>
 
-        {error && <span className={styles.errorMessage}>{error}</span>}
+        {error && <span className={s.errorMessage}>{error}</span>}
       </div>
     )
   }

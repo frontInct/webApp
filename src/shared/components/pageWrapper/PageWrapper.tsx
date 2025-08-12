@@ -1,4 +1,5 @@
 'use client'
+
 import clsx from 'clsx'
 import { type ComponentPropsWithRef, type CSSProperties } from 'react'
 import s from './PageWrapper.module.scss'

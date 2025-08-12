@@ -5,7 +5,7 @@ import { Typography } from '@/shared/components/Typography'
 import { Button } from '@/shared/components/button'
 import { Input } from '@/shared/components/input'
 import ClockImg from '@/shared/assets/images/img-with-clock.svg'
-import styles from './EmailExpiredPage.module.scss'
+import s from './EmailExpiredPage.module.scss'
 import { useResendConfirmationCodeMutation } from '@/shared/store/baseApi'
 import { TopLoader } from '@/shared/components/topLoader/TopLoader'
 import { emailSchema } from '@/shared/schemas/primitives/email'
@@ -72,23 +72,23 @@ export default function EmailExpiredPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={s.container}>
       <TopLoader isActive={isLoading} />
       <Header isLoggedIn />
-      <div className={styles.mainContent}>
+      <div className={s.mainContent}>
         <Typography
           component='h1'
           variant='H1'
-          className={styles.messageTitle}
+          className={s.messageTitle}
         >
           Email verification link expired
         </Typography>
-        <Typography className={styles.messageText}>
+        <Typography className={s.messageText}>
           Looks like the verification link has expired. Not to worry, we can send the link again
         </Typography>
         <Input
           ref={inputRef}
-          className={styles.emailInput}
+          className={s.emailInput}
           variant='inputDefault'
           label='Email'
           placeholder='Epam@epam.com'
@@ -98,14 +98,14 @@ export default function EmailExpiredPage() {
           error={error}
         />
         <Button
-          className={styles.resendButton}
+          className={s.resendButton}
           onClick={handleResend}
           disabled={isLoading}
         >
           {isLoading ? 'Sending...' : 'Resend verification link'}
         </Button>
-        {message && <Typography className={styles.successMessage}>{message}</Typography>}
-        <ClockImg className={styles.image} />
+        {message && <Typography className={s.successMessage}>{message}</Typography>}
+        <ClockImg className={s.image} />
       </div>
     </div>
   )
